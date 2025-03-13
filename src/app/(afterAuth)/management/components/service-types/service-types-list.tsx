@@ -8,7 +8,7 @@ import {
   TableRow,
 } from "@/shared/ui/table";
 import EmptyTypes from "../empty-types";
-import { serverFetch } from "@/shared/utils/serverFetch";
+import { serverFetch } from "@/shared/utils/server-fetch";
 
 export default async function ServiceList() {
   const serviceTypes = await serverFetch<ServiceType[]>("/service-types");

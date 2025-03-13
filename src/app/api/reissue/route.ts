@@ -16,8 +16,6 @@ export async function GET() {
       },
     });
 
-    console.log(token, res.ok, res.status);
-
     if (!res.ok) {
       const error: ApiError = await res.json();
       throw { message: error.message, status: error.status };

@@ -16,6 +16,7 @@ import { useCallback } from "react";
 import { ApiError } from "@/shared/types/error";
 import { ERROR_MESSAGE } from "@/shared/constants/api-error";
 import Link from "next/link";
+import { EMAIL_REGEX, PASSWROD_REGEX } from "@/shared/constants/regex";
 
 type SignUpForm = SignUpDTO & {
   confirmPassword: string;
@@ -112,7 +113,7 @@ export default function SignUp() {
             {...register("email", {
               required: "이메일을 입력해주세요.",
               pattern: {
-                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                value: EMAIL_REGEX,
                 message: "유효한 이메일 주소를 입력하세요",
               },
             })}
@@ -185,7 +186,7 @@ export default function SignUp() {
               required: "비밀번호를 입력해주세요.",
               deps: ["confirmPassword"],
               pattern: {
-                value: /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/,
+                value: PASSWROD_REGEX,
                 message:
                   "비밀번호는 반드시 특수문자가 하나 이상 포함되어야 하며 영 대소문자만 입력이 가능합니다.",
               },

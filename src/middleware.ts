@@ -42,8 +42,6 @@ export async function middleware(req: NextRequest) {
 
   const isValid = await supabaseService.isValidToken(accessToken);
 
-  console.log(req.url + " token 검증: " + isValid);
-
   if (isValid) {
     return NextResponse.next();
   }

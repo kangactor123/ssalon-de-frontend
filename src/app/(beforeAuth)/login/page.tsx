@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
 import { login } from "@/queries/auth/api";
 import Spinner from "@/shared/ui/spinner";
+import { EMAIL_REGEX } from "@/shared/constants/regex";
 
 export default function Page() {
   const router = useRouter();
@@ -23,8 +24,7 @@ export default function Page() {
   const [password, setPassword] = useState("");
 
   const isDisabled = useMemo(() => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return email === "" || password === "" || !emailRegex.test(email);
+    return email === "" || password === "" || !EMAIL_REGEX.test(email);
   }, [email, password]);
 
   const handleLogin = useCallback(

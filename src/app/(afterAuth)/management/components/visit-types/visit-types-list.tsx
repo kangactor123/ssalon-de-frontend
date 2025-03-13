@@ -6,7 +6,7 @@ import {
   TableRow,
 } from "@/shared/ui/table";
 import EmptyTypes from "../empty-types";
-import { serverFetch } from "@/shared/utils/serverFetch";
+import { serverFetch } from "@/shared/utils/server-fetch";
 import VisitTypesItem from "./visit-types-item";
 import { VisitType } from "@/queries/settings/type";
 

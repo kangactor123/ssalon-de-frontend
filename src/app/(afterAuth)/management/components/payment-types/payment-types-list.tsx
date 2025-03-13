@@ -8,7 +8,7 @@ import {
 import EmptyTypes from "../empty-types";
 import PaymentTypesItem from "./payment-types-item";
 import { PaymentType } from "@/queries/settings/type";
-import { serverFetch } from "@/shared/utils/serverFetch";
+import { serverFetch } from "@/shared/utils/server-fetch";
 
 export default async function PaymentTypeList() {
   const paymentTypes = await serverFetch<PaymentType[]>("/payment-types");

@@ -11,7 +11,7 @@ import Link from "next/link";
 import Profile from "./components/profile";
 import { getQueryClient } from "@/shared/utils/react-query";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
-import { serverFetch } from "@/shared/utils/serverFetch";
+import { serverFetch } from "@/shared/utils/server-fetch";
 import { User } from "@/queries/auth/type";
 import { getUserQueryOptions } from "@/queries/auth";
 
