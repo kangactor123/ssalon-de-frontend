@@ -51,10 +51,14 @@ export function DailyTargetWidget() {
             isOver ? "text-blue-600" : "text-gray-900"
           )}
         >
-          {isOver
-            ? overAmount.toLocaleString()
-            : targetTotalSalesPerDay.toLocaleString()}
-          원
+          {remainingDaysInMonth && (
+            <>
+              {isOver
+                ? overAmount.toLocaleString()
+                : targetTotalSalesPerDay.toLocaleString()}
+              원
+            </>
+          )}
         </div>
         <p className="mt-1 text-sm text-gray-500">
           {isOver ? "목표에 도달했습니다!" : "일일 필요 매출액"}
