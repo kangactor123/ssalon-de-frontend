@@ -4,24 +4,29 @@ import axios, { AxiosRequestConfig } from "axios";
 import qs from "qs";
 
 import Cookies from "js-cookie";
+import { BASE_URL } from "../constants/env";
 
+// 토큰 재발급 중 중복 요청을 방지하기 위한 변수
 let isRefreshing = false;
 
-const URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "";
 const api = createApiInstance();
 
 function paramsSerializer(params: unknown): string {
   return qs.stringify(params);
 }
 
+function getCookie(key: string) {
+  return Cookies.get(key);
+}
+
 function createApiInstance(bearerJwt = "", options: AxiosRequestConfig = {}) {
   const api = axios.create({
-    baseURL: URL,
+    baseURL: BASE_URL,
     timeout: 0,
+    withCredentials: true,
     paramsSerializer: {
       serialize: paramsSerializer,
     },
-    withCredentials: true,
     ...options,
   });
   api.defaults.headers.common["Authorization"] = bearerJwt;
@@ -75,17 +80,4 @@ api.interceptors.response.use(
   }
 );
 
-export function setCookie(
-  key: string,
-  value: string,
-  options: Cookies.CookieAttributes
-) {
-  Cookies.set(key, value, options);
-}
-
-export function getCookie(key: string) {
-  return Cookies.get(key);
-}
-
-export const BASE_URL = URL;
 export default api;

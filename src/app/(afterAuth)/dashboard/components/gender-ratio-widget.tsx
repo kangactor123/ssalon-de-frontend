@@ -2,18 +2,19 @@
 
 import { useGenderRatio } from "@/queries/dashboard";
 import { GenderRatio } from "@/queries/dashboard/type";
-import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import EmptyWidget from "./empty-widget";
 import PieChart from "@/shared/ui/pie-chart";
-import { renderActiveShape } from "./pie-active-shape";
-import { customLegend } from "./pie-custom-legend";
+import { renderActiveShape } from "./pie-chart-active-shape";
+import { customLegend } from "./pie-chart-custom-legend";
+import { formatDate } from "@/shared/utils/dayjs";
+import { YEAR_MONTH } from "@/shared/constants/dayjs-format";
 
 export function GenderRatioWidget() {
   const router = useRouter();
   const [activeIndex, setActiveIndex] = useState(0);
-  const { data } = useGenderRatio(dayjs().format("YYYY-MM"));
+  const { data } = useGenderRatio(formatDate({ format: YEAR_MONTH }));
 
   const handlePieEnter = (_: unknown, index: number) => {
     setActiveIndex(index);

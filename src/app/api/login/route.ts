@@ -1,4 +1,4 @@
-import { BASE_URL } from "@/shared/lib/axios";
+import { BASE_URL } from "@/shared/constants/env";
 import { ApiError } from "@/shared/types/error";
 import { NextResponse, NextRequest } from "next/server";
 

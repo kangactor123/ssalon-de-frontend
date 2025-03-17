@@ -1,5 +1,5 @@
 import { Label } from "@/shared/ui/label";
-import { cn } from "../lib/utils";
+import { cn } from "../utils/tailwind";
 
 interface RequiredLabelProps extends React.ComponentProps<typeof Label> {
   required?: boolean;

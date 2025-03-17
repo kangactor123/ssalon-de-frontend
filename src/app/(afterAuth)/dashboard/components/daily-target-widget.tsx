@@ -1,11 +1,13 @@
 "use client";
 
 import { useTargetTotalSales } from "@/queries/dashboard";
-import { cn } from "@/shared/lib/utils";
+import { cn } from "@/shared/utils/tailwind";
 import dayjs from "dayjs";
 import { ArrowUpCircle, Calendar, Flag } from "lucide-react";
 import { useRouter } from "next/navigation";
 import EmptyWidget from "./empty-widget";
+import { formatDate } from "@/shared/utils/dayjs";
+import { YEAR_MONTH } from "@/shared/constants/dayjs-format";
 
 const initialData = {
   targetSales: 0,
@@ -15,7 +17,7 @@ const initialData = {
 export function DailyTargetWidget() {
   const router = useRouter();
   const { data: targetTotalSales = initialData } = useTargetTotalSales(
-    dayjs().format("YYYY-MM")
+    formatDate({ format: YEAR_MONTH })
   );
 
   const daysInMonth = dayjs().daysInMonth();

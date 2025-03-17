@@ -9,6 +9,8 @@ import { Button } from "@/shared/ui/button";
 import { useMonthlySales } from "@/queries/dashboard";
 import useDateStore from "@/zustand/date";
 import { useRouter } from "next/navigation";
+import { formatDate } from "@/shared/utils/dayjs";
+import { YEAR_MONTH } from "@/shared/constants/dayjs-format";
 
 dayjs.extend(localeData);
 dayjs.extend(updateLocale);
@@ -23,7 +25,7 @@ export function CalendarWidget() {
   const { setDate } = useDateStore();
   const [currentDate, setCurrentDate] = useState(dayjs());
   const { data: monthlySales = [] } = useMonthlySales(
-    currentDate.format("YYYY-MM")
+    formatDate({ format: YEAR_MONTH, date: currentDate })
   );
 
   const daysInMonth = Array.from(

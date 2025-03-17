@@ -1,7 +1,8 @@
 "use client";
 
 import { useAverageCustomerSpending } from "@/queries/dashboard";
-import dayjs from "dayjs";
+import { YEAR_MONTH } from "@/shared/constants/dayjs-format";
+import { formatDate } from "@/shared/utils/dayjs";
 import { TrendingUp, TrendingDown } from "lucide-react";
 
 const initialData = {
@@ -11,7 +12,7 @@ const initialData = {
 
 export function AverageCustomerSpendingWidget() {
   const { data = initialData } = useAverageCustomerSpending(
-    dayjs().format("YYYY-MM")
+    formatDate({ format: YEAR_MONTH })
   );
 
   const currentMonth = data.currentMonth ?? initialData.currentMonth;

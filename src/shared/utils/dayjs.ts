@@ -8,3 +8,14 @@ dayjs.extend(timezone);
 export const toUTC = (date: string | Dayjs) => {
   return dayjs.tz(date, "Asia/Seoul").utc();
 };
+
+type FormatDateProps = {
+  date?: string | Dayjs;
+  format?: string;
+};
+export const formatDate = ({
+  date,
+  format = "YYYY-MM-DD",
+}: FormatDateProps) => {
+  return dayjs(date).format(format);
+};

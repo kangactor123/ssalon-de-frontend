@@ -1,4 +1,4 @@
-import { BASE_URL } from "@/shared/lib/axios";
+import { BASE_URL } from "@/shared/constants/env";
 import { ApiError } from "@/shared/types/error";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
@@ -45,7 +45,6 @@ export async function GET() {
 
     return response;
   } catch {
-    // const { status, message } = error as ApiError;
     return NextResponse.error();
   }
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/shared/lib/utils";
+import { cn } from "@/shared/utils/tailwind";
 import * as React from "react";
 import * as RechartsPrimitive from "recharts";
 

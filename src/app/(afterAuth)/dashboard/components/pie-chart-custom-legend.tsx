@@ -11,23 +11,12 @@ const customLegend: ContentType = (props) => {
     <ul className="flex flex-wrap justify-center">
       {payload.map((entry, index) => (
         <li
-          key={`item-${index}`}
-          style={{
-            marginRight: 10,
-            display: "flex",
-            alignItems: "center",
-            fontSize: "10px",
-          }}
+          key={`item${index}`}
+          className="flex items-center mr-[10px] text-[10px]"
         >
           <span
-            style={{
-              display: "inline-block",
-              width: "10px",
-              height: "10px",
-              borderRadius: "50%",
-              backgroundColor: entry.color,
-              marginRight: 4,
-            }}
+            className="inline-block w-[10px] h-[10px] rounded-full mr-1"
+            style={{ backgroundColor: entry.color }}
           />
           {entry.value}
         </li>

@@ -1,12 +1,13 @@
 "use client";
 
-import dayjs from "dayjs";
 import Spinner from "@/shared/ui/spinner";
 import { useMonthlyTotalSales } from "@/queries/dashboard";
+import { formatDate } from "@/shared/utils/dayjs";
+import { YEAR_MONTH } from "@/shared/constants/dayjs-format";
 
 export function TotalSalesWidget() {
   const { data: monthlyTotalSales, isFetching } = useMonthlyTotalSales(
-    dayjs().format("YYYY-MM")
+    formatDate({ format: YEAR_MONTH })
   );
 
   if (isFetching) {

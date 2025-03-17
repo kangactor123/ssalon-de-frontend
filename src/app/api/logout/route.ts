@@ -1,4 +1,4 @@
-import { BASE_URL } from "@/shared/lib/axios";
+import { BASE_URL } from "@/shared/constants/env";
 import { supabaseService } from "@/shared/lib/supabase";
 import { NextResponse } from "next/server";
 

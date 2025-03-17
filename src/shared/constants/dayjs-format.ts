@@ -1,0 +1,4 @@
+const YEAR_MONTH_DAY = "YYYY-MM-DD";
+const YEAR_MONTH = "YYYY-MM";
+
+export { YEAR_MONTH_DAY, YEAR_MONTH };

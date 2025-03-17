@@ -3,7 +3,8 @@
 import { Progress } from "@/shared/ui/progress";
 import { useTargetTotalSales } from "@/queries/dashboard";
 import { TargetTotalSales } from "@/queries/dashboard/type";
-import dayjs from "dayjs";
+import { formatDate } from "@/shared/utils/dayjs";
+import { YEAR_MONTH } from "@/shared/constants/dayjs-format";
 
 const initialData: TargetTotalSales = {
   targetSales: 0,
@@ -12,7 +13,7 @@ const initialData: TargetTotalSales = {
 
 export function TargetTotalSalesWidget() {
   const { data: targetTotalSales = initialData } = useTargetTotalSales(
-    dayjs().format("YYYY-MM")
+    formatDate({ format: YEAR_MONTH })
   );
 
   const { targetSales, totalSales } = targetTotalSales;

@@ -1,13 +1,14 @@
 "use client";
 
 import { useDailySalesAmountCount } from "@/queries/dashboard";
-import dayjs from "dayjs";
 import { Line, XAxis, Tooltip, LineChart, YAxis } from "recharts";
 import EmptyWidget from "./empty-widget";
 import { useRouter } from "next/navigation";
 import { CHART_COLORS } from "@/shared/constants/palette";
 
 import { ChartContainer, type ChartConfig } from "@/shared/ui/chart";
+import { formatDate } from "@/shared/utils/dayjs";
+import { YEAR_MONTH } from "@/shared/constants/dayjs-format";
 
 const chartConfig = {
   count: {
@@ -18,7 +19,9 @@ const chartConfig = {
 
 export function DailySalesLineChart() {
   const router = useRouter();
-  const { data = [] } = useDailySalesAmountCount(dayjs().format("YYYY-MM"));
+  const { data = [] } = useDailySalesAmountCount(
+    formatDate({ format: YEAR_MONTH })
+  );
 
   if (data.length === 0) {
     return <EmptyWidget onClick={() => router.push("/sales/edit")} />;
