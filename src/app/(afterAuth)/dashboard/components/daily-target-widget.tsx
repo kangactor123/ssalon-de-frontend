@@ -17,7 +17,7 @@ const initialData = {
 export function DailyTargetWidget() {
   const router = useRouter();
   const { data: targetTotalSales = initialData } = useTargetTotalSales(
-    formatDate({ format: YEAR_MONTH })
+    formatDate({ date: dayjs(), format: YEAR_MONTH })
   );
 
   const daysInMonth = dayjs().daysInMonth();

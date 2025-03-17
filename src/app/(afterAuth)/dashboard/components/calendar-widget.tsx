@@ -10,14 +10,19 @@ import { useMonthlySales } from "@/queries/dashboard";
 import useDateStore from "@/zustand/date";
 import { useRouter } from "next/navigation";
 import { formatDate } from "@/shared/utils/dayjs";
-import { YEAR_MONTH } from "@/shared/constants/dayjs-format";
+import {
+  MONTHS_KOR,
+  WEEKDAYS_KOR,
+  YEAR_MONTH,
+  YEAR_MONTH_KOR,
+} from "@/shared/constants/dayjs-format";
 
 dayjs.extend(localeData);
 dayjs.extend(updateLocale);
 dayjs.updateLocale("ko", {
-  months: "1월_2월_3월_4월_5월_6월_7월_8월_9월_10월_11월_12월".split("_"),
-  weekdays: "일요일_월요일_화요일_수요일_목요일_금요일_토요일".split("_"),
-  weekdaysShort: "일_월_화_수_목_금_토".split("_"),
+  months: MONTHS_KOR,
+  weekdays: WEEKDAYS_KOR.map((day) => `${day}요일`),
+  weekdaysShort: WEEKDAYS_KOR,
 });
 
 export function CalendarWidget() {
@@ -49,7 +54,7 @@ export function CalendarWidget() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold">
-          {currentDate.format("YYYY년 MM월")}
+          {formatDate({ date: currentDate, format: YEAR_MONTH_KOR })}
         </h2>
         <div className="space-x-2">
           <Button onClick={prevMonth} size="icon" variant="outline">
@@ -61,7 +66,7 @@ export function CalendarWidget() {
         </div>
       </div>
       <div className="grid grid-cols-7 gap-2">
-        {["일", "월", "화", "수", "목", "금", "토"].map((day) => (
+        {WEEKDAYS_KOR.map((day) => (
           <div key={day} className="font-semibold text-center">
             {day}
           </div>
@@ -78,7 +83,7 @@ export function CalendarWidget() {
                 gridColumnStart: index === 0 ? date.day() + 1 : "auto",
               }}
               onClick={() => {
-                setDate(date.format("YYYY-MM-DD"));
+                setDate(formatDate({ date }));
                 router.push("/sales");
               }}
             >

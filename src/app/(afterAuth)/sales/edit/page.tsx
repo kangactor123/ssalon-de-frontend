@@ -32,6 +32,7 @@ import {
 import { RequiredLabel } from "@/shared/ui/required-label";
 import dayjs from "dayjs";
 import useDateStore from "@/zustand/date";
+import { formatDate } from "@/shared/utils/dayjs";
 
 type SaleForm = Omit<Sale, "services" | "payments" | "id" | "date"> & {
   date: string;
@@ -57,7 +58,7 @@ const SaleEditPage = () => {
   const isEdit = !!id;
   const defaultValues: SaleForm = useMemo(
     () => ({
-      date: dayjs(date).format("YYYY-MM-DD"),
+      date: formatDate({ date }),
       amount: "",
       services: [],
       description: "",
@@ -226,7 +227,7 @@ const SaleEditPage = () => {
     if (isEdit && sale) {
       reset({
         time: dayjs(sale.date).format("HH:mm"),
-        date: dayjs(sale.date).format("YYYY-MM-DD"),
+        date: formatDate({ date: sale.date }),
         amount: sale.amount,
         services: sale.services.map((service) => service.id),
         gender: sale.gender,

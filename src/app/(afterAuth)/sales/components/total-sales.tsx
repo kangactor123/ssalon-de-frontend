@@ -3,13 +3,14 @@
 import Spinner from "@/shared/ui/spinner";
 import { useSales, useTotalAmount } from "@/queries/sales";
 import useDateStore from "@/zustand/date";
-import dayjs from "dayjs";
 import { useMemo } from "react";
+import { formatDate } from "@/shared/utils/dayjs";
+import { YEAR_MONTH_DAY_TIME } from "@/shared/constants/dayjs-format";
 
 export function TotalSales() {
   const { date } = useDateStore();
   const { data = [] } = useSales(
-    { date: dayjs(date).format("YYYY-MM-DD") },
+    { date: formatDate({ date }) },
     { enabled: !!date }
   );
 
@@ -17,7 +18,7 @@ export function TotalSales() {
     data: amount = 0,
     isLoading,
     isFetching,
-  } = useTotalAmount(dayjs(date).format("YYYY-MM-DDTHH:mm"));
+  } = useTotalAmount(formatDate({ date, format: YEAR_MONTH_DAY_TIME }));
 
   const loading = useMemo(
     () => isLoading || isFetching,

@@ -4,10 +4,11 @@ import Spinner from "@/shared/ui/spinner";
 import { useMonthlyTotalSales } from "@/queries/dashboard";
 import { formatDate } from "@/shared/utils/dayjs";
 import { YEAR_MONTH } from "@/shared/constants/dayjs-format";
+import dayjs from "dayjs";
 
 export function TotalSalesWidget() {
   const { data: monthlyTotalSales, isFetching } = useMonthlyTotalSales(
-    formatDate({ format: YEAR_MONTH })
+    formatDate({ date: dayjs(), format: YEAR_MONTH })
   );
 
   if (isFetching) {

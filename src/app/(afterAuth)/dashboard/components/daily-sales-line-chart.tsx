@@ -9,6 +9,7 @@ import { CHART_COLORS } from "@/shared/constants/palette";
 import { ChartContainer, type ChartConfig } from "@/shared/ui/chart";
 import { formatDate } from "@/shared/utils/dayjs";
 import { YEAR_MONTH } from "@/shared/constants/dayjs-format";
+import dayjs from "dayjs";
 
 const chartConfig = {
   count: {
@@ -20,7 +21,7 @@ const chartConfig = {
 export function DailySalesLineChart() {
   const router = useRouter();
   const { data = [] } = useDailySalesAmountCount(
-    formatDate({ format: YEAR_MONTH })
+    formatDate({ date: dayjs(), format: YEAR_MONTH })
   );
 
   if (data.length === 0) {

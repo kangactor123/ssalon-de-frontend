@@ -8,7 +8,7 @@ import { useLogout } from "@/shared/hooks/use-logout";
 import { useStore } from "@/shared/hooks/use-store";
 import useUserStore from "@/zustand/user";
 import { routes } from "@/shared/constants/routes";
-import SimpleCalendar from "./calendar";
+import Calendar from "./calendar";
 import { APP_NAME } from "@/shared/constants/app";
 
 export function Sidebar() {
@@ -63,7 +63,7 @@ export function Sidebar() {
         </Button>
       </div>
       <div className="flex-none p-4 border-t border-gray-200">
-        <SimpleCalendar />
+        <Calendar />
       </div>
     </aside>
   );

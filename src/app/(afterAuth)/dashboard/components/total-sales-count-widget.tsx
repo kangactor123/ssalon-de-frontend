@@ -3,9 +3,12 @@
 import { useTotalCount } from "@/queries/dashboard";
 import { YEAR_MONTH } from "@/shared/constants/dayjs-format";
 import { formatDate } from "@/shared/utils/dayjs";
+import dayjs from "dayjs";
 
 export function TotalSalesCountWidget() {
-  const { data } = useTotalCount(formatDate({ format: YEAR_MONTH }));
+  const { data } = useTotalCount(
+    formatDate({ date: dayjs(), format: YEAR_MONTH })
+  );
 
   return (
     <div className="flex flex-col gap-4 mt-2">

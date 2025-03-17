@@ -14,8 +14,8 @@ import Spinner from "@/shared/ui/spinner";
 import { SalesFilter } from "./sales-filter";
 import { useRouter } from "next/navigation";
 import { Filter } from "@/shared/types/filter";
-import dayjs from "dayjs";
 import { ConfirmDialog } from "@/shared/ui/alert-dialog";
+import { formatDate } from "@/shared/utils/dayjs";
 
 const SalesList = () => {
   const client = useQueryClient();
@@ -31,7 +31,8 @@ const SalesList = () => {
     isFetching,
   } = useSales(
     {
-      date: dayjs(date).format("YYYY-MM-DD"),
+      // dayjs(date).format("YYYY-MM-DD")
+      date: formatDate({ date }),
     },
     {
       enabled: !!date,

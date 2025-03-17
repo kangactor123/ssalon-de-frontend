@@ -6,10 +6,11 @@ import useDateStore from "@/zustand/date";
 import { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import { Button } from "@/shared/ui/button";
+import { formatDate } from "@/shared/utils/dayjs";
+import { WEEKDAYS_KOR, YEAR_MONTH_KOR } from "@/shared/constants/dayjs-format";
 
 export default function Calendar() {
   const today = dayjs();
-  const days = ["일", "월", "화", "수", "목", "금", "토"];
   const { setDate, date } = useDateStore();
   const [selectedDate, setSelectedDate] = useState(dayjs(date) ?? today);
   const [currentDate, setCurrentDate] = useState(dayjs(date) ?? today);
@@ -40,7 +41,7 @@ export default function Calendar() {
   };
 
   useEffect(() => {
-    setDate(selectedDate.format("YYYY-MM-DD"));
+    setDate(formatDate({ date: selectedDate }));
   }, [setDate, selectedDate]);
 
   return (
@@ -55,7 +56,7 @@ export default function Calendar() {
           <ChevronLeft size={20} />
         </Button>
         <span className="font-semibold text-gray-700">
-          {currentDate.format("YYYY년 MM월")}
+          {formatDate({ date: currentDate, format: YEAR_MONTH_KOR })}
         </span>
         <Button
           variant="ghost"
@@ -67,7 +68,7 @@ export default function Calendar() {
         </Button>
       </div>
       <div className="grid grid-cols-7 gap-1 text-center">
-        {days.map((day) => (
+        {WEEKDAYS_KOR.map((day) => (
           <div key={day} className="text-xs font-semibold text-gray-500">
             {day}
           </div>
@@ -81,7 +82,7 @@ export default function Calendar() {
             .set("date", index + 1);
           return (
             <div
-              key={`${date.format("YYYY-MM-DD")}`}
+              key={formatDate({ date })}
               className={`text-sm p-1 rounded-full transition-colors cursor-pointer ${
                 isSelected(date)
                   ? "bg-blue-500 text-white"
