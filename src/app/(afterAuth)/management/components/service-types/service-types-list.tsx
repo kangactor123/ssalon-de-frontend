@@ -22,6 +22,7 @@ export default async function ServiceList() {
           <TableHeader>
             <TableRow>
               <TableHead>서비스</TableHead>
+              <TableHead>가격</TableHead>
               <TableHead className="text-right">작업</TableHead>
             </TableRow>
           </TableHeader>

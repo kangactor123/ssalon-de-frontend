@@ -10,17 +10,23 @@ import { TableCell, TableRow } from "@/shared/ui/table";
 import { useDeleteServiceType, useUpdateServiceType } from "@/queries/settings";
 import { ServiceType } from "@/queries/settings/type";
 import { ConfirmDialog } from "@/shared/ui/alert-dialog";
+import useIsEditSettingsStore from "@/zustand/edit-setting";
 
 type Props = PropsWithChildren<{
   id: string;
   name: string;
+  price?: number;
 }>;
 
-const ServiceItem: React.FC<Props> = ({ id, name }) => {
+const ServiceItem: React.FC<Props> = ({ id, name, price }) => {
   const router = useRouter();
+  const editSettingId = useIsEditSettingsStore((state) => state.editSettingId);
+  const setEditSettingId = useIsEditSettingsStore(
+    (state) => state.setEditSettingId
+  );
   const [isEdit, setIsEdit] = useState(false);
-  const [editingId, setEditingId] = useState<string>("");
   const [editingName, setEditingName] = useState("");
+  const [editingPrice, setEditingPrice] = useState<string>("");
   const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false);
 
   const { mutate: deleteServiceType } = useDeleteServiceType({
@@ -32,9 +38,10 @@ const ServiceItem: React.FC<Props> = ({ id, name }) => {
   const { mutate: updateServiceType } = useUpdateServiceType({
     onSuccess: () => {
       setIsEdit(false);
-      setEditingId("");
       setEditingName("");
+      setEditingPrice("");
       afterMutateServiceType();
+      setEditSettingId("");
     },
   });
 
@@ -42,18 +49,24 @@ const ServiceItem: React.FC<Props> = ({ id, name }) => {
     router.refresh();
   }, [router]);
 
-  const handleClickEdit = useCallback((serviceType: ServiceType) => {
-    setIsEdit(true);
-    setEditingId(serviceType.id);
-    setEditingName(serviceType.name);
-  }, []);
+  const handleClickEdit = useCallback(
+    (serviceType: ServiceType) => {
+      console.log(serviceType);
+      setIsEdit(true);
+      setEditingName(serviceType.name);
+      setEditingPrice(`${serviceType.price ?? ""}`);
+      setEditSettingId(serviceType.id);
+    },
+    [setEditSettingId]
+  );
 
   const handleClickSave = useCallback(() => {
     updateServiceType({
-      id: editingId,
+      id: editSettingId,
       name: editingName,
+      price: +editingPrice,
     });
-  }, [editingId, editingName, updateServiceType]);
+  }, [editSettingId, editingName, editingPrice, updateServiceType]);
 
   const handleClickDelete = useCallback(
     (id: string) => {
@@ -62,11 +75,21 @@ const ServiceItem: React.FC<Props> = ({ id, name }) => {
     [deleteServiceType]
   );
 
+  const handleChangePrice = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
+      if (/^\d*\.?\d*$/.test(value)) {
+        setEditingPrice(value);
+      }
+    },
+    []
+  );
+
   return (
     <>
       <TableRow key={id}>
         <TableCell>
-          {editingId === id ? (
+          {editSettingId === id ? (
             <Input
               value={editingName}
               onChange={(e) => setEditingName(e.target.value)}
@@ -75,15 +98,26 @@ const ServiceItem: React.FC<Props> = ({ id, name }) => {
             name
           )}
         </TableCell>
+        <TableCell>
+          {editSettingId === id ? (
+            <Input
+              type="number"
+              value={editingPrice}
+              onChange={handleChangePrice}
+            />
+          ) : (
+            price
+          )}
+        </TableCell>
         <TableCell className="flex justify-end gap-1 text-right">
-          {isEdit && editingId === id ? (
+          {isEdit && editSettingId === id ? (
             <Button size="sm" onClick={handleClickSave} variant="outline">
               <Save className="w-4 h-4" />
             </Button>
           ) : (
             <>
               <Button
-                onClick={() => handleClickEdit({ id, name })}
+                onClick={() => handleClickEdit({ id, name, price })}
                 size="sm"
                 variant="outline"
               >

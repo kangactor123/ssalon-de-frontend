@@ -68,7 +68,7 @@ export const deleteVisitType = async (id: string): Promise<VisitType> => {
   return data;
 };
 
-/** visit-types */
+/** service-types */
 export const getServiceTypes = async (): Promise<ServiceType[]> => {
   const { data } = await api({
     method: "GET",
@@ -95,6 +95,7 @@ export const updateServiceType = async (dto: ServiceType): Promise<unknown> => {
     url: `/service-types/${dto.id}`,
     data: {
       name: dto.name,
+      price: dto.price,
     },
   });
   return data;
