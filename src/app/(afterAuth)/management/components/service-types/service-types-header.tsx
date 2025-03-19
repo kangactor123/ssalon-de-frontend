@@ -7,14 +7,15 @@ import { Button } from "@/shared/ui/button";
 
 import CreateServiceTypesDialog from "./create-service-types-dialog";
 import PageTitle from "@/shared/ui/page-title";
-import { revalidatePath } from "next/cache";
+import { useRouter } from "next/navigation";
 
 const ServiceTypesHeader = () => {
+  const router = useRouter();
   const [openDialog, setOpenDialog] = useState(false);
 
   const afterMutateServiceType = useCallback(() => {
-    revalidatePath("/management");
-  }, []);
+    router.refresh();
+  }, [router]);
 
   return (
     <div className="flex items-center justify-between">

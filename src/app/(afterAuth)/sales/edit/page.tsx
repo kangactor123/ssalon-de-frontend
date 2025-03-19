@@ -443,7 +443,7 @@ const SaleEditPage = () => {
                         />
                         <Label htmlFor={`service-${service.id}`}>
                           {service.name}
-                          {service.price && (
+                          {!!service.price && (
                             <span className="ml-1">{`(${service.price.toLocaleString()}원)`}</span>
                           )}
                         </Label>
