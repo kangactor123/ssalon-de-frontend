@@ -1,6 +1,6 @@
 "use client";
 
-import { Badge } from "@/shared/ui/badge";
+import { Badge, BadgeProps } from "@/shared/ui/badge";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent } from "@/shared/ui/card";
 import { Gender } from "@/queries/sales/type";
@@ -9,6 +9,11 @@ import { VisitType } from "@/queries/settings/type";
 import dayjs from "dayjs";
 import { Edit2, Trash2 } from "lucide-react";
 import { memo } from "react";
+import { cn } from "@/shared/utils/tailwind";
+import useBadgeCustomStore from "@/zustand/badge-custom";
+import { BadgeType } from "@/shared/types/badge-type";
+import { COLOR_MAP, TEXT_COLOR_MAP } from "@/shared/constants/palette";
+import { ColorKey } from "@/shared/types/palette";
 
 type Props = {
   id: string;
@@ -35,6 +40,29 @@ const SalesItem: React.FC<Props> = ({
   onClickEdit,
   onClickDelete,
 }) => {
+  const badgeCustom = useBadgeCustomStore((state) => state.badgeCustom);
+
+  const setBadgeProps = (key: BadgeType) => {
+    const basicVariant: Record<BadgeType, BadgeProps["variant"]> = {
+      visitType: "outline",
+      serviceType: "secondary",
+      paymentType: "default",
+      gender: "destructive",
+    };
+    const props: BadgeProps = {};
+    const isCustomized = badgeCustom[key] !== "";
+
+    if (isCustomized) {
+      props.className = cn(
+        COLOR_MAP[badgeCustom[key] as ColorKey],
+        TEXT_COLOR_MAP[badgeCustom[key] as ColorKey]
+      );
+    } else {
+      props.variant = basicVariant[key];
+    }
+    return props;
+  };
+
   return (
     <Card key={id}>
       <CardContent className="p-4">
@@ -51,32 +79,23 @@ const SalesItem: React.FC<Props> = ({
         </div>
         <div className="flex gap-1 mb-4 flex-wrap">
           {visitTypes.map((visitType) => (
-            <Badge
-              key={`${id}${visitType.id}`}
-              variant="outline"
-              className="text-green-800 bg-green-200"
-            >
+            <Badge key={`${id}${visitType.id}`} {...setBadgeProps("visitType")}>
               {visitType.name}
             </Badge>
           ))}
           {payments.map((payment) => (
-            <Badge
-              key={`${id}${payment}`}
-              className="text-blue-800 bg-blue-200"
-            >
+            <Badge key={`${id}${payment}`} {...setBadgeProps("paymentType")}>
               {payment}
             </Badge>
           ))}
           {services.map((service) => (
-            <Badge
-              key={`${id}${service.id}`}
-              variant="secondary"
-              className="text-pink-800 bg-pink-200"
-            >
+            <Badge key={`${id}${service.id}`} {...setBadgeProps("serviceType")}>
               {service.name}
             </Badge>
           ))}
-          <Badge variant="outline">{gender === "M" ? "남성" : "여성"}</Badge>
+          <Badge {...setBadgeProps("gender")}>
+            {gender === "M" ? "남성" : "여성"}
+          </Badge>
         </div>
         <div className="flex items-center justify-between">
           <div className="flex items-center"></div>

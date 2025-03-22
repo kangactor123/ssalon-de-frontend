@@ -10,12 +10,15 @@ import useUserStore from "@/zustand/user";
 import { routes } from "@/shared/constants/routes";
 import Calendar from "./calendar";
 import { APP_NAME } from "@/shared/constants/app";
+import { useInitCustomBadge } from "@/shared/hooks/use-init-custom-badge";
 
 export function Sidebar() {
   const user = useStore(useUserStore, (state) => state.user);
   const pathname = usePathname();
   const handleLogout = useLogout();
   const isActive = (path: string) => pathname === path;
+
+  useInitCustomBadge();
 
   return (
     <aside className="hidden w-64 h-screen border border-gray-200 shadow-lg md:flex md:flex-col bg-gray-50">

@@ -15,7 +15,11 @@ import { Setting } from "@/queries/settings/type";
 import { useToast } from "@/shared/hooks/use-toast";
 import { Save } from "lucide-react";
 import { useEffect, useState } from "react";
-import { FieldPath, RegisterOptions, useForm } from "react-hook-form";
+import { FieldPath, RegisterOptions, useForm, useWatch } from "react-hook-form";
+import BadgeCustom from "./badge-custom";
+import { BADGE_TYPE } from "@/shared/constants/badge-type";
+import { ColorKey } from "@/shared/types/palette";
+import useBadgeCustomStore from "@/zustand/badge-custom";
 
 type FormData = Record<string, string>;
 type Form = {
@@ -39,14 +43,32 @@ const settings: Form[] = [
   },
 ];
 
+const defaultValues: FormData = {
+  goal: "",
+  paymentType: "",
+  visitType: "",
+  serviceType: "",
+  gender: "",
+};
+
 const Settings = () => {
   const [open, setOpen] = useState("");
   const { toast } = useToast();
   const { data = [] } = useSettings();
-  const { register, formState, handleSubmit, reset } = useForm<FormData>({
-    defaultValues: { goal: "" },
-    mode: "onChange",
-  });
+  const setBadgeCustom = useBadgeCustomStore((state) => state.setBadgeCustom);
+  const { register, formState, handleSubmit, reset, setValue, control } =
+    useForm<FormData>({
+      defaultValues,
+      mode: "onChange",
+    });
+
+  const {
+    serviceType = "",
+    gender = "",
+    paymentType = "",
+    visitType = "",
+  } = useWatch({ control });
+
   const { mutate: editSettings } = useEditSettings({
     onSuccess: () => {
       toast({ description: "저장 완료!" });
@@ -62,22 +84,46 @@ const Settings = () => {
 
   const handleSave = (data: FormData) => {
     if (formState.isValid) {
-      const dto: Setting[] = Object.entries(data).map(([name, value]) => ({
-        name,
-        value,
-      }));
-      editSettings(dto);
+      const dto: Setting[] = [];
+      const badgeTypes = Object.keys(BADGE_TYPE);
+      const customColor: Record<keyof typeof BADGE_TYPE, ColorKey | ""> = {
+        paymentType: "",
+        visitType: "",
+        serviceType: "",
+        gender: "",
+      };
+
+      Object.entries(data).forEach(([name, value]) => {
+        if (badgeTypes.includes(name)) {
+          customColor[name as keyof typeof BADGE_TYPE] = value as ColorKey;
+        } else {
+          dto.push({ name, value });
+        }
+      });
+
+      setBadgeCustom(customColor);
+      editSettings([
+        ...dto,
+        { name: "customBadge", value: JSON.stringify(customColor) },
+      ]);
     }
   };
 
   useEffect(() => {
     if (data.length > 0) {
       const resetValues = data.reduce((prev, cur) => {
-        const findItem = prev[cur.name];
-        if (!findItem) {
-          prev[cur.name] = "";
+        if (cur.name === "customBadge") {
+          const customBadge = JSON.parse(cur.value);
+          Object.entries(customBadge).forEach(([key, value]) => {
+            prev[key] = value as string;
+          });
+        } else {
+          const findItem = prev[cur.name];
+          if (!findItem) {
+            prev[cur.name] = "";
+          }
+          prev[cur.name] = cur.value;
         }
-        prev[cur.name] = cur.value;
         return { ...prev };
       }, {} as FormData);
       reset({ ...resetValues });
@@ -135,6 +181,33 @@ const Settings = () => {
           </Accordion>
         );
       })}
+      <Accordion
+        type="single"
+        collapsible
+        className="w-[100%]"
+        value={open}
+        onValueChange={setOpen}
+      >
+        <AccordionItem value="badge-color">
+          <AccordionTrigger>
+            <RequiredLabel>뱃지 색상 커스텀</RequiredLabel>
+          </AccordionTrigger>
+          <AccordionContent>
+            <BadgeCustom
+              onChangeColor={(key, color) => {
+                console.log(key, color);
+                setValue(key, color);
+              }}
+              value={{
+                paymentType,
+                visitType,
+                serviceType,
+                gender,
+              }}
+            />
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
     </form>
   );
 };

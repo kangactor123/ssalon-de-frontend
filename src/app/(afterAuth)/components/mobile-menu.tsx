@@ -15,6 +15,7 @@ import useUserStore from "@/zustand/user";
 import Calendar from "./calendar";
 import { MobileHeader } from "./mobile-header";
 import { APP_NAME } from "@/shared/constants/app";
+import { useInitCustomBadge } from "@/shared/hooks/use-init-custom-badge";
 
 export function MobileMenu() {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,6 +25,8 @@ export function MobileMenu() {
   const { user } = useUserStore();
 
   const isActive = (path: string) => pathname === path;
+
+  useInitCustomBadge();
 
   return (
     <>

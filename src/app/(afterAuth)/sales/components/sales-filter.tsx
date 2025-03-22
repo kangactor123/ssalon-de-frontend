@@ -6,6 +6,7 @@ import {
   usePaymentTypes,
 } from "@/queries/settings";
 import { Filter } from "@/shared/types/filter";
+import { cn } from "@/shared/utils/tailwind";
 
 type SalesFilterProps = {
   selectedFilters: Filter[];
@@ -29,7 +30,6 @@ export function SalesFilter({ selectedFilters, onToggle }: SalesFilterProps) {
         data.map((service) => ({ ...service, type: "visitType" })),
     });
 
-  // const isFirst = { id: "isFirst", name: "첫 방문", type: "firstVisitType" };
   const genders = [
     { id: "M", name: "남성", type: "gender" },
     { id: "F", name: "여성", type: "gender" },
@@ -49,20 +49,19 @@ export function SalesFilter({ selectedFilters, onToggle }: SalesFilterProps) {
       isVisitTypesFetching ? (
         <Spinner />
       ) : (
-        filterList.map(({ id, name, type }) => (
-          <Badge
-            key={id}
-            variant={
-              selectedFilters.some((filter) => filter.id === id)
-                ? "default"
-                : "outline"
-            }
-            className="cursor-pointer select-none"
-            onClick={() => onToggle({ id, type, name })}
-          >
-            {name}
-          </Badge>
-        ))
+        filterList.map(({ id, name, type }) => {
+          const isSelected = selectedFilters.some((filter) => filter.id === id);
+          return (
+            <Badge
+              key={id}
+              onClick={() => onToggle({ id, type, name })}
+              variant={isSelected ? "default" : "outline"}
+              className={cn("cursor-pointer select-none")}
+            >
+              {name}
+            </Badge>
+          );
+        })
       )}
     </div>
   );
