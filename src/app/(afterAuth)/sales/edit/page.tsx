@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
@@ -50,6 +50,7 @@ const genderItems = [
 
 const SaleEditPage = () => {
   const router = useRouter();
+  const isTouchTime = useRef(false);
   const searchParams = useSearchParams();
   const { toast } = useToast();
   const { date } = useDateStore();
@@ -406,7 +407,11 @@ const SaleEditPage = () => {
             >
               <AccordionItem value="time">
                 <AccordionTrigger>
-                  <RequiredLabel value={selectedTime}>시간 선택</RequiredLabel>
+                  <RequiredLabel
+                    {...(isTouchTime.current && { value: selectedTime })}
+                  >
+                    시간 선택
+                  </RequiredLabel>
                 </AccordionTrigger>
                 <AccordionContent>
                   <div className="grid grid-cols-4 gap-2">
@@ -422,6 +427,7 @@ const SaleEditPage = () => {
                             setValue("time", time);
                           }
                           setTimeAccordion("");
+                          isTouchTime.current = true;
                         }}
                       >
                         {time}
