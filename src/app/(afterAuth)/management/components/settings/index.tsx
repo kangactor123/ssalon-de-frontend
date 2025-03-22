@@ -194,10 +194,7 @@ const Settings = () => {
           </AccordionTrigger>
           <AccordionContent>
             <BadgeCustom
-              onChangeColor={(key, color) => {
-                console.log(key, color);
-                setValue(key, color);
-              }}
+              onChangeColor={(key, color) => setValue(key, color)}
               value={{
                 paymentType,
                 visitType,

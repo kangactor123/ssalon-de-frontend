@@ -51,7 +51,6 @@ const ServiceItem: React.FC<Props> = ({ id, name, price }) => {
 
   const handleClickEdit = useCallback(
     (serviceType: ServiceType) => {
-      console.log(serviceType);
       setIsEdit(true);
       setEditingName(serviceType.name);
       setEditingPrice(`${serviceType.price ?? ""}`);

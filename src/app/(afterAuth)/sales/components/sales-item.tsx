@@ -66,8 +66,6 @@ const SalesItem: React.FC<Props> = ({
       props.className = basicColor[key];
     }
 
-    console.log(props, key, isCustomized, badgeCustom[key]);
-
     return props;
   };
 
