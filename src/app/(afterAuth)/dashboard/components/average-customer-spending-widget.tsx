@@ -2,9 +2,15 @@
 
 import { useAverageCustomerSpending } from "@/queries/dashboard";
 import { YEAR_MONTH } from "@/shared/constants/dayjs-format";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/shared/ui/tooltip";
 import { formatDate } from "@/shared/utils/dayjs";
 import dayjs from "dayjs";
-import { TrendingUp, TrendingDown } from "lucide-react";
+import { TrendingUp, TrendingDown, TriangleAlertIcon } from "lucide-react";
 
 const initialData = {
   currentMonth: 0,
@@ -22,7 +28,8 @@ export function AverageCustomerSpendingWidget() {
   const percentageChange =
     ((currentMonth - previousMonth) / previousMonth) * 100;
 
-  const isPercentageValid = percentageChange !== Infinity;
+  const isPercentageValid =
+    percentageChange !== Infinity && !isNaN(percentageChange);
 
   return (
     <div className="space-y-4">
@@ -42,7 +49,7 @@ export function AverageCustomerSpendingWidget() {
           <p className="text-sm text-gray-500">지난 달 고객 평균 지출액</p>
         </div>
         <div className="flex items-center">
-          {isPercentageValid && (
+          {isPercentageValid ? (
             <>
               {percentageChange >= 0 ? (
                 <>
@@ -60,6 +67,17 @@ export function AverageCustomerSpendingWidget() {
                 </>
               )}
             </>
+          ) : (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipContent>
+                  데이터가 정상적인지 확인해주세요.
+                </TooltipContent>
+                <TooltipTrigger>
+                  <TriangleAlertIcon className="w-5 h-5 text-red-300" />
+                </TooltipTrigger>
+              </Tooltip>
+            </TooltipProvider>
           )}
         </div>
       </div>
