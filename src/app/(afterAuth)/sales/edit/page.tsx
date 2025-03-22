@@ -209,8 +209,14 @@ const SaleEditPage = () => {
           if (emptyAmountPayments) {
             emptyAmountPayments.amount =
               selectedService.price?.toString() ?? "";
-            setValue("payments", newPayments);
+          } else if (newPayments.length > 0) {
+            const firstPayment = newPayments[0];
+            const selectedServicePrice = selectedService.price ?? 0;
+            const addedPrice = +firstPayment.amount + selectedServicePrice;
+            firstPayment.amount = addedPrice.toString();
           }
+
+          setValue("payments", newPayments);
         }
       }
     },
