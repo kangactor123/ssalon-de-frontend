@@ -365,6 +365,42 @@ const SaleEditPage = () => {
               type="single"
               collapsible
               className="w-full"
+              disabled={serviceTypes.length === 0}
+            >
+              <AccordionItem value="serviceTypes">
+                <AccordionTrigger disabled={serviceTypes.length === 0}>
+                  서비스 유형
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    {serviceTypes.map((service) => (
+                      <div
+                        key={service.id}
+                        className="flex items-center space-x-2 min-h-[36px]"
+                      >
+                        <Checkbox
+                          id={`service-${service.id}`}
+                          checked={selectedServices.includes(service.id)}
+                          onCheckedChange={(state) => {
+                            handleTypesChange("services", service.id, !!state);
+                          }}
+                        />
+                        <Label htmlFor={`service-${service.id}`}>
+                          {service.name}
+                          {!!service.price && (
+                            <span className="ml-1">{`(${service.price.toLocaleString()}원)`}</span>
+                          )}
+                        </Label>
+                      </div>
+                    ))}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+            <Accordion
+              type="single"
+              collapsible
+              className="w-full"
               value={timeAccordion}
               onValueChange={setTimeAccordion}
             >
@@ -414,42 +450,6 @@ const SaleEditPage = () => {
                       </div>
                     ))}
                   </RadioGroup>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-            <Accordion
-              type="single"
-              collapsible
-              className="w-full"
-              disabled={serviceTypes.length === 0}
-            >
-              <AccordionItem value="serviceTypes">
-                <AccordionTrigger disabled={serviceTypes.length === 0}>
-                  서비스 유형
-                </AccordionTrigger>
-                <AccordionContent>
-                  <div className="grid md:grid-cols-2 gap-4">
-                    {serviceTypes.map((service) => (
-                      <div
-                        key={service.id}
-                        className="flex items-center space-x-2 min-h-[36px]"
-                      >
-                        <Checkbox
-                          id={`service-${service.id}`}
-                          checked={selectedServices.includes(service.id)}
-                          onCheckedChange={(state) => {
-                            handleTypesChange("services", service.id, !!state);
-                          }}
-                        />
-                        <Label htmlFor={`service-${service.id}`}>
-                          {service.name}
-                          {!!service.price && (
-                            <span className="ml-1">{`(${service.price.toLocaleString()}원)`}</span>
-                          )}
-                        </Label>
-                      </div>
-                    ))}
-                  </div>
                 </AccordionContent>
               </AccordionItem>
             </Accordion>

@@ -23,25 +23,42 @@ export const CHART_COLORS = [
   "#C08497", // 핑크 브라운
 ];
 
-export const COLOR_MAP = {
-  red: "bg-red-500",
-  orange: "bg-orange-500",
-  yellow: "bg-yellow-500",
-  lime: "bg-lime-500",
-  green: "bg-green-500",
-  teal: "bg-teal-500",
-  cyan: "bg-cyan-500",
-  blue: "bg-blue-500",
-  indigo: "bg-indigo-500",
-  violet: "bg-violet-500",
-  purple: "bg-purple-500",
-  fuchsia: "bg-fuchsia-500",
-  pink: "bg-pink-500",
-  gray: "bg-gray-500",
+export const HOVER_COLOR_MAP = {
+  red: "hover:bg-red-700",
+  orange: "hover:bg-orange-700",
+  yellow: "hover:bg-yellow-700",
+  lime: "hover:bg-lime-700",
+  green: "hover:bg-green-700",
+  teal: "hover:bg-teal-700",
+  cyan: "hover:bg-cyan-700",
+  blue: "hover:bg-blue-700",
+  indigo: "hover:bg-indigo-700",
+  violet: "hover:bg-violet-700",
+  purple: "hover:bg-purple-700",
+  fuchsia: "hover:bg-fuchsia-700",
+  pink: "hover:bg-pink-700",
+  gray: "hover:bg-gray-700",
 } as const;
 
-export const WHITE_TEXT_COLOR = "text-white";
-export const BLACK_TEXT_COLOR = "text-black";
+export const COLOR_MAP = {
+  red: "bg-red-400",
+  orange: "bg-orange-400",
+  yellow: "bg-yellow-400",
+  lime: "bg-lime-400",
+  green: "bg-green-400",
+  teal: "bg-teal-400",
+  cyan: "bg-cyan-400",
+  blue: "bg-blue-400",
+  indigo: "bg-indigo-400",
+  violet: "bg-violet-400",
+  purple: "bg-purple-400",
+  fuchsia: "bg-fuchsia-400",
+  pink: "bg-pink-400",
+  gray: "bg-gray-400",
+} as const;
+
+export const WHITE_TEXT_COLOR = "text-gray-200";
+export const BLACK_TEXT_COLOR = "text-gray-700";
 
 export const TEXT_COLOR_MAP = {
   red: WHITE_TEXT_COLOR,

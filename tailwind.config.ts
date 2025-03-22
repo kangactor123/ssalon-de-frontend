@@ -79,5 +79,11 @@ export default {
       },
     },
   },
+  safelist: [
+    {
+      pattern: /^bg-/,
+    },
+  ],
+
   plugins: [require("tailwindcss-animate")],
 } satisfies Config;

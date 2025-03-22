@@ -12,7 +12,11 @@ import { memo } from "react";
 import { cn } from "@/shared/utils/tailwind";
 import useBadgeCustomStore from "@/zustand/badge-custom";
 import { BadgeType } from "@/shared/types/badge-type";
-import { COLOR_MAP, TEXT_COLOR_MAP } from "@/shared/constants/palette";
+import {
+  COLOR_MAP,
+  HOVER_COLOR_MAP,
+  TEXT_COLOR_MAP,
+} from "@/shared/constants/palette";
 import { ColorKey } from "@/shared/types/palette";
 
 type Props = {
@@ -55,7 +59,8 @@ const SalesItem: React.FC<Props> = ({
     if (isCustomized) {
       props.className = cn(
         COLOR_MAP[badgeCustom[key] as ColorKey],
-        TEXT_COLOR_MAP[badgeCustom[key] as ColorKey]
+        TEXT_COLOR_MAP[badgeCustom[key] as ColorKey],
+        HOVER_COLOR_MAP[badgeCustom[key] as ColorKey]
       );
     } else {
       props.variant = basicVariant[key];
