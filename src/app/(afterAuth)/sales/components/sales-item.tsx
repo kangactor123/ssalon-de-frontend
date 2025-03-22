@@ -47,14 +47,14 @@ const SalesItem: React.FC<Props> = ({
   const badgeCustom = useBadgeCustomStore((state) => state.badgeCustom);
 
   const setBadgeProps = (key: BadgeType) => {
-    const basicVariant: Record<BadgeType, BadgeProps["variant"]> = {
-      visitType: "outline",
-      serviceType: "secondary",
-      paymentType: "default",
-      gender: "destructive",
+    const basicColor: Record<BadgeType, BadgeProps["className"]> = {
+      visitType: "text-red-800 bg-red-200 hover:bg-red-300",
+      serviceType: "text-yellow-800 bg-yellow-200 hover:bg-yellow-300",
+      paymentType: "text-blue-800 bg-blue-200 hover:bg-blue-300",
+      gender: "text-pink-800 bg-pink-200 hover:bg-pink-300",
     };
     const props: BadgeProps = {};
-    const isCustomized = badgeCustom[key] !== "";
+    const isCustomized = !!badgeCustom[key];
 
     if (isCustomized) {
       props.className = cn(
@@ -63,8 +63,11 @@ const SalesItem: React.FC<Props> = ({
         HOVER_COLOR_MAP[badgeCustom[key] as ColorKey]
       );
     } else {
-      props.variant = basicVariant[key];
+      props.className = basicColor[key];
     }
+
+    console.log(props, key, isCustomized, badgeCustom[key]);
+
     return props;
   };
 
@@ -98,7 +101,10 @@ const SalesItem: React.FC<Props> = ({
               {service.name}
             </Badge>
           ))}
-          <Badge {...setBadgeProps("gender")}>
+          <Badge
+            {...setBadgeProps("gender")}
+            // className="text-pink-800 bg-pink-200"
+          >
             {gender === "M" ? "남성" : "여성"}
           </Badge>
         </div>

@@ -83,6 +83,12 @@ export default {
     {
       pattern: /^bg-/,
     },
+    {
+      pattern: /^text-/,
+    },
+    {
+      pattern: /^hover:bg-/,
+    },
   ],
 
   plugins: [require("tailwindcss-animate")],

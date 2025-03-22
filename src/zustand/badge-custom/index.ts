@@ -1,27 +1,17 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
-import { BadgeCustom, BadgeCustomPersist } from "./type";
-
-const key = "badge-custom-store";
+import { BadgeCustom, BadgeCustomStore } from "./type";
 
 export const initialBadgeCustom: BadgeCustom = {
-  payment: "",
-  genderType: "",
+  paymentType: "",
+  gender: "",
   serviceType: "",
   visitType: "",
 };
 
-const useBadgeCustomStore = create(
-  (persist as unknown as BadgeCustomPersist)(
-    (set) => ({
-      badgeCustom: initialBadgeCustom,
-      setBadgeCustom: (badgeCustom) => set({ badgeCustom }),
-    }),
-    {
-      name: key,
-      partialize: (state) => ({ badgeCustom: state.badgeCustom }),
-    }
-  )
-);
+const useBadgeCustomStore = create<BadgeCustomStore>((set) => ({
+  badgeCustom: initialBadgeCustom,
+  setBadgeCustom: (badgeCustom) => set({ badgeCustom }),
+  resetBadgeCustom: () => set({ badgeCustom: initialBadgeCustom }),
+}));
 
 export default useBadgeCustomStore;
