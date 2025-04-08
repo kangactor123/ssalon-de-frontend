@@ -53,4 +53,4 @@ pnpm dev
 
 ### 배포
 
-Vercel을 사용하여 배포하고 있으며 main 브랜치에 병합이 되면 Vercel production으로 자동 배포됩니다!
+Vercel을 사용하여 배포하고 있으며 main 브랜치에 병합이 되면 Vercel production으로 자동 배포됩니다
