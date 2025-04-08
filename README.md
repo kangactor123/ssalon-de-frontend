@@ -51,14 +51,6 @@ pnpm dev
 
 ## 🏗️ 배포
 
-Vercel 개인 계정으로 배포하고 있습니다. Organizaion의 main 브랜치에 머지가 되면 Github Actions를 통해 개인 레포지토리의 main 브랜치에 커밋 됩니다.
-개인 레포지토리의 main 브랜치에 커밋이 될 경우 Vercel CI/CD에 의해 자동으로 배포가 됩니다.
-
 ### 배포
 
-Vercel을 사용하여 배포하고 있으며 main 브랜치에 병합이 되면 Vercel production으로 자동 배포됩니다.
-
-## 데모 계정
-
-- ID: admin@admin.com
-- PWD: qwe1212!Q
+Vercel을 사용하여 배포하고 있으며 main 브랜치에 병합이 되면 Vercel production으로 자동 배포됩니다!
