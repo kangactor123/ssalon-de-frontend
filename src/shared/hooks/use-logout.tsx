@@ -1,20 +1,16 @@
-import { logout } from "@/queries/auth/api";
-import useUserStore from "@/zustand/user";
 import { useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { signOut } from "next-auth/react";
+import { removeTokens } from "../actions/cookie";
+import useUserStore from "@/zustand/user";
 
 export const useLogout = () => {
   const { setUser } = useUserStore();
-  const router = useRouter();
 
   const handleLogout = useCallback(async () => {
-    const res = await logout();
-
-    if (res.ok) {
-      setUser({ email: "", name: "", company: "", createdAt: "" });
-      router.push("/login");
-    }
-  }, [setUser, router]);
+    setUser({ email: "", name: "", company: "", createdAt: "" });
+    await removeTokens();
+    await signOut({ callbackUrl: "/login" });
+  }, [setUser]);
 
   return handleLogout;
 };

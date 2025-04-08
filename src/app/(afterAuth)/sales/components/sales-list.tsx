@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 import { Filter } from "@/shared/types/filter";
 import { ConfirmDialog } from "@/shared/ui/alert-dialog";
 import { formatDate } from "@/shared/utils/dayjs";
+// import { useSession } from "next-auth/react";
 
 const SalesList = () => {
   const client = useQueryClient();

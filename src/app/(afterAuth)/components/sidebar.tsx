@@ -11,6 +11,8 @@ import { routes } from "@/shared/constants/routes";
 import Calendar from "./calendar";
 import { APP_NAME } from "@/shared/constants/app";
 import { useInitCustomBadge } from "@/shared/hooks/use-init-custom-badge";
+import Spinner from "@/shared/ui/spinner";
+import { useInitUserInfo } from "@/shared/hooks/use-init-user-info";
 
 export function Sidebar() {
   const user = useStore(useUserStore, (state) => state.user);
@@ -18,6 +20,7 @@ export function Sidebar() {
   const handleLogout = useLogout();
   const isActive = (path: string) => pathname === path;
 
+  const { isLoading, enabledInitialize } = useInitUserInfo();
   useInitCustomBadge();
 
   return (
@@ -28,13 +31,19 @@ export function Sidebar() {
           <span className="text-xl font-bold text-gray-800">{APP_NAME}</span>
         </Link>
       </div>
-      <div className="flex-none p-4 border-b border-gray-200">
-        <div className="flex items-center space-x-3">
-          <div>
-            <p className="font-medium text-gray-700">{user?.name}</p>
-            <p className="text-sm text-gray-500">{user?.email}</p>
+      <div className="flex-none p-4 border-b border-gray-200 min-h-[77px]">
+        {enabledInitialize || isLoading ? (
+          <div className="flex items-center justify-center w-full h-full">
+            <Spinner />
           </div>
-        </div>
+        ) : (
+          <div className="flex items-center space-x-3">
+            <div>
+              <p className="font-medium text-gray-700">{user?.name}</p>
+              <p className="text-sm text-gray-500">{user?.email}</p>
+            </div>
+          </div>
+        )}
       </div>
       <nav className="flex-grow p-4 overflow-auto scrollbar-hidden">
         <ul className="space-y-2">

@@ -1,10 +1,12 @@
-import { logout, reissue } from "@/queries/auth/api";
+import { reissue } from "@/queries/auth/api";
 import axios, { AxiosRequestConfig } from "axios";
 
 import qs from "qs";
 
 import Cookies from "js-cookie";
 import { BASE_URL } from "../constants/env";
+import { signOut } from "next-auth/react";
+import { setTokenInCookie } from "../actions/cookie";
 
 // 토큰 재발급 중 중복 요청을 방지하기 위한 변수
 let isRefreshing = false;
@@ -35,6 +37,7 @@ function createApiInstance(bearerJwt = "", options: AxiosRequestConfig = {}) {
 
 api.interceptors.request.use((config) => {
   const accessToken = getCookie("accessToken");
+
   if (accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;
   }
@@ -52,7 +55,10 @@ api.interceptors.response.use(
           const res = await reissue();
 
           if (res.status === 200) {
-            const accessToken = getCookie("accessToken");
+            const { accessToken } = await res.json();
+
+            await setTokenInCookie(accessToken);
+
             const retryConfig = {
               ...error.config,
               headers: {
@@ -66,8 +72,7 @@ api.interceptors.response.use(
           }
         }
       } catch {
-        await logout();
-        window.location.href = "/login";
+        await signOut({ callbackUrl: "/login" });
       } finally {
         isRefreshing = false;
       }

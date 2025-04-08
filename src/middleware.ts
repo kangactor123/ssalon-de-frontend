@@ -1,83 +1,39 @@
-import { NextRequest, NextResponse } from "next/server";
-import { supabaseService } from "./shared/lib/supabase";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
+import { decode, getToken } from "next-auth/jwt";
 
-const AUTH_PAGES = ["/", "/login", "/sign-up", "/find-password"];
-
-const logout = async (url: string) => {
-  const response = NextResponse.redirect(new URL("/login", url));
-  await supabaseService.logout();
-
-  response.cookies.delete("accessToken");
-  response.cookies.delete("refreshToken");
-  return response;
-};
+// sign-up, find-password 제거 (oauth만 유지)
+const BEFORE_AUTH_ROUTES = ["/", "/login"];
 
 export async function middleware(req: NextRequest) {
-  const { nextUrl, cookies } = req;
+  const url = req.nextUrl.clone();
+  const redirectTo = (dest: string) =>
+    NextResponse.redirect(new URL(dest, url));
 
-  const accessToken = cookies.get("accessToken")?.value;
-  const refreshToken = cookies.get("refreshToken")?.value ?? "";
+  const token = await getToken({
+    req,
+    secret: process.env.NEXTAUTH_SECRET,
+    raw: true,
+  });
 
-  const isBeforeAuthPage = AUTH_PAGES.includes(nextUrl.pathname);
+  try {
+    const isBeforeAuthRoute = BEFORE_AUTH_ROUTES.includes(url.pathname);
+    const decoded = await decode({
+      token,
+      secret: process.env.NEXTAUTH_SECRET!,
+    });
 
-  if (nextUrl.pathname === "/") {
-    if (accessToken) {
-      return NextResponse.redirect(new URL("/dashboard", req.url));
+    if (decoded) {
+      return NextResponse.next();
     } else {
-      if (nextUrl.pathname === "/") {
-        return NextResponse.redirect(new URL("/login", req.url));
-      } else {
+      if (isBeforeAuthRoute) {
         return NextResponse.next();
+      } else {
+        return redirectTo("/login");
       }
     }
-  }
-
-  if (isBeforeAuthPage) {
-    return NextResponse.next();
-  }
-
-  if (!accessToken) {
-    return logout(req.url);
-  }
-
-  const isValid = await supabaseService.isValidToken(accessToken);
-
-  if (isValid) {
-    return NextResponse.next();
-  }
-
-  if (!refreshToken) {
-    return logout(req.url);
-  }
-
-  const { data, error } = await supabaseService.reissueToken(refreshToken);
-
-  if (data) {
-    const response = NextResponse.next();
-    const accessToken = data.session?.access_token ?? "";
-    const refreshToken = data.session?.refresh_token ?? "";
-
-    response.cookies.set("accessToken", accessToken, {
-      httpOnly: false,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      path: "/",
-      maxAge: 60 * 60 * 1,
-    });
-
-    response.cookies.set("refreshToken", refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      path: "/",
-      maxAge: 60 * 60 * 24 * 7,
-    });
-
-    return response;
-  }
-
-  if (error) {
-    return logout(req.url);
+  } catch {
+    return redirectTo("/login");
   }
 }
 

@@ -2,35 +2,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { BASE_URL } from "@/shared/constants/env";
-
-async function reissue(token: string) {
-  try {
-    const res = await fetch(`${BASE_URL}/auth/reissue`, {
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    return res;
-  } catch (error) {
-    throw error;
-  }
-}
-
-async function logout() {
-  try {
-    const res = await fetch(`${BASE_URL}/auth/logout`, {
-      method: "POST",
-      credentials: "include",
-    });
-
-    return res;
-  } catch (error) {
-    throw error;
-  }
-}
+import { reissue } from "@/queries/auth/api";
 
 export async function serverFetch<T>(
   url: string,
@@ -62,7 +34,7 @@ export async function serverFetch<T>(
     }
 
     try {
-      const reissueResponse = await reissue(refreshToken);
+      const reissueResponse = await reissue();
 
       if (!reissueResponse.ok) {
         throw new Error("Unauthorized: Invalid token");
@@ -71,6 +43,12 @@ export async function serverFetch<T>(
       const { accessToken: reissueAccessToken } = await reissueResponse.json();
 
       headers.set("Authorization", `Bearer ${reissueAccessToken}`);
+
+      cookieStore.set("accessToken", reissueAccessToken, {
+        maxAge: 60 * 60 * 1000, // 1시간
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+      });
 
       const retryResponse = await fetch(`${BASE_URL}${url}`, {
         ...options,
@@ -84,7 +62,8 @@ export async function serverFetch<T>(
 
       return retryResponse.json();
     } catch {
-      logout();
+      cookieStore.delete("accessToken");
+      cookieStore.delete("refreshToken");
       redirect("/login");
     }
   }
