@@ -1,16 +1,26 @@
 import { useCallback } from "react";
-import { signOut } from "next-auth/react";
 import { removeTokens } from "../actions/cookie";
-import useUserStore from "@/zustand/user";
+import useUserStore, { initialUser } from "@/zustand/user";
+import { useOauthLogout } from "@/queries/auth";
+import { PATH } from "../constants/path";
 
-export const useLogout = () => {
+type LogoutReturnType = {
+  isLogoutIdle: boolean;
+  onLogout: () => Promise<void>;
+};
+
+export const useLogout = (): LogoutReturnType => {
   const { setUser } = useUserStore();
+  const { mutateAsync: logout, isIdle } = useOauthLogout();
 
   const handleLogout = useCallback(async () => {
-    setUser({ email: "", name: "", company: "", createdAt: "" });
+    setUser(initialUser);
     await removeTokens();
-    await signOut({ callbackUrl: "/login" });
-  }, [setUser]);
+    await logout({ callbackUrl: PATH.LOGIN });
+  }, [logout, setUser]);
 
-  return handleLogout;
+  return {
+    onLogout: handleLogout,
+    isLogoutIdle: isIdle,
+  };
 };

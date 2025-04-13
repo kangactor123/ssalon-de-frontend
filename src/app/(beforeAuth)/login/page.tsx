@@ -1,17 +1,23 @@
 "use client";
 
 import { Scissors } from "lucide-react";
-import { useCallback } from "react";
-
-import { signIn } from "next-auth/react";
 
 import kakaoIcon from "@/assets/images/icons/kakao.svg";
 import Image from "next/image";
+import Loading from "@/shared/ui/loading";
+import { useOAuthLogin } from "@/queries/auth";
+import { APP_OAUTH_PROVIDER } from "@/shared/constants/app";
 
 export default function Page() {
-  const oauthLogin = useCallback(async () => {
-    await signIn("kakao", { callbackUrl: "/dashboard" });
-  }, []);
+  const { isIdle, mutate: login } = useOAuthLogin();
+
+  const loginHandler = async () => {
+    const params = {
+      provider: APP_OAUTH_PROVIDER.KAKAO,
+    };
+
+    login(params);
+  };
 
   return (
     <div className="min-w-[320px] w-[520px] h-full m-auto bg-white shadow-xl pt-12 md:pt-[20vh] overflow-hidden">
@@ -36,10 +42,11 @@ export default function Page() {
             src={kakaoIcon}
             alt="kakaoIcon"
             className="cursor-pointer"
-            onClick={oauthLogin}
+            onClick={loginHandler}
           />
         </div>
       </div>
+      {!isIdle && <Loading className="fixed w-[100vw] h-[100vh] bg-black-10" />}
     </div>
   );
 }

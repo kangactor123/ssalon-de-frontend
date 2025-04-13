@@ -1,7 +1,22 @@
 import api from "@/shared/lib/axios";
 
-import { User } from "./type";
+import { OAuthLoginParams, OAuthLogoutParams, User } from "./type";
 import { BASE_URL } from "@/shared/constants/env";
+import { signIn, signOut } from "next-auth/react";
+import { PATH } from "@/shared/constants/path";
+
+export async function oauthLogin(params: OAuthLoginParams) {
+  const { provider, callbackUrl, redirect } = params;
+  return signIn(provider, {
+    callbackUrl,
+    redirect,
+  });
+}
+
+export async function oauthLogout(params: OAuthLogoutParams) {
+  const { callbackUrl } = params;
+  return signOut({ callbackUrl: callbackUrl ?? PATH.LOGIN });
+}
 
 export async function reissue() {
   try {

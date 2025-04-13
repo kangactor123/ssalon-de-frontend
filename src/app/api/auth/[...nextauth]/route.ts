@@ -48,10 +48,6 @@ const handler = NextAuth({
               sameSite: "strict",
               maxAge: 7 * 24 * 60 * 60 * 1000, // 7일
             });
-
-            if (!data.isUser) {
-              isSuccess = "/profile";
-            }
           }
 
           isSuccess = true;
@@ -59,6 +55,7 @@ const handler = NextAuth({
           console.log(error);
         }
       }
+
       return isSuccess;
     },
     async jwt({ token, account }) {

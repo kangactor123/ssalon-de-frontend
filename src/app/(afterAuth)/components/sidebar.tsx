@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Scissors, LogOut } from "lucide-react";
-import { Button } from "@/shared/ui/button";
 import { useLogout } from "@/shared/hooks/use-logout";
 import { useStore } from "@/shared/hooks/use-store";
 import useUserStore from "@/zustand/user";
@@ -13,11 +12,12 @@ import { APP_NAME } from "@/shared/constants/app";
 import { useInitCustomBadge } from "@/shared/hooks/use-init-custom-badge";
 import Spinner from "@/shared/ui/spinner";
 import { useInitUserInfo } from "@/shared/hooks/use-init-user-info";
+import LoadingButton from "@/shared/ui/loading-button";
 
 export function Sidebar() {
   const user = useStore(useUserStore, (state) => state.user);
   const pathname = usePathname();
-  const handleLogout = useLogout();
+  const { onLogout, isLogoutIdle } = useLogout();
   const isActive = (path: string) => pathname === path;
 
   const { isLoading, enabledInitialize } = useInitUserInfo();
@@ -65,14 +65,15 @@ export function Sidebar() {
         </ul>
       </nav>
       <div className="flex-none p-4 border-t border-gray-200">
-        <Button
+        <LoadingButton
+          isLoading={!isLogoutIdle}
           variant="outline"
           className="flex items-center justify-center w-full space-x-2"
-          onClick={handleLogout}
+          onClick={() => onLogout()}
         >
           <LogOut size={20} />
           <span>로그아웃</span>
-        </Button>
+        </LoadingButton>
       </div>
       <div className="flex-none p-4 border-t border-gray-200">
         <Calendar />

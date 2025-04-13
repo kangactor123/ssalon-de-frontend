@@ -8,6 +8,9 @@ export default {
   ],
   theme: {
     extend: {
+      backgroundColor: {
+        "black-10": "rgba(0, 0, 0, 0.1)",
+      },
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",

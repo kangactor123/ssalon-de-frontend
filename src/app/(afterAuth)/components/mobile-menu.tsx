@@ -4,7 +4,6 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LogOut, Scissors } from "lucide-react";
-import { Button } from "@/shared/ui/button";
 import { Sheet, SheetContent } from "@/shared/ui/sheet";
 import { DialogTitle } from "@radix-ui/react-dialog";
 
@@ -18,18 +17,18 @@ import { APP_NAME } from "@/shared/constants/app";
 import { useInitCustomBadge } from "@/shared/hooks/use-init-custom-badge";
 import Spinner from "@/shared/ui/spinner";
 import { useInitUserInfo } from "@/shared/hooks/use-init-user-info";
+import LoadingButton from "@/shared/ui/loading-button";
 
 export function MobileMenu() {
-  const [isOpen, setIsOpen] = useState(false);
-  const handleLogout = useLogout();
   const pathname = usePathname();
-
   const { user } = useUserStore();
+  const [isOpen, setIsOpen] = useState(false);
+  const { onLogout, isLogoutIdle } = useLogout();
+  const { isLoading, enabledInitialize } = useInitUserInfo();
 
   const isActive = (path: string) => pathname === path;
 
   useInitCustomBadge();
-  const { isLoading, enabledInitialize } = useInitUserInfo();
 
   return (
     <>
@@ -89,17 +88,17 @@ export function MobileMenu() {
               <Calendar />
             </div>
             <div className="px-6 py-4 border-t">
-              <Button
+              <LoadingButton
+                isLoading={!isLogoutIdle}
                 variant="outline"
                 className="flex items-center justify-center w-full space-x-2"
                 onClick={() => {
-                  handleLogout();
-                  setIsOpen(false);
+                  onLogout();
                 }}
               >
                 <LogOut size={20} />
                 <span>로그아웃</span>
-              </Button>
+              </LoadingButton>
             </div>
           </div>
         </SheetContent>

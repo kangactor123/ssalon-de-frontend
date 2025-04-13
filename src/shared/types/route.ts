@@ -1,5 +1,6 @@
 import { LucideProps } from "lucide-react";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
+import { PATH } from "../constants/path";
 
 export type Route = {
   path: string;
@@ -8,3 +9,5 @@ export type Route = {
     Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
   >;
 };
+
+export type PathValue = (typeof PATH)[keyof typeof PATH];
