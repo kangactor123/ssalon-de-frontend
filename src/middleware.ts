@@ -7,8 +7,9 @@ import { PathValue } from "./shared/types/route";
 export async function middleware(req: NextRequest) {
   const BEFORE_AUTH_ROUTES: PathValue[] = [PATH.LOGIN];
   const url = req.nextUrl.clone();
-  const redirectTo = (dest: string) =>
-    NextResponse.redirect(new URL(dest, url));
+
+  const redirectTo = (destination: string) =>
+    NextResponse.redirect(new URL(destination, url));
 
   const urlPathname = url.pathname as PathValue;
 
@@ -32,10 +33,10 @@ export async function middleware(req: NextRequest) {
         return NextResponse.next();
       }
     } else {
-      if (PATH.ROOT === urlPathname) {
-        return redirectTo(PATH.LOGIN);
-      } else {
+      if (isBeforeAuthRoute) {
         return NextResponse.next();
+      } else {
+        return redirectTo(PATH.LOGIN);
       }
     }
   } catch {
