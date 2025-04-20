@@ -5,8 +5,9 @@ import { YEAR_MONTH } from "@/shared/constants/dayjs-format";
 import { formatDate } from "@/shared/utils/dayjs";
 import useDateStore from "@/zustand/date";
 import dayjs from "dayjs";
+import { memo } from "react";
 
-export function TotalSalesCountWidget() {
+function TotalSalesCountWidget() {
   const date = useDateStore((state) => state.date);
   const getMonth = useDateStore((state) => state.getMonth);
   const { data } = useTotalCount(
@@ -24,3 +25,5 @@ export function TotalSalesCountWidget() {
     </div>
   );
 }
+
+export default memo(TotalSalesCountWidget);

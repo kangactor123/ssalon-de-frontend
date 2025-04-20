@@ -11,6 +11,7 @@ import { formatDate } from "@/shared/utils/dayjs";
 import { YEAR_MONTH } from "@/shared/constants/dayjs-format";
 import dayjs from "dayjs";
 import useDateStore from "@/zustand/date";
+import { memo } from "react";
 
 const chartConfig = {
   count: {
@@ -19,7 +20,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function DailySalesLineChart() {
+function DailySalesLineChart() {
   const date = useDateStore((state) => state.date);
   const router = useRouter();
   const { data = [] } = useDailySalesAmountCount(
@@ -46,3 +47,5 @@ export function DailySalesLineChart() {
     </ChartContainer>
   );
 }
+
+export default memo(DailySalesLineChart);

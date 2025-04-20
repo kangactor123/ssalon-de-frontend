@@ -14,8 +14,9 @@ import { useInitUserInfo } from "@/shared/hooks/use-init-user-info";
 import LoadingButton from "@/shared/ui/loading-button";
 import { Calendar } from "@/shared/ui/calendar";
 import { useCalendar } from "@/shared/hooks/use-calendar";
+import { memo } from "react";
 
-export function Sidebar() {
+function Sidebar() {
   const user = useStore(useUserStore, (state) => state.user);
   const pathname = usePathname();
   const { onLogout, isLogoutIdle } = useLogout();
@@ -77,14 +78,18 @@ export function Sidebar() {
           <span>로그아웃</span>
         </LoadingButton>
       </div>
-      <Calendar
-        className="border-gray-200 bg-white"
-        mode="single"
-        selected={selectedDate}
-        onSelect={onChangeDate}
-        defaultMonth={selectedDate}
-        disabled={{ after: today }}
-      />
+      <div className="min-h-[330px]">
+        <Calendar
+          className="border-gray-200"
+          mode="single"
+          selected={selectedDate}
+          onSelect={onChangeDate}
+          defaultMonth={selectedDate}
+          disabled={{ after: today }}
+        />
+      </div>
     </aside>
   );
 }
+
+export default memo(Sidebar);

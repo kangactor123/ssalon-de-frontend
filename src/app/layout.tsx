@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import QueryProvider from "@/shared/providers/react-query";
-import { Toaster } from "@/shared/ui/toaster";
+// import { Toaster } from "@/shared/ui/toaster";
 
 import localFont from "next/font/local";
 import "./globals.css";
@@ -8,6 +8,11 @@ import { APP_DESCRIPTION, APP_NAME } from "@/shared/constants/app";
 import { Suspense } from "react";
 import GlobalLoading from "./loading";
 import SessionProvider from "@/shared/providers/session-provider";
+import dynamic from "next/dynamic";
+
+const Toaster = dynamic(() =>
+  import("@/shared/ui/toaster").then((mod) => mod.Toaster)
+);
 
 const pretandard = localFont({
   src: "../assets/fonts/PretendardVariable.ttf",

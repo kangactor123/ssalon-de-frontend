@@ -15,7 +15,7 @@ export const useCalendar = (): Result => {
   const date = useDateStore((state) => state.date);
 
   const onChangeDate: SelectSingleEventHandler = (day) => {
-    if (day) {
+    if (day && setDate instanceof Function) {
       setDate(dayjs(day).format("YYYY-MM-DD"));
     }
   };

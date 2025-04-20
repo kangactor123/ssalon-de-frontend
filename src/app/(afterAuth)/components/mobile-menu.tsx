@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { memo, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LogOut, Scissors } from "lucide-react";
@@ -20,7 +20,7 @@ import LoadingButton from "@/shared/ui/loading-button";
 import { Calendar } from "@/shared/ui/calendar";
 import { useCalendar } from "@/shared/hooks/use-calendar";
 
-export function MobileMenu() {
+function MobileMenu() {
   const pathname = usePathname();
   const { user } = useUserStore();
   const [isOpen, setIsOpen] = useState(false);
@@ -86,7 +86,7 @@ export function MobileMenu() {
                 ))}
               </ul>
             </nav>
-            <div className="border-t">
+            <div className="border-t min-h-[330px]">
               <Calendar
                 className="border-gray-200 bg-white"
                 mode="single"
@@ -115,3 +115,5 @@ export function MobileMenu() {
     </>
   );
 }
+
+export default memo(MobileMenu);

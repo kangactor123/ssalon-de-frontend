@@ -12,13 +12,14 @@ import { formatDate } from "@/shared/utils/dayjs";
 import useDateStore from "@/zustand/date";
 import dayjs from "dayjs";
 import { TrendingUp, TrendingDown, TriangleAlertIcon } from "lucide-react";
+import { memo } from "react";
 
 const initialData = {
   currentMonth: 0,
   previousMonth: 0,
 };
 
-export function AverageCustomerSpendingWidget() {
+function AverageCustomerSpendingWidget() {
   const date = useDateStore((state) => state.date);
 
   const getMonth = useDateStore((state) => state.getMonth);
@@ -89,3 +90,5 @@ export function AverageCustomerSpendingWidget() {
     </div>
   );
 }
+
+export default memo(AverageCustomerSpendingWidget);

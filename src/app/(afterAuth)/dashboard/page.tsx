@@ -1,12 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
-import { CalendarWidget } from "./components/calendar-widget";
-import { GenderRatioWidget } from "./components/gender-ratio-widget";
-import { DailySalesLineChart } from "./components/daily-sales-line-chart";
-import { TotalSalesWidget } from "./components/total-sales-widget";
-import { TargetTotalSalesWidget } from "./components/target-total-sales-widget";
-import { VisitTypesRatioWidget } from "./components/visit-type-ratio-widget";
-import { DailyTargetWidget } from "./components/daily-target-widget";
-import { AverageCustomerSpendingWidget } from "./components/average-customer-spending-widget";
+
 import {
   Calendar,
   ChartLine,
@@ -18,16 +11,54 @@ import {
   Target,
   Users,
 } from "lucide-react";
-import { TotalSalesCountWidget } from "./components/total-sales-count-widget";
 import MonthPicker from "./components/month-picker";
-import DashboardHeader from "./components/dashboard-header";
+import dynamic from "next/dynamic";
+import { useSuspense } from "@/shared/hooks/use-suspense";
+
+const DashboardHeader = dynamic(() => import("./components/dashboard-header"));
+const CalendarWidget = dynamic(() => import("./components/calendar-widget"));
+const GenderRatioWidget = dynamic(
+  () => import("./components/gender-ratio-widget")
+);
+
+const DailySalesLineChart = dynamic(
+  () => import("./components/daily-sales-line-chart")
+);
+
+const TotalSalesWidget = dynamic(
+  () => import("./components/total-sales-widget")
+);
+
+const TargetTotalSalesWidget = dynamic(
+  () => import("./components/target-total-sales-widget")
+);
+
+const VisitTypesRatioWidget = dynamic(
+  () => import("./components/visit-type-ratio-widget")
+);
+
+const DailyTargetWidget = dynamic(
+  () => import("./components/daily-target-widget")
+);
+
+const AverageCustomerSpendingWidget = dynamic(
+  () => import("./components/average-customer-spending-widget")
+);
+
+const TotalSalesCountWidget = dynamic(
+  () => import("./components/total-sales-count-widget")
+);
 
 export default function Dashboard() {
+  const withSuspense = useSuspense();
+
   return (
     <div className="space-y-6">
-      <DashboardHeader>
-        <MonthPicker />
-      </DashboardHeader>
+      {withSuspense(
+        <DashboardHeader>
+          <MonthPicker />
+        </DashboardHeader>
+      )}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <Card className="max-h-[300px] flex flex-col">
           <CardHeader>
@@ -37,7 +68,7 @@ export default function Dashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent className="overflow-auto">
-            <TotalSalesWidget />
+            {withSuspense(<TotalSalesWidget />)}
           </CardContent>
         </Card>
         <Card>
@@ -47,9 +78,7 @@ export default function Dashboard() {
               <Target className="w-5 h-5 text-purple-500" />
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <DailyTargetWidget />
-          </CardContent>
+          <CardContent>{withSuspense(<DailyTargetWidget />)}</CardContent>
         </Card>
         <Card>
           <CardHeader>
@@ -59,7 +88,7 @@ export default function Dashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <AverageCustomerSpendingWidget />
+            {withSuspense(<AverageCustomerSpendingWidget />)}
           </CardContent>
         </Card>
         <Card className="col-span-full md:col-span-2">
@@ -69,9 +98,7 @@ export default function Dashboard() {
               <Calendar className="w-5 h-5 text-orange-500" />
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <CalendarWidget />
-          </CardContent>
+          <CardContent>{withSuspense(<CalendarWidget />)}</CardContent>
         </Card>
         <div className="flex flex-col gap-4">
           <Card>
@@ -82,7 +109,7 @@ export default function Dashboard() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <TargetTotalSalesWidget />
+              {withSuspense(<TargetTotalSalesWidget />)}
             </CardContent>
           </Card>
           <Card className="flex flex-col">
@@ -90,9 +117,7 @@ export default function Dashboard() {
               <CardTitle>총 매출 건수</CardTitle>
               <ShoppingCart className="w-5 h-5 text-muted-foreground" />
             </CardHeader>
-            <CardContent>
-              <TotalSalesCountWidget />
-            </CardContent>
+            <CardContent>{withSuspense(<TotalSalesCountWidget />)}</CardContent>
           </Card>
         </div>
         <Card className="flex flex-col min-h-[300px]">
@@ -103,7 +128,7 @@ export default function Dashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent className="flex-1 p-0">
-            <GenderRatioWidget />
+            {withSuspense(<GenderRatioWidget />)}
           </CardContent>
         </Card>
         <Card className="flex flex-col min-h-[300px]">
@@ -114,7 +139,7 @@ export default function Dashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent className="flex-1 p-0">
-            <VisitTypesRatioWidget />
+            {withSuspense(<VisitTypesRatioWidget />)}
           </CardContent>
         </Card>
         <Card className="hidden col-span-2 md:block">
@@ -124,9 +149,7 @@ export default function Dashboard() {
               <ChartLine className="w-5 h-5 text-blue-700" />
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <DailySalesLineChart />
-          </CardContent>
+          <CardContent>{withSuspense(<DailySalesLineChart />)}</CardContent>
         </Card>
       </div>
     </div>

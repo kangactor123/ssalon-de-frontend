@@ -6,8 +6,9 @@ import { formatDate } from "@/shared/utils/dayjs";
 import { YEAR_MONTH } from "@/shared/constants/dayjs-format";
 import dayjs from "dayjs";
 import useDateStore from "@/zustand/date";
+import { memo } from "react";
 
-export function TotalSalesWidget() {
+function TotalSalesWidget() {
   const date = useDateStore((state) => state.date);
   const { data: monthlyTotalSales, isFetching } = useMonthlyTotalSales(
     formatDate({ date: dayjs(date), format: YEAR_MONTH })
@@ -37,3 +38,5 @@ export function TotalSalesWidget() {
     </div>
   );
 }
+
+export default memo(TotalSalesWidget);

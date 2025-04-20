@@ -2,7 +2,7 @@
 
 import { useVisitTypesRatio } from "@/queries/dashboard";
 import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { memo, useMemo, useState } from "react";
 import EmptyWidget from "./empty-widget";
 import PieChart from "@/shared/ui/pie-chart";
 import { renderActiveShape } from "./pie-chart-active-shape";
@@ -12,7 +12,7 @@ import { YEAR_MONTH } from "@/shared/constants/dayjs-format";
 import dayjs from "dayjs";
 import useDateStore from "@/zustand/date";
 
-export function VisitTypesRatioWidget() {
+function VisitTypesRatioWidget() {
   const router = useRouter();
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -53,3 +53,5 @@ export function VisitTypesRatioWidget() {
     />
   );
 }
+
+export default memo(VisitTypesRatioWidget);

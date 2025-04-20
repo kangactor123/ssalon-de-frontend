@@ -3,7 +3,7 @@
 import { useGenderRatio } from "@/queries/dashboard";
 import { GenderRatio } from "@/queries/dashboard/type";
 import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { memo, useMemo, useState } from "react";
 import EmptyWidget from "./empty-widget";
 import PieChart from "@/shared/ui/pie-chart";
 import { renderActiveShape } from "./pie-chart-active-shape";
@@ -13,7 +13,7 @@ import { YEAR_MONTH } from "@/shared/constants/dayjs-format";
 import dayjs from "dayjs";
 import useDateStore from "@/zustand/date";
 
-export function GenderRatioWidget() {
+function GenderRatioWidget() {
   const router = useRouter();
   const date = useDateStore((state) => state.date);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -56,3 +56,5 @@ export function GenderRatioWidget() {
     />
   );
 }
+
+export default memo(GenderRatioWidget);

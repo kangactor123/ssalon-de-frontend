@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { memo, useState } from "react";
 import dayjs from "dayjs";
 import localeData from "dayjs/plugin/localeData";
 import updateLocale from "dayjs/plugin/updateLocale";
@@ -25,7 +25,7 @@ dayjs.updateLocale("ko", {
   weekdaysShort: WEEKDAYS_KOR,
 });
 
-export function CalendarWidget() {
+function CalendarWidget() {
   const router = useRouter();
   const { setDate } = useDateStore();
   const [currentDate, setCurrentDate] = useState(dayjs());
@@ -104,3 +104,5 @@ export function CalendarWidget() {
     </div>
   );
 }
+
+export default memo(CalendarWidget);

@@ -1,6 +1,7 @@
 "use client";
 
 import useDateStore from "@/zustand/date";
+import { memo } from "react";
 
 type Props = React.PropsWithChildren;
 
@@ -20,4 +21,4 @@ const DashboardHeader: React.FC<Props> = ({ children }) => {
   );
 };
 
-export default DashboardHeader;
+export default memo(DashboardHeader);

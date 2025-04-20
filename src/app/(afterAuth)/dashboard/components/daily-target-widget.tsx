@@ -9,13 +9,14 @@ import EmptyWidget from "./empty-widget";
 import { formatDate } from "@/shared/utils/dayjs";
 import { YEAR_MONTH } from "@/shared/constants/dayjs-format";
 import useDateStore from "@/zustand/date";
+import { memo } from "react";
 
 const initialData = {
   targetSales: 0,
   totalSales: 0,
 };
 
-export function DailyTargetWidget() {
+function DailyTargetWidget() {
   const router = useRouter();
   const date = useDateStore((state) => state.date);
   const { data: targetTotalSales = initialData } = useTargetTotalSales(
@@ -94,3 +95,5 @@ export function DailyTargetWidget() {
     </div>
   );
 }
+
+export default memo(DailyTargetWidget);

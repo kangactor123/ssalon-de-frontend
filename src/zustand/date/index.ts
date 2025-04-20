@@ -1,27 +1,16 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
-import { DatePersist } from "./type";
 import dayjs from "dayjs";
 import { formatDate } from "@/shared/utils/dayjs";
-
-const key = "date-store";
+import { DateStore } from "./type";
 
 export const initialDate = formatDate({ date: dayjs() });
 
-const useDateStore = create(
-  (persist as unknown as DatePersist)(
-    (set) => ({
-      date: initialDate,
-      setDate: (date) => set({ date }),
-      getMonth: (date: string) => {
-        return dayjs(date).get("month") + 1;
-      },
-    }),
-    {
-      name: key,
-      partialize: (state) => ({ date: state.date }),
-    }
-  )
-);
+const useDateStore = create<DateStore>((set) => ({
+  date: initialDate,
+  setDate: (date: string) => set({ date }),
+  getMonth: (date: string) => {
+    return dayjs(date).get("month") + 1;
+  },
+}));
 
 export default useDateStore;
