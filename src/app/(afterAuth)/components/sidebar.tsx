@@ -7,17 +7,19 @@ import { useLogout } from "@/shared/hooks/use-logout";
 import { useStore } from "@/shared/hooks/use-store";
 import useUserStore from "@/zustand/user";
 import { routes } from "@/shared/constants/routes";
-import Calendar from "./calendar";
 import { APP_NAME } from "@/shared/constants/app";
 import { useInitCustomBadge } from "@/shared/hooks/use-init-custom-badge";
 import Spinner from "@/shared/ui/spinner";
 import { useInitUserInfo } from "@/shared/hooks/use-init-user-info";
 import LoadingButton from "@/shared/ui/loading-button";
+import { Calendar } from "@/shared/ui/calendar";
+import { useCalendar } from "@/shared/hooks/use-calendar";
 
 export function Sidebar() {
   const user = useStore(useUserStore, (state) => state.user);
   const pathname = usePathname();
   const { onLogout, isLogoutIdle } = useLogout();
+  const { selectedDate, onChangeDate, today } = useCalendar();
   const isActive = (path: string) => pathname === path;
 
   const { isLoading, enabledInitialize } = useInitUserInfo();
@@ -75,9 +77,14 @@ export function Sidebar() {
           <span>로그아웃</span>
         </LoadingButton>
       </div>
-      <div className="flex-none p-4 border-t border-gray-200">
-        <Calendar />
-      </div>
+      <Calendar
+        className="border-gray-200 bg-white"
+        mode="single"
+        selected={selectedDate}
+        onSelect={onChangeDate}
+        defaultMonth={selectedDate}
+        disabled={{ after: today }}
+      />
     </aside>
   );
 }

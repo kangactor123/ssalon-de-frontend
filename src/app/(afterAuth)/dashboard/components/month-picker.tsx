@@ -5,23 +5,12 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/popover";
 import { Calendar as CalendarIcon } from "lucide-react";
 
 import { Calendar } from "@/shared/ui/calendar";
-import { memo, useMemo } from "react";
-import { SelectSingleEventHandler } from "react-day-picker";
-import useDateStore from "@/zustand/date";
-import dayjs from "dayjs";
+import { memo } from "react";
+import { useCalendar } from "@/shared/hooks/use-calendar";
 
 const MonthPicker = () => {
-  const today = new Date();
-  const setDate = useDateStore((state) => state.setDate);
-  const date = useDateStore((state) => state.date);
+  const { selectedDate, onChangeDate, today } = useCalendar();
 
-  const handleChange: SelectSingleEventHandler = (day) => {
-    if (day) {
-      setDate(dayjs(day).format("YYYY-MM-DD"));
-    }
-  };
-
-  const selectedDate = useMemo(() => dayjs(date).toDate(), [date]);
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -36,8 +25,8 @@ const MonthPicker = () => {
         <Calendar
           mode="single"
           selected={selectedDate}
-          onSelect={handleChange}
-          initialFocus
+          onSelect={onChangeDate}
+          defaultMonth={selectedDate}
           disabled={{ after: today }}
         />
       </PopoverContent>

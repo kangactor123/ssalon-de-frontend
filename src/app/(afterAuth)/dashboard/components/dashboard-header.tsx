@@ -13,7 +13,7 @@ const DashboardHeader: React.FC<Props> = ({ children }) => {
     <div className="flex justify-between items-center">
       <h2 className="text-3xl font-bold text-gray-800 flex items-center">
         대시보드
-        <span className="text-gray-700 text-2xl ml-2">({selectedMonth}월)</span>
+        <span className="text-2xl ml-2">({selectedMonth}월)</span>
       </h2>
       {children}
     </div>

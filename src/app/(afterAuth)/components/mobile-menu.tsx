@@ -11,19 +11,21 @@ import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { useLogout } from "@/shared/hooks/use-logout";
 import { routes } from "@/shared/constants/routes";
 import useUserStore from "@/zustand/user";
-import Calendar from "./calendar";
 import { MobileHeader } from "./mobile-header";
 import { APP_NAME } from "@/shared/constants/app";
 import { useInitCustomBadge } from "@/shared/hooks/use-init-custom-badge";
 import Spinner from "@/shared/ui/spinner";
 import { useInitUserInfo } from "@/shared/hooks/use-init-user-info";
 import LoadingButton from "@/shared/ui/loading-button";
+import { Calendar } from "@/shared/ui/calendar";
+import { useCalendar } from "@/shared/hooks/use-calendar";
 
 export function MobileMenu() {
   const pathname = usePathname();
   const { user } = useUserStore();
   const [isOpen, setIsOpen] = useState(false);
   const { onLogout, isLogoutIdle } = useLogout();
+  const { selectedDate, onChangeDate, today } = useCalendar();
   const { isLoading, enabledInitialize } = useInitUserInfo();
 
   const isActive = (path: string) => pathname === path;
@@ -85,7 +87,14 @@ export function MobileMenu() {
               </ul>
             </nav>
             <div className="border-t">
-              <Calendar />
+              <Calendar
+                className="border-gray-200 bg-white"
+                mode="single"
+                selected={selectedDate}
+                onSelect={onChangeDate}
+                defaultMonth={selectedDate}
+                disabled={{ after: today }}
+              />
             </div>
             <div className="px-6 py-4 border-t">
               <LoadingButton
