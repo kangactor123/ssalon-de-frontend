@@ -28,7 +28,6 @@ const PaymentType: React.FC<PaymentTypeProps> = ({
   onCheckedChange,
   onPaymentTypeAmountChange,
 }) => {
-  console.log(name, isChecked, amount);
   return (
     <div className="flex items-center space-x-3 min-h-[36px]">
       <Checkbox

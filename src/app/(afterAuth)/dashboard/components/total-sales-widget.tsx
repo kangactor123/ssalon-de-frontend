@@ -5,10 +5,12 @@ import { useMonthlyTotalSales } from "@/queries/dashboard";
 import { formatDate } from "@/shared/utils/dayjs";
 import { YEAR_MONTH } from "@/shared/constants/dayjs-format";
 import dayjs from "dayjs";
+import useDateStore from "@/zustand/date";
 
 export function TotalSalesWidget() {
+  const date = useDateStore((state) => state.date);
   const { data: monthlyTotalSales, isFetching } = useMonthlyTotalSales(
-    formatDate({ date: dayjs(), format: YEAR_MONTH })
+    formatDate({ date: dayjs(date), format: YEAR_MONTH })
   );
 
   if (isFetching) {
@@ -22,7 +24,7 @@ export function TotalSalesWidget() {
   return (
     <div className="h-[100%] space-y-4 max-h-[450px] overflow-auto scrollbar-hidden">
       <div className="text-2xl font-bold">
-        총 매출: {monthlyTotalSales?.amount.toLocaleString()}원
+        {monthlyTotalSales?.amount.toLocaleString()}원
       </div>
       <div className="space-y-2">
         {monthlyTotalSales?.payments.map((item, idx) => (

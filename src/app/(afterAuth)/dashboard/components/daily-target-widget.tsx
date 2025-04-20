@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import EmptyWidget from "./empty-widget";
 import { formatDate } from "@/shared/utils/dayjs";
 import { YEAR_MONTH } from "@/shared/constants/dayjs-format";
+import useDateStore from "@/zustand/date";
 
 const initialData = {
   targetSales: 0,
@@ -16,14 +17,15 @@ const initialData = {
 
 export function DailyTargetWidget() {
   const router = useRouter();
+  const date = useDateStore((state) => state.date);
   const { data: targetTotalSales = initialData } = useTargetTotalSales(
-    formatDate({ date: dayjs(), format: YEAR_MONTH })
+    formatDate({ date: dayjs(date), format: YEAR_MONTH })
   );
 
-  const daysInMonth = dayjs().daysInMonth();
-  const today = dayjs().date();
+  const daysInMonth = dayjs(date).daysInMonth();
+  const selectedDate = dayjs(date).date();
   const isNotSettingTarget = targetTotalSales.targetSales === 0;
-  const remainingDaysInMonth = daysInMonth - today;
+  const remainingDaysInMonth = daysInMonth - selectedDate;
   const isOver = targetTotalSales.totalSales > targetTotalSales.targetSales;
   const overAmount = targetTotalSales.totalSales - targetTotalSales.targetSales;
   const targetTotalSalesPerDay = Math.ceil(
@@ -47,24 +49,24 @@ export function DailyTargetWidget() {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <div
-          className={cn(
-            "text-3xl font-bold mb-2",
-            isOver ? "text-blue-600" : "text-gray-900"
-          )}
-        >
-          {remainingDaysInMonth && (
-            <>
+        {!!remainingDaysInMonth && (
+          <>
+            <p
+              className={cn(
+                "text-3xl font-bold mb-2",
+                isOver ? "text-blue-600" : "text-gray-900"
+              )}
+            >
               {isOver
                 ? overAmount.toLocaleString()
                 : targetTotalSalesPerDay.toLocaleString()}
               원
-            </>
-          )}
-        </div>
-        <p className="mt-1 text-sm text-gray-500">
-          {isOver ? "목표에 도달했습니다!" : "일일 필요 매출액"}
-        </p>
+            </p>
+            <p className="mt-1 text-sm text-gray-500">
+              {isOver ? "목표에 도달했습니다!" : "일일 필요 매출액"}
+            </p>
+          </>
+        )}
       </div>
       <div className="flex flex-col gap-5">
         <div className="flex items-center text-sm">

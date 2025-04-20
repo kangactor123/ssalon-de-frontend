@@ -10,13 +10,16 @@ import { customLegend } from "./pie-chart-custom-legend";
 import { formatDate } from "@/shared/utils/dayjs";
 import { YEAR_MONTH } from "@/shared/constants/dayjs-format";
 import dayjs from "dayjs";
+import useDateStore from "@/zustand/date";
 
 export function VisitTypesRatioWidget() {
   const router = useRouter();
   const [activeIndex, setActiveIndex] = useState(0);
 
+  const date = useDateStore((state) => state.date);
+
   const { data } = useVisitTypesRatio(
-    formatDate({ date: dayjs(), format: YEAR_MONTH })
+    formatDate({ date: dayjs(date), format: YEAR_MONTH })
   );
   const handlePieEnter = (_: unknown, index: number) => {
     setActiveIndex(index);

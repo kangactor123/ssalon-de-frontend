@@ -13,6 +13,9 @@ const useDateStore = create(
     (set) => ({
       date: initialDate,
       setDate: (date) => set({ date }),
+      getMonth: (date: string) => {
+        return dayjs(date).get("month") + 1;
+      },
     }),
     {
       name: key,

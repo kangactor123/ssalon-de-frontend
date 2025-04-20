@@ -9,6 +9,7 @@ import {
   TooltipTrigger,
 } from "@/shared/ui/tooltip";
 import { formatDate } from "@/shared/utils/dayjs";
+import useDateStore from "@/zustand/date";
 import dayjs from "dayjs";
 import { TrendingUp, TrendingDown, TriangleAlertIcon } from "lucide-react";
 
@@ -18,8 +19,12 @@ const initialData = {
 };
 
 export function AverageCustomerSpendingWidget() {
+  const date = useDateStore((state) => state.date);
+
+  const getMonth = useDateStore((state) => state.getMonth);
+  const selectedMonth = getMonth(date);
   const { data = initialData } = useAverageCustomerSpending(
-    formatDate({ date: dayjs(), format: YEAR_MONTH })
+    formatDate({ date: dayjs(date), format: YEAR_MONTH })
   );
 
   const currentMonth = data.currentMonth ?? initialData.currentMonth;
@@ -38,7 +43,7 @@ export function AverageCustomerSpendingWidget() {
           {currentMonth.toLocaleString()}원
         </div>
         <p className="flex items-center justify-between mt-1 text-sm text-gray-500">
-          이번 달 고객 평균 지출액
+          {selectedMonth}월 고객 평균 지출액
         </p>
       </div>
       <div className="flex items-center justify-between pt-2 border-t border-gray-200">

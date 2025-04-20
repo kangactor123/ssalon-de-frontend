@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { ContentType } from "recharts/types/component/DefaultLegendContent";
 
 const customLegend: ContentType = (props) => {
@@ -25,4 +26,6 @@ const customLegend: ContentType = (props) => {
   );
 };
 
-export { customLegend };
+const memoizedCustomLegend = memo(customLegend);
+
+export { memoizedCustomLegend as customLegend };

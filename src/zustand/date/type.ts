@@ -7,6 +7,7 @@ export interface DateStates {
 
 export interface DateActions {
   setDate: (date: string) => void;
+  getMonth: (date: string) => number;
 }
 
 export type DatePersist = (

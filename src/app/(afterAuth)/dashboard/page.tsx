@@ -19,16 +19,20 @@ import {
   Users,
 } from "lucide-react";
 import { TotalSalesCountWidget } from "./components/total-sales-count-widget";
+import MonthPicker from "./components/month-picker";
+import DashboardHeader from "./components/dashboard-header";
 
 export default function Dashboard() {
   return (
     <div className="space-y-6">
-      <h2 className="text-3xl font-bold text-gray-800">대시보드</h2>
+      <DashboardHeader>
+        <MonthPicker />
+      </DashboardHeader>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <Card className="max-h-[300px] flex flex-col">
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
-              이달의 총 매출
+              총 매출액
               <DollarSign className="w-5 h-5 text-gray-400" />
             </CardTitle>
           </CardHeader>
