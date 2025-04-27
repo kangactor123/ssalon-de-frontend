@@ -16,7 +16,8 @@ import { useRouter } from "next/navigation";
 import { Filter } from "@/shared/types/filter";
 import { ConfirmDialog } from "@/shared/ui/alert-dialog";
 import { formatDate } from "@/shared/utils/dayjs";
-// import { useSession } from "next-auth/react";
+import { BADGE_TYPE } from "@/shared/constants/badge-type";
+import { ACTION } from "@/shared/constants/action";
 
 const SalesList = () => {
   const client = useQueryClient();
@@ -32,7 +33,6 @@ const SalesList = () => {
     isFetching,
   } = useSales(
     {
-      // dayjs(date).format("YYYY-MM-DD")
       date: formatDate({ date }),
     },
     {
@@ -41,7 +41,7 @@ const SalesList = () => {
   );
 
   const { mutate: deleteSale } = useDeleteSale({
-    onSuccess: () => onAfterMutate("DELETE"),
+    onSuccess: () => onAfterMutate(ACTION.DELETE),
   });
 
   const loading = isLoading || isFetching;
@@ -50,7 +50,7 @@ const SalesList = () => {
     () =>
       sales.filter((sale) => {
         const selectedVisitTypes = selectedFilters
-          .filter((filter) => filter.type === "visitType")
+          .filter((filter) => filter.type === BADGE_TYPE.visitType)
           .map(({ id }) => id);
 
         // 방문 유형이 있다면 필터링
@@ -61,7 +61,7 @@ const SalesList = () => {
         }
 
         const selectedServices = selectedFilters
-          .filter((filter) => filter.type === "serviceType")
+          .filter((filter) => filter.type === BADGE_TYPE.serviceType)
           .map(({ id }) => id);
 
         // 서비스 타입이 있다면 필터링
@@ -72,7 +72,7 @@ const SalesList = () => {
         }
 
         const selectedGenders = selectedFilters
-          .filter((filter) => filter.type === "gender")
+          .filter((filter) => filter.type === BADGE_TYPE.gender)
           .map(({ id }) => id);
 
         // 성별이 있다면 필터링
@@ -81,7 +81,7 @@ const SalesList = () => {
         }
 
         const selectedPaymentTypes = selectedFilters
-          .filter((filter) => filter.type === "paymentType")
+          .filter((filter) => filter.type === BADGE_TYPE.paymentType)
           .map(({ id }) => id);
 
         // 결제 유형이 있다면 필터링
@@ -102,7 +102,7 @@ const SalesList = () => {
         queryKey: [KEYS.sales.list],
       });
 
-      if (type === "DELETE") {
+      if (type === ACTION.DELETE) {
         setOpenDeleteAlert(false);
       }
 
@@ -114,9 +114,9 @@ const SalesList = () => {
   const handleAction = useCallback(
     (type: MutateType) => (id: string) => {
       setSelectedSale(id);
-      if (type === "DELETE") {
+      if (type === ACTION.DELETE) {
         setOpenDeleteAlert(true);
-      } else if (type === "UPDATE") {
+      } else if (type === ACTION.UPDATE) {
         router.push(`/sales/edit?saleId=${id}`);
       }
     },
@@ -163,8 +163,8 @@ const SalesList = () => {
                 <SalesItem
                   {...sale}
                   key={sale.id}
-                  onClickEdit={handleAction("UPDATE")}
-                  onClickDelete={handleAction("DELETE")}
+                  onClickEdit={handleAction(ACTION.UPDATE)}
+                  onClickDelete={handleAction(ACTION.DELETE)}
                   payments={payments}
                 />
               );

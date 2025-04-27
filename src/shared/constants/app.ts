@@ -7,3 +7,7 @@ export const APP_OAUTH_PROVIDER = {
 } as const;
 
 export const AFTER_LOGIN_REDIRECT_PATH = PATH.DASHBOARD;
+
+/** config */
+export const FILTER_STALE_TIME = Infinity;
+export const RETRY_COUNT = 0;

@@ -34,3 +34,8 @@ export type CreatePaymentType = {
 export type UpdatePaymentType = CreatePaymentType & {
   id: string;
 };
+
+export type GenderType = {
+  id: string;
+  name: string;
+};

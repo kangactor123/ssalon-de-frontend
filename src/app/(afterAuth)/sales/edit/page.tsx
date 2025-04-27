@@ -23,11 +23,6 @@ import {
 import { useForm, useWatch } from "react-hook-form";
 import { useToast } from "@/shared/hooks/use-toast";
 import { useCreateSale, useSale, useUpdateSale } from "@/queries/sales";
-import {
-  useServiceTypes,
-  useVisitTypes,
-  usePaymentTypes,
-} from "@/queries/settings";
 import { RequiredLabel } from "@/shared/ui/required-label";
 import dayjs from "dayjs";
 import useDateStore from "@/zustand/date";
@@ -35,6 +30,7 @@ import { formatDate } from "@/shared/utils/dayjs";
 import PaymentTypes from "./components/payment-types";
 import ServiceTypes from "./components/service-types";
 import VisitTypes from "./components/visit-types";
+import useFilterTypes from "@/shared/hooks/use-filter-types";
 
 type SaleForm = Omit<Sale, "services" | "payments" | "id" | "date"> & {
   date: string;
@@ -74,6 +70,15 @@ const SaleEditPage = () => {
     [date]
   );
 
+  const {
+    serviceTypes,
+    paymentTypes,
+    visitTypes,
+    isServiceTypesFetching,
+    isPaymentTypesFetching,
+    isVisitTypesFetching,
+  } = useFilterTypes();
+
   const { register, handleSubmit, formState, reset, setValue, control } =
     useForm<SaleForm>({
       defaultValues,
@@ -91,12 +96,6 @@ const SaleEditPage = () => {
     enabled: isEdit,
   });
 
-  const { data: serviceTypes = [], isLoading: isServiceTypesLoading } =
-    useServiceTypes();
-  const { data: paymentTypes = [], isLoading: isPaymentTypesLoading } =
-    usePaymentTypes();
-  const { data: visitTypes = [], isLoading: isVisitTypesLoading } =
-    useVisitTypes();
   const [timeAccordion, setTimeAccordion] = useState("");
 
   const onSuccessCallback = useCallback(() => {
@@ -316,7 +315,7 @@ const SaleEditPage = () => {
                 payments={payments}
                 setValue={setValue}
                 isEmptyPaymentTypes={paymentTypes.length === 0}
-                isLoading={isPaymentTypesLoading}
+                isLoading={isPaymentTypesFetching}
               />
             </div>
             <Accordion
@@ -331,7 +330,7 @@ const SaleEditPage = () => {
                 </AccordionTrigger>
                 <AccordionContent>
                   <ServiceTypes
-                    isLoading={isServiceTypesLoading}
+                    isLoading={isServiceTypesFetching}
                     serviceTypes={serviceTypes}
                     selectedServices={selectedServices}
                     onChangeTypes={handleTypesChange}
@@ -412,7 +411,7 @@ const SaleEditPage = () => {
                 </AccordionTrigger>
                 <AccordionContent className="flex gap-2 items-center">
                   <VisitTypes
-                    isLoading={isVisitTypesLoading}
+                    isLoading={isVisitTypesFetching}
                     visitTypes={visitTypes}
                     selectedVisitTypes={selectedVisitTypes}
                     onChangeTypes={handleTypesChange}

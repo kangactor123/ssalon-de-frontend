@@ -19,6 +19,7 @@ import { useInitUserInfo } from "@/shared/hooks/use-init-user-info";
 import LoadingButton from "@/shared/ui/loading-button";
 import { Calendar } from "@/shared/ui/calendar";
 import { useCalendar } from "@/shared/hooks/use-calendar";
+import usePrefetchFilters from "@/shared/hooks/use-prefetch-filters";
 
 function MobileMenu() {
   const pathname = usePathname();
@@ -26,11 +27,12 @@ function MobileMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const { onLogout, isLogoutIdle } = useLogout();
   const { selectedDate, onChangeDate, today } = useCalendar();
-  const { isLoading, enabledInitialize } = useInitUserInfo();
 
   const isActive = (path: string) => pathname === path;
 
+  const { isLoading, enabledInitialize } = useInitUserInfo();
   useInitCustomBadge();
+  usePrefetchFilters();
 
   return (
     <>

@@ -1,12 +1,10 @@
 import { Badge } from "@/shared/ui/badge";
 import Spinner from "@/shared/ui/spinner";
-import {
-  useVisitTypes,
-  useServiceTypes,
-  usePaymentTypes,
-} from "@/queries/settings";
 import { Filter } from "@/shared/types/filter";
 import { cn } from "@/shared/utils/tailwind";
+import useFilterTypes from "@/shared/hooks/use-filter-types";
+import { useMemo } from "react";
+import { BADGE_TYPE } from "@/shared/constants/badge-type";
 
 type SalesFilterProps = {
   selectedFilters: Filter[];
@@ -14,39 +12,44 @@ type SalesFilterProps = {
 };
 
 export function SalesFilter({ selectedFilters, onToggle }: SalesFilterProps) {
-  const { data: serviceTypes = [], isFetching: isServiceTypeFetching } =
-    useServiceTypes({
-      select: (data) =>
-        data.map((service) => ({ ...service, type: "serviceType" })),
-    });
-  const { data: paymentTypes = [], isFetching: isPaymentTypeFetching } =
-    usePaymentTypes({
-      select: (data) =>
-        data.map((paymentType) => ({ ...paymentType, type: "paymentType" })),
-    });
-  const { data: visitTypes = [], isFetching: isVisitTypesFetching } =
-    useVisitTypes({
-      select: (data) =>
-        data.map((service) => ({ ...service, type: "visitType" })),
-    });
+  const { isLoading, visitTypes, paymentTypes, serviceTypes, genders } =
+    useFilterTypes();
 
-  const genders = [
-    { id: "M", name: "남성", type: "gender" },
-    { id: "F", name: "여성", type: "gender" },
-  ];
+  const visitTypeFilters = useMemo(() => {
+    return visitTypes.map((visitType) => ({
+      ...visitType,
+      type: BADGE_TYPE.visitType,
+    }));
+  }, [visitTypes]);
+
+  const serviceTypeFilters = useMemo(() => {
+    return serviceTypes.map((serviceType) => ({
+      ...serviceType,
+      type: BADGE_TYPE.serviceType,
+    }));
+  }, [serviceTypes]);
+
+  const paymentTypeFilters = useMemo(() => {
+    return paymentTypes.map((paymentType) => ({
+      ...paymentType,
+      type: BADGE_TYPE.paymentType,
+    }));
+  }, [paymentTypes]);
+
+  const genderFilters = useMemo(() => {
+    return genders.map((gender) => ({ ...gender, type: BADGE_TYPE.gender }));
+  }, [genders]);
 
   const filterList = [
-    ...visitTypes,
-    ...serviceTypes,
-    ...paymentTypes,
-    ...genders,
+    ...visitTypeFilters,
+    ...serviceTypeFilters,
+    ...paymentTypeFilters,
+    ...genderFilters,
   ] as Filter[];
 
   return (
     <div className="flex md:flex-wrap md:mt-[24px] h-auto py-[6px] gap-1 box-border overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-hidden">
-      {isServiceTypeFetching ||
-      isPaymentTypeFetching ||
-      isVisitTypesFetching ? (
+      {isLoading ? (
         <Spinner />
       ) : (
         filterList.map(({ id, name, type }) => {

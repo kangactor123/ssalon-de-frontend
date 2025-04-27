@@ -11,6 +11,8 @@ import { useDeleteServiceType, useUpdateServiceType } from "@/queries/settings";
 import { ServiceType } from "@/queries/settings/type";
 import { ConfirmDialog } from "@/shared/ui/alert-dialog";
 import useIsEditSettingsStore from "@/zustand/edit-setting";
+import { useQueryClient } from "@tanstack/react-query";
+import { KEYS } from "@/shared/constants/query-keys";
 
 type Props = PropsWithChildren<{
   id: string;
@@ -20,6 +22,7 @@ type Props = PropsWithChildren<{
 
 const ServiceItem: React.FC<Props> = ({ id, name, price }) => {
   const router = useRouter();
+  const client = useQueryClient();
   const editSettingId = useIsEditSettingsStore((state) => state.editSettingId);
   const setEditSettingId = useIsEditSettingsStore(
     (state) => state.setEditSettingId
@@ -47,7 +50,10 @@ const ServiceItem: React.FC<Props> = ({ id, name, price }) => {
 
   const afterMutateServiceType = useCallback(() => {
     router.refresh();
-  }, [router]);
+    client.invalidateQueries({
+      queryKey: [KEYS.serviceTypes.list],
+    });
+  }, [client, router]);
 
   const handleClickEdit = useCallback(
     (serviceType: ServiceType) => {

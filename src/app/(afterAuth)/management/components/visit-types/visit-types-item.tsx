@@ -10,6 +10,8 @@ import { TableCell, TableRow } from "@/shared/ui/table";
 import { VisitType } from "@/queries/settings/type";
 import { useDeleteVisitType, useUpdateVisitType } from "@/queries/settings";
 import { ConfirmDialog } from "@/shared/ui/alert-dialog";
+import { useQueryClient } from "@tanstack/react-query";
+import { KEYS } from "@/shared/constants/query-keys";
 
 type Props = PropsWithChildren<{
   id: string;
@@ -17,6 +19,7 @@ type Props = PropsWithChildren<{
 }>;
 
 const VisitTypesItem: React.FC<Props> = ({ id, name }) => {
+  const client = useQueryClient();
   const router = useRouter();
   const [isEdit, setIsEdit] = useState(false);
   const [editingId, setEditingId] = useState<string>("");
@@ -40,7 +43,10 @@ const VisitTypesItem: React.FC<Props> = ({ id, name }) => {
 
   const afterMutateVisitType = useCallback(() => {
     router.refresh();
-  }, [router]);
+    client.invalidateQueries({
+      queryKey: [KEYS.settings.visitTypes],
+    });
+  }, [router, client]);
 
   const handleClickEdit = useCallback((visitType: VisitType) => {
     setIsEdit(true);

@@ -1,4 +1,9 @@
-import { useMutation, useQuery, UseQueryOptions } from "@tanstack/react-query";
+import {
+  queryOptions,
+  useMutation,
+  useQuery,
+  UseQueryOptions,
+} from "@tanstack/react-query";
 import {
   CreatePaymentType,
   CreateServiceType,
@@ -27,6 +32,7 @@ import {
 } from "./api";
 import { KEYS } from "@/shared/constants/query-keys";
 import { MutationOptions } from "@/shared/types/query";
+import { FILTER_STALE_TIME } from "@/shared/constants/app";
 
 export const useSettings = (
   options?: Omit<UseQueryOptions<Setting[]>, "queryKey" | "queryFn">
@@ -46,13 +52,21 @@ export const useEditSettings = (options?: MutationOptions<Setting[]>) => {
 };
 
 /** visit-types */
+type VisitTypesQueryOptions = Omit<UseQueryOptions<VisitType[]>, "queryKey">;
+export const visitTypesQueryOptions = (options?: VisitTypesQueryOptions) =>
+  queryOptions({
+    ...options,
+    staleTime: FILTER_STALE_TIME,
+    queryKey: [KEYS.settings.visitTypes],
+    queryFn: getVisitTypes,
+  });
+
 export const useVisitTypes = (
   options?: Omit<UseQueryOptions<VisitType[]>, "queryKey" | "queryFn">
 ) => {
+  const queryOptions = visitTypesQueryOptions(options);
   return useQuery<VisitType[]>({
-    ...options,
-    queryKey: [KEYS.settings.visitTypes],
-    queryFn: getVisitTypes,
+    ...queryOptions,
   });
 };
 
@@ -80,13 +94,23 @@ export const useDeleteVisitType = (options?: MutationOptions<string>) => {
 };
 
 /** service-types */
+type ServiceTypesQueryOptions = Omit<
+  UseQueryOptions<ServiceType[]>,
+  "queryKey"
+>;
+export const serviceTypesQueryOptions = (options?: ServiceTypesQueryOptions) =>
+  queryOptions({
+    ...options,
+    staleTime: FILTER_STALE_TIME,
+    queryKey: [KEYS.serviceTypes.list],
+    queryFn: getServiceTypes,
+  });
 export const useServiceTypes = (
   options?: Omit<UseQueryOptions<ServiceType[]>, "queryKey" | "queryFn">
 ) => {
+  const queryOptions = serviceTypesQueryOptions(options);
   return useQuery<ServiceType[]>({
-    ...options,
-    queryKey: [KEYS.serviceTypes.list],
-    queryFn: getServiceTypes,
+    ...queryOptions,
   });
 };
 
@@ -116,12 +140,23 @@ export const useDeleteServiceType = (options?: MutationOptions<string>) => {
 };
 
 /** payment-types */
+type PaymentTypesQueryOptions = Omit<
+  UseQueryOptions<PaymentType[]>,
+  "queryKey"
+>;
+export const paymentTypesQueryOptions = (options?: PaymentTypesQueryOptions) =>
+  queryOptions({
+    ...options,
+    staleTime: FILTER_STALE_TIME,
+    queryKey: [KEYS.paymentTypes.list],
+    queryFn: getPaymentTypes,
+  });
 export const usePaymentTypes = (
   options?: Omit<UseQueryOptions<PaymentType[]>, "queryKey" | "queryFn">
 ) => {
+  const queryOptions = paymentTypesQueryOptions(options);
   return useQuery<PaymentType[]>({
-    ...options,
-    queryKey: [KEYS.paymentTypes.list],
+    ...queryOptions,
     queryFn: getPaymentTypes,
   });
 };

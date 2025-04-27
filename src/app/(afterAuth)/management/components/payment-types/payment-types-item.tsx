@@ -10,6 +10,8 @@ import { TableCell, TableRow } from "@/shared/ui/table";
 import { useDeletePaymentType, useUpdatePaymentType } from "@/queries/settings";
 import { PaymentType } from "@/queries/settings/type";
 import { ConfirmDialog } from "@/shared/ui/alert-dialog";
+import { useQueryClient } from "@tanstack/react-query";
+import { KEYS } from "@/shared/constants/query-keys";
 
 type Props = PropsWithChildren<{
   id: string;
@@ -18,6 +20,7 @@ type Props = PropsWithChildren<{
 
 const PaymentTypeItem: React.FC<Props> = ({ id, name }) => {
   const router = useRouter();
+  const client = useQueryClient();
   const [isEdit, setIsEdit] = useState(false);
   const [editingId, setEditingId] = useState<string>("");
   const [editingName, setEditingName] = useState("");
@@ -40,7 +43,10 @@ const PaymentTypeItem: React.FC<Props> = ({ id, name }) => {
 
   const afterMutatePaymentType = useCallback(() => {
     router.refresh();
-  }, [router]);
+    client.invalidateQueries({
+      queryKey: [KEYS.paymentTypes.list],
+    });
+  }, [client, router]);
 
   const handleClickEdit = useCallback((paymentType: PaymentType) => {
     setIsEdit(true);

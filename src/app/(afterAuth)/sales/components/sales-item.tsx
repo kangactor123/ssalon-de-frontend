@@ -18,6 +18,7 @@ import {
   TEXT_COLOR_MAP,
 } from "@/shared/constants/palette";
 import { ColorKey } from "@/shared/types/palette";
+import { BADGE_TYPE } from "@/shared/constants/badge-type";
 
 type Props = {
   id: string;
@@ -85,24 +86,30 @@ const SalesItem: React.FC<Props> = ({
         </div>
         <div className="flex gap-1 mb-4 flex-wrap">
           {visitTypes.map((visitType) => (
-            <Badge key={`${id}${visitType.id}`} {...setBadgeProps("visitType")}>
+            <Badge
+              key={`${id}${visitType.id}`}
+              {...setBadgeProps(BADGE_TYPE.visitType)}
+            >
               {visitType.name}
             </Badge>
           ))}
           {payments.map((payment) => (
-            <Badge key={`${id}${payment}`} {...setBadgeProps("paymentType")}>
+            <Badge
+              key={`${id}${payment}`}
+              {...setBadgeProps(BADGE_TYPE.paymentType)}
+            >
               {payment}
             </Badge>
           ))}
           {services.map((service) => (
-            <Badge key={`${id}${service.id}`} {...setBadgeProps("serviceType")}>
+            <Badge
+              key={`${id}${service.id}`}
+              {...setBadgeProps(BADGE_TYPE.serviceType)}
+            >
               {service.name}
             </Badge>
           ))}
-          <Badge
-            {...setBadgeProps("gender")}
-            // className="text-pink-800 bg-pink-200"
-          >
+          <Badge {...setBadgeProps(BADGE_TYPE.gender)}>
             {gender === "M" ? "남성" : "여성"}
           </Badge>
         </div>
