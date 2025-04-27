@@ -1,7 +1,11 @@
 import type { ServiceType } from "@/queries/settings/type";
+import { KEYS } from "@/shared/constants/query-keys";
+import { Button } from "@/shared/ui/button";
 import { Checkbox } from "@/shared/ui/checkbox";
 import { Label } from "@/shared/ui/label";
 import Spinner from "@/shared/ui/spinner";
+import { useQueryClient } from "@tanstack/react-query";
+import { LucideRotateCw } from "lucide-react";
 import React from "react";
 
 type ServiceTypeProps = {
@@ -41,6 +45,7 @@ type Props = {
   isLoading: boolean;
   serviceTypes: ServiceType[];
   selectedServices: string[];
+  isError: boolean;
   onChangeTypes: (
     type: "visitTypes" | "services",
     id: string,
@@ -49,7 +54,33 @@ type Props = {
 };
 
 const ServiceTypes: React.FC<Props> = (props) => {
-  const { serviceTypes, selectedServices, isLoading, onChangeTypes } = props;
+  const queryClient = useQueryClient();
+  const { serviceTypes, selectedServices, isLoading, isError, onChangeTypes } =
+    props;
+
+  const onClickReload = (event: React.SyntheticEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    queryClient.invalidateQueries({
+      queryKey: [KEYS.serviceTypes.list],
+    });
+  };
+
+  if (isError) {
+    return (
+      <div className="flex flex-col items-center justify-center w-full h-full">
+        <p className="text-gray-500 text-xs">서비스를 불러오지 못했습니다.</p>
+        <Button
+          size="sm"
+          type="button"
+          className="mt-2"
+          variant="outline"
+          onClick={onClickReload}
+        >
+          <LucideRotateCw className="text-gray-500" />
+        </Button>
+      </div>
+    );
+  }
 
   if (isLoading) {
     return (

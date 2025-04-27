@@ -75,8 +75,11 @@ const SaleEditPage = () => {
     paymentTypes,
     visitTypes,
     isServiceTypesFetching,
+    isServiceTypesError,
     isPaymentTypesFetching,
+    isPaymentTypesError,
     isVisitTypesFetching,
+    isVisitTypesError,
   } = useFilterTypes();
 
   const { register, handleSubmit, formState, reset, setValue, control } =
@@ -315,21 +318,18 @@ const SaleEditPage = () => {
                 payments={payments}
                 setValue={setValue}
                 isEmptyPaymentTypes={paymentTypes.length === 0}
+                isError={isPaymentTypesError}
                 isLoading={isPaymentTypesFetching}
               />
             </div>
-            <Accordion
-              type="single"
-              collapsible
-              className="w-full"
-              disabled={serviceTypes.length === 0}
-            >
+            <Accordion type="single" collapsible className="w-full">
               <AccordionItem value="serviceTypes">
                 <AccordionTrigger disabled={serviceTypes.length === 0}>
                   서비스 유형
                 </AccordionTrigger>
                 <AccordionContent>
                   <ServiceTypes
+                    isError={isServiceTypesError}
                     isLoading={isServiceTypesFetching}
                     serviceTypes={serviceTypes}
                     selectedServices={selectedServices}
@@ -399,18 +399,14 @@ const SaleEditPage = () => {
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
-            <Accordion
-              type="single"
-              collapsible
-              className="w-full"
-              disabled={visitTypes.length === 0}
-            >
+            <Accordion type="single" collapsible className="w-full">
               <AccordionItem value="isFirst">
                 <AccordionTrigger disabled={visitTypes.length === 0}>
                   <RequiredLabel>방문 유형</RequiredLabel>
                 </AccordionTrigger>
                 <AccordionContent className="flex gap-2 items-center">
                   <VisitTypes
+                    isError={isVisitTypesError}
                     isLoading={isVisitTypesFetching}
                     visitTypes={visitTypes}
                     selectedVisitTypes={selectedVisitTypes}

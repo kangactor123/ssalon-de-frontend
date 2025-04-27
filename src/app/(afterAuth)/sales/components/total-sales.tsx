@@ -6,6 +6,8 @@ import useDateStore from "@/zustand/date";
 import { useMemo } from "react";
 import { formatDate } from "@/shared/utils/dayjs";
 import { YEAR_MONTH_DAY_TIME } from "@/shared/constants/dayjs-format";
+import { Button } from "@/shared/ui/button";
+import { LucideRotateCw } from "lucide-react";
 
 export function TotalSales() {
   const { date } = useDateStore();
@@ -18,15 +20,30 @@ export function TotalSales() {
     data: amount = 0,
     isLoading,
     isFetching,
+    isError,
+    refetch,
   } = useTotalAmount(formatDate({ date, format: YEAR_MONTH_DAY_TIME }));
 
-  const loading = useMemo(
-    () => isLoading || isFetching,
-    [isLoading, isFetching]
-  );
+  const loading = isLoading || isFetching;
   const totalCount = useMemo(() => data.length, [data]);
 
   if (loading) return <Spinner />;
+
+  if (isError) {
+    return (
+      <div className="text-gray-500 text-sm flex items-center">
+        <Button
+          size="sm"
+          variant="link"
+          className="p-0 mr-2"
+          onClick={() => refetch()}
+        >
+          <LucideRotateCw className="text-gray-500" />
+        </Button>
+        새로고침을 통해 다시 호출해주세요.
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-4 md:flex-row md:gap-0">

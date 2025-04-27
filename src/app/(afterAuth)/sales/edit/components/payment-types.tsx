@@ -8,6 +8,7 @@ import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
 import Spinner from "@/shared/ui/spinner";
 import { useQueryClient } from "@tanstack/react-query";
+import { LucideRotateCw } from "lucide-react";
 import React from "react";
 import { UseFormSetValue } from "react-hook-form";
 
@@ -60,16 +61,30 @@ type Props = {
   setValue: UseFormSetValue<any>;
   isEmptyPaymentTypes: boolean;
   isLoading: boolean;
+  isError: boolean;
   payments: Payment[];
   paymentTypes: PaymentType[];
 };
 
 const PaymentTypes: React.FC<Props> = (props) => {
   const { toast } = useToast();
-  const { isEmptyPaymentTypes, isLoading, paymentTypes, payments, setValue } =
-    props;
+  const {
+    isEmptyPaymentTypes,
+    isLoading,
+    isError,
+    paymentTypes,
+    payments,
+    setValue,
+  } = props;
 
   const queryClient = useQueryClient();
+
+  const onClickReload = (event: React.SyntheticEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    queryClient.invalidateQueries({
+      queryKey: [KEYS.paymentTypes.list],
+    });
+  };
 
   if (isLoading) {
     return (
@@ -79,21 +94,11 @@ const PaymentTypes: React.FC<Props> = (props) => {
     );
   }
 
-  const onClickReload = (event: React.SyntheticEvent<HTMLButtonElement>) => {
-    event.stopPropagation();
-    queryClient.invalidateQueries({
-      queryKey: [KEYS.paymentTypes.list],
-    });
-  };
-
-  if (isEmptyPaymentTypes) {
+  if (isEmptyPaymentTypes || isError) {
     return (
       <div className="flex flex-col items-center py-4 space-y-2 text-xs text-gray-500">
-        <p>결제 유형이 존재하지 않습니다.</p>
-        <p>관리 메뉴에서 결제 유형을 생성해주세요.</p>
-        <p>
-          결제 유형이 존재하는 경우 아래 버튼을 통해 데이터를 다시 호출해주세요.
-        </p>
+        <p>결제 유형이 존재하지 않거나 호출을 실패했습니다.</p>
+        <p>결제 유형이 존재하는 경우 새로고침을 클릭해주세요.</p>
         <Button
           type="button"
           className="mt-2"
@@ -101,7 +106,7 @@ const PaymentTypes: React.FC<Props> = (props) => {
           variant="outline"
           onClick={onClickReload}
         >
-          Reload
+          <LucideRotateCw className="text-gray-500" />
         </Button>
       </div>
     );

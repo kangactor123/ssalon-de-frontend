@@ -20,8 +20,11 @@ type ReturnType = {
   isLoading: boolean;
   isError: boolean;
   isVisitTypesFetching: boolean;
+  isVisitTypesError: boolean;
   isPaymentTypesFetching: boolean;
+  isPaymentTypesError: boolean;
   isServiceTypesFetching: boolean;
+  isServiceTypesError: boolean;
 };
 
 const useFilterTypes = (): ReturnType => {
@@ -45,9 +48,10 @@ const useFilterTypes = (): ReturnType => {
   );
 
   const isLoading =
-    visitTypesResult.isLoading ||
-    paymentTypesResult.isLoading ||
+    visitTypesResult.isLoading &&
+    paymentTypesResult.isLoading &&
     serviceTypesResult.isLoading;
+
   const isError =
     visitTypesResult.isError ||
     paymentTypesResult.isError ||
@@ -63,6 +67,9 @@ const useFilterTypes = (): ReturnType => {
     isVisitTypesFetching: visitTypesResult.isFetching,
     isPaymentTypesFetching: paymentTypesResult.isFetching,
     isServiceTypesFetching: serviceTypesResult.isFetching,
+    isVisitTypesError: visitTypesResult.isError,
+    isPaymentTypesError: paymentTypesResult.isError,
+    isServiceTypesError: serviceTypesResult.isError,
   };
 };
 

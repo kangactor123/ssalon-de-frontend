@@ -1,6 +1,10 @@
+import { KEYS } from "@/shared/constants/query-keys";
+import { Button } from "@/shared/ui/button";
 import { Checkbox } from "@/shared/ui/checkbox";
 import { Label } from "@/shared/ui/label";
 import Spinner from "@/shared/ui/spinner";
+import { useQueryClient } from "@tanstack/react-query";
+import { LucideRotateCw } from "lucide-react";
 import React from "react";
 
 type VisitTypeProps = {
@@ -34,6 +38,7 @@ const MemoizedVisitType = React.memo(VisitType);
 
 type Props = {
   isLoading: boolean;
+  isError: boolean;
   visitTypes: { id: string; name: string }[];
   selectedVisitTypes: string[];
   onChangeTypes: (
@@ -44,7 +49,16 @@ type Props = {
 };
 
 const VisitTypes: React.FC<Props> = (props) => {
-  const { isLoading, visitTypes, selectedVisitTypes, onChangeTypes } = props;
+  const queryClient = useQueryClient();
+  const { isError, isLoading, visitTypes, selectedVisitTypes, onChangeTypes } =
+    props;
+
+  const onClickReload = (event: React.SyntheticEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    queryClient.invalidateQueries({
+      queryKey: [KEYS.settings.visitTypes],
+    });
+  };
 
   if (isLoading) {
     return (
@@ -53,6 +67,26 @@ const VisitTypes: React.FC<Props> = (props) => {
       </div>
     );
   }
+
+  if (isError) {
+    return (
+      <div className="flex flex-col items-center justify-center w-full h-full">
+        <p className="text-gray-500 text-xs">
+          방문 유형을 불러오지 못했습니다.
+        </p>
+        <Button
+          size="sm"
+          type="button"
+          className="mt-2"
+          variant="outline"
+          onClick={onClickReload}
+        >
+          <LucideRotateCw className="text-gray-500" />
+        </Button>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full grid grid-cols-2 gap-4">
       {visitTypes.map(({ id, name }) => (
