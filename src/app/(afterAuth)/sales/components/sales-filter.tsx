@@ -1,10 +1,10 @@
 import { Badge } from "@/shared/ui/badge";
-import Spinner from "@/shared/ui/spinner";
 import { Filter } from "@/shared/types/filter";
 import { cn } from "@/shared/utils/tailwind";
 import useFilterTypes from "@/shared/hooks/use-filter-types";
 import { useMemo } from "react";
 import { BADGE_TYPE } from "@/shared/constants/badge-type";
+import { Skeleton } from "@/shared/ui/skeleton";
 
 type SalesFilterProps = {
   selectedFilters: Filter[];
@@ -48,7 +48,14 @@ export function SalesFilter({ selectedFilters, onToggle }: SalesFilterProps) {
   ] as Filter[];
 
   if (isLoading) {
-    return <Spinner />;
+    const mockFilters = Array.from({ length: 5 }, (_, index) => index + 1);
+    return (
+      <div className="flex gap-1">
+        {mockFilters.map((value) => (
+          <BadgeSkeleton key={`badge${value}`} />
+        ))}
+      </div>
+    );
   }
 
   return (
@@ -69,3 +76,7 @@ export function SalesFilter({ selectedFilters, onToggle }: SalesFilterProps) {
     </div>
   );
 }
+
+const BadgeSkeleton = () => {
+  return <Skeleton className="w-[80px] h-[22px]" />;
+};

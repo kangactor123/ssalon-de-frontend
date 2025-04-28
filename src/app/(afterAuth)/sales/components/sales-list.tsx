@@ -1,187 +1,55 @@
-"use client";
-
-import { memo, useCallback, useMemo, useState } from "react";
-
-import { useDeleteSale, useSales } from "@/queries/sales";
-import { MutateType } from "@/shared/types/query";
-
+import { Sale } from "@/queries/sales/type";
 import SalesItem from "./sales-item";
 import EmptySales from "./empty-sales";
-import useDateStore from "@/zustand/date";
-import { useQueryClient } from "@tanstack/react-query";
-import { KEYS } from "@/shared/constants/query-keys";
-import Spinner from "@/shared/ui/spinner";
-import { SalesFilter } from "./sales-filter";
 import { useRouter } from "next/navigation";
-import { Filter } from "@/shared/types/filter";
-import { ConfirmDialog } from "@/shared/ui/alert-dialog";
-import { formatDate } from "@/shared/utils/dayjs";
-import { BADGE_TYPE } from "@/shared/constants/badge-type";
-import { ACTION } from "@/shared/constants/action";
+import SalesItemSkeleton from "./sales-item-skeleton";
 
-const SalesList = () => {
-  const client = useQueryClient();
+type Props = {
+  isLoading: boolean;
+  isEmpty: boolean;
+  sales: Sale[];
+  onClickSaleEdit: (id: string) => void;
+  onClickSaleDelete: (id: string) => void;
+};
+
+const SalesList: React.FC<Props> = ({
+  isLoading,
+  isEmpty,
+  sales,
+  onClickSaleEdit,
+  onClickSaleDelete,
+}) => {
   const router = useRouter();
-  const [openDeleteAlert, setOpenDeleteAlert] = useState(false);
-  const [selectedSale, setSelectedSale] = useState<string>();
-  const [selectedFilters, setSelectedFilters] = useState<Filter[]>([]);
-  const { date } = useDateStore();
 
-  const {
-    data: sales = [],
-    isLoading,
-    isFetching,
-  } = useSales(
-    {
-      date: formatDate({ date }),
-    },
-    {
-      enabled: !!date,
-    }
-  );
+  if (isLoading) {
+    return <SalesItemSkeleton />;
+  }
 
-  const { mutate: deleteSale } = useDeleteSale({
-    onSuccess: () => onAfterMutate(ACTION.DELETE),
-  });
-
-  const loading = isLoading || isFetching;
-
-  const filteredSales = useMemo(
-    () =>
-      sales.filter((sale) => {
-        const selectedVisitTypes = selectedFilters
-          .filter((filter) => filter.type === BADGE_TYPE.visitType)
-          .map(({ id }) => id);
-
-        // 방문 유형이 있다면 필터링
-        if (selectedVisitTypes.length > 0) {
-          return sale.visitTypes.some((visitType) =>
-            selectedVisitTypes.includes(visitType.id)
-          );
-        }
-
-        const selectedServices = selectedFilters
-          .filter((filter) => filter.type === BADGE_TYPE.serviceType)
-          .map(({ id }) => id);
-
-        // 서비스 타입이 있다면 필터링
-        if (selectedServices.length > 0) {
-          return sale.services.some((service) =>
-            selectedServices.includes(service.id)
-          );
-        }
-
-        const selectedGenders = selectedFilters
-          .filter((filter) => filter.type === BADGE_TYPE.gender)
-          .map(({ id }) => id);
-
-        // 성별이 있다면 필터링
-        if (selectedGenders.length > 0) {
-          return selectedGenders.includes(sale.gender);
-        }
-
-        const selectedPaymentTypes = selectedFilters
-          .filter((filter) => filter.type === BADGE_TYPE.paymentType)
-          .map(({ id }) => id);
-
-        // 결제 유형이 있다면 필터링
-        if (selectedPaymentTypes.length > 0) {
-          return selectedFilters.some(({ id }) =>
-            sale.payments.some(({ typeId }) => typeId === id)
-          );
-        }
-
-        return true;
-      }),
-    [sales, selectedFilters]
-  );
-
-  const onAfterMutate = useCallback(
-    (type: MutateType) => {
-      client.invalidateQueries({
-        queryKey: [KEYS.sales.list],
-      });
-
-      if (type === ACTION.DELETE) {
-        setOpenDeleteAlert(false);
-      }
-
-      setSelectedSale(undefined);
-    },
-    [client]
-  );
-
-  const handleAction = useCallback(
-    (type: MutateType) => (id: string) => {
-      setSelectedSale(id);
-      if (type === ACTION.DELETE) {
-        setOpenDeleteAlert(true);
-      } else if (type === ACTION.UPDATE) {
-        router.push(`/sales/edit?saleId=${id}`);
-      }
-    },
-    [router]
-  );
-
-  const handleConfirmDelete = useCallback(() => {
-    if (selectedSale) {
-      deleteSale(selectedSale);
-    }
-  }, [selectedSale, deleteSale]);
-
-  const toggleFilterType = (filter: Filter) => {
-    setSelectedFilters((prev) => {
-      if (prev.some(({ id }) => id === filter.id)) {
-        return prev.filter((item) => item.id !== filter.id);
-      } else {
-        return [...prev, filter];
-      }
-    });
-  };
+  if (isEmpty) {
+    return (
+      <EmptySales
+        isLoading={isLoading}
+        onClickButton={() => router.push("/sales/edit")}
+      />
+    );
+  }
 
   return (
-    <>
-      <SalesFilter
-        selectedFilters={selectedFilters}
-        onToggle={toggleFilterType}
-      />
-      <div className="space-y-4">
-        <div className="flex flex-col gap-4">
-          {loading ? (
-            <div className="flex justify-center">
-              <Spinner />
-            </div>
-          ) : sales.length === 0 ? (
-            <EmptySales
-              isLoading={isLoading}
-              onClickButton={() => router.push("/sales/edit")}
-            />
-          ) : (
-            filteredSales.map((sale) => {
-              const payments = sale.payments.map(({ name }) => name);
-              return (
-                <SalesItem
-                  {...sale}
-                  key={sale.id}
-                  onClickEdit={handleAction(ACTION.UPDATE)}
-                  onClickDelete={handleAction(ACTION.DELETE)}
-                  payments={payments}
-                />
-              );
-            })
-          )}
-        </div>
-      </div>
-      <ConfirmDialog
-        open={openDeleteAlert}
-        setOpen={setOpenDeleteAlert}
-        onConfirm={handleConfirmDelete}
-        title="매출 삭제"
-        description="이 매출 기록을 삭제하시겠습니까? 이 작업은 취소할 수 없습니다."
-        confirmText="삭제"
-      />
-    </>
+    <div className="flex flex-col gap-4">
+      {sales.map((sale) => {
+        const payments = sale.payments.map(({ name }) => name);
+        return (
+          <SalesItem
+            {...sale}
+            key={sale.id}
+            onClickEdit={onClickSaleEdit}
+            onClickDelete={onClickSaleDelete}
+            payments={payments}
+          />
+        );
+      })}
+    </div>
   );
 };
 
-export default memo(SalesList);
+export default SalesList;

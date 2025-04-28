@@ -1,6 +1,5 @@
 "use client";
 
-import Spinner from "@/shared/ui/spinner";
 import { useSales, useTotalAmount } from "@/queries/sales";
 import useDateStore from "@/zustand/date";
 import { useMemo } from "react";
@@ -8,6 +7,7 @@ import { formatDate } from "@/shared/utils/dayjs";
 import { YEAR_MONTH_DAY_TIME } from "@/shared/constants/dayjs-format";
 import { Button } from "@/shared/ui/button";
 import { LucideRotateCw } from "lucide-react";
+import TotalSalesSkeleton from "./total-sales-skeleton";
 
 export function TotalSales() {
   const { date } = useDateStore();
@@ -22,12 +22,16 @@ export function TotalSales() {
     isFetching,
     isError,
     refetch,
-  } = useTotalAmount(formatDate({ date, format: YEAR_MONTH_DAY_TIME }));
+  } = useTotalAmount(formatDate({ date, format: YEAR_MONTH_DAY_TIME }), {
+    retry: 3,
+  });
 
   const loading = isLoading || isFetching;
   const totalCount = useMemo(() => data.length, [data]);
 
-  if (loading) return <Spinner />;
+  if (loading) {
+    return <TotalSalesSkeleton />;
+  }
 
   if (isError) {
     return (
