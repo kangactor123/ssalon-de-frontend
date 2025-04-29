@@ -1,7 +1,10 @@
-import { BASE_URL } from "@/shared/constants/env";
+import { setTokenInCookie } from "@/shared/actions/cookie";
+import { getTokens } from "@/shared/actions/session";
+import { ACCESS_TOKEN_EXPIRE } from "@/shared/constants/app";
+import { PATH } from "@/shared/constants/path";
+import { TOKEN } from "@/shared/constants/token";
 import NextAuth from "next-auth";
 import KakaoProvider from "next-auth/providers/kakao";
-import { cookies } from "next/headers";
 
 const handler = NextAuth({
   providers: [
@@ -11,43 +14,22 @@ const handler = NextAuth({
     }),
   ],
   session: {
-    maxAge: 7 * 24 * 60 * 60 * 1000, // 7일
+    maxAge: ACCESS_TOKEN_EXPIRE,
   },
   callbacks: {
     async signIn({ user, account }) {
-      const cookieStore = await cookies();
       let isSuccess: boolean | string = false;
 
       if (account?.provider && user?.email) {
-        const requestBody = {
-          email: user?.email ?? "",
-          provider: account?.provider ?? "",
-        };
-
         try {
-          const res = await fetch(`${BASE_URL}/auth/oauth`, {
-            method: "POST",
-            body: JSON.stringify(requestBody),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
+          const email = user?.email ?? "";
+          const provider = account?.provider ?? "";
+          const res = await getTokens(email, provider);
 
           if (res.ok) {
             const data = await res.json();
-
-            cookieStore.set("accessToken", data.accessToken, {
-              secure: process.env.NODE_ENV === "production",
-              sameSite: "strict",
-              maxAge: 60 * 60 * 1000, // 1시간
-            });
-
-            cookieStore.set("refreshToken", data.refreshToken, {
-              httpOnly: true,
-              secure: process.env.NODE_ENV === "production",
-              sameSite: "strict",
-              maxAge: 7 * 24 * 60 * 60 * 1000, // 7일
-            });
+            await setTokenInCookie(TOKEN.ACCESS_TOKEN, data.accessToken);
+            await setTokenInCookie(TOKEN.REFRESH_TOKEN, data.refreshToken);
           }
 
           isSuccess = true;
@@ -78,7 +60,7 @@ const handler = NextAuth({
     },
   },
   pages: {
-    signIn: "/login",
+    signIn: PATH.LOGIN,
   },
   secret: process.env.NEXTAUTH_SECRET,
 });

@@ -3,6 +3,7 @@
 import { cookies } from "next/headers";
 import { TOKEN } from "../constants/token";
 import { TokenType } from "../types/token";
+import { ACCESS_TOKEN_EXPIRE, REFRESH_TOKEN_EXPIRE } from "../constants/app";
 
 export const getCookie = async (key: string): Promise<string | null> => {
   "use server";
@@ -21,8 +22,8 @@ export const setTokenInCookie = async (type: TokenType, token: string) => {
   const cookieStore = await cookies();
 
   const maxAge = {
-    [TOKEN.ACCESS_TOKEN]: 60 * 60 * 1000, // 1시간
-    [TOKEN.REFRESH_TOKEN]: 60 * 60 * 24 * 7, // 7일
+    [TOKEN.ACCESS_TOKEN]: ACCESS_TOKEN_EXPIRE,
+    [TOKEN.REFRESH_TOKEN]: REFRESH_TOKEN_EXPIRE,
   };
 
   cookieStore.set(type, token, {
