@@ -30,8 +30,12 @@ import { formatDate } from "@/shared/utils/dayjs";
 import PaymentTypes from "./components/payment-types";
 import ServiceTypes from "./components/service-types";
 import VisitTypes from "./components/visit-types";
-import useFilterTypes from "@/shared/hooks/use-filter-types";
 import { PATH } from "@/shared/constants/path";
+import {
+  usePaymentTypes,
+  useServiceTypes,
+  useVisitTypes,
+} from "@/queries/settings";
 
 type SaleForm = Omit<Sale, "services" | "payments" | "id" | "date"> & {
   date: string;
@@ -72,16 +76,25 @@ const SaleEditPage = () => {
   );
 
   const {
-    serviceTypes,
-    paymentTypes,
-    visitTypes,
-    isServiceTypesFetching,
-    isServiceTypesError,
-    isPaymentTypesFetching,
-    isPaymentTypesError,
-    isVisitTypesFetching,
-    isVisitTypesError,
-  } = useFilterTypes();
+    data: visitTypes = [],
+    isFetching: isVisitTypesFetching,
+    isError: isVisitTypesError,
+  } = useVisitTypes();
+  const {
+    data: paymentTypes = [],
+    isFetching: isPaymentTypesFetching,
+    isError: isPaymentTypesError,
+  } = usePaymentTypes();
+  const {
+    data: serviceTypes = [],
+    isFetching: isServiceTypesFetching,
+    isError: isServiceTypesError,
+  } = useServiceTypes();
+
+  // for debugging
+  console.log("paymentTypes", paymentTypes);
+  console.log("serviceTypes", serviceTypes);
+  console.log("visitTypes", visitTypes);
 
   const { register, handleSubmit, formState, reset, setValue, control } =
     useForm<SaleForm>({
@@ -122,19 +135,19 @@ const SaleEditPage = () => {
     if (+data.amount === 0) {
       validate.message = "결제 유형을 통해 금액을 입력해주세요.";
       validate.flag = false;
-      return validate;
+      // return validate;
     } else if (data.payments.length === 0) {
       validate.message = "결제 유형을 선택해주세요.";
       validate.flag = false;
-      return validate;
+      // return validate;
     } else if (!!data.time || !!data.date) {
       if (!data.time) {
         validate.message = "날짜를 입력한 경우 시간을 필수로 선택해주세요.";
         validate.flag = false;
-        return validate;
+        // return validate;
       } else if (!data.date) {
         validate.message = "시간을 선택한 경우 날짜를 필수로 입력해주세요.";
-        validate.flag = false;
+        // validate.flag = false;
       }
     }
     return validate;
@@ -247,7 +260,7 @@ const SaleEditPage = () => {
     []
   );
 
-  const title = useMemo(() => (isEdit ? "매출 수정" : "매출 등록"), [isEdit]);
+  const title = isEdit ? "매출 수정" : "매출 등록";
 
   useEffect(() => {
     if (!isEdit && paymentTypes.length > 0) {
@@ -325,9 +338,7 @@ const SaleEditPage = () => {
             </div>
             <Accordion type="single" collapsible className="w-full">
               <AccordionItem value="serviceTypes">
-                <AccordionTrigger disabled={serviceTypes.length === 0}>
-                  서비스 유형
-                </AccordionTrigger>
+                <AccordionTrigger>서비스 유형</AccordionTrigger>
                 <AccordionContent>
                   <ServiceTypes
                     isError={isServiceTypesError}
@@ -402,7 +413,7 @@ const SaleEditPage = () => {
             </Accordion>
             <Accordion type="single" collapsible className="w-full">
               <AccordionItem value="isFirst">
-                <AccordionTrigger disabled={visitTypes.length === 0}>
+                <AccordionTrigger>
                   <RequiredLabel>방문 유형</RequiredLabel>
                 </AccordionTrigger>
                 <AccordionContent className="flex gap-2 items-center">
