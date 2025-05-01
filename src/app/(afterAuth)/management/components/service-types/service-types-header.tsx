@@ -1,13 +1,13 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { memo, useCallback, useState } from "react";
 import { Plus } from "lucide-react";
 
 import { Button } from "@/shared/ui/button";
+import PageTitle from "@/shared/ui/page-title";
 
 import CreateServiceTypesDialog from "./create-service-types-dialog";
-import PageTitle from "@/shared/ui/page-title";
-import { useRouter } from "next/navigation";
 
 const ServiceTypesHeader = () => {
   const router = useRouter();

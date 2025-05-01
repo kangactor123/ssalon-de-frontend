@@ -1,7 +1,8 @@
-import useDateStore from "@/zustand/date";
 import dayjs from "dayjs";
-import { useMemo } from "react";
 import { SelectSingleEventHandler } from "react-day-picker";
+
+import useDateStore from "@/zustand/date";
+import { formatDate } from "@/shared/utils/dayjs";
 
 type Result = {
   selectedDate: Date;
@@ -16,11 +17,11 @@ export const useCalendar = (): Result => {
 
   const onChangeDate: SelectSingleEventHandler = (day) => {
     if (day && setDate instanceof Function) {
-      setDate(dayjs(day).format("YYYY-MM-DD"));
+      setDate(formatDate({ date: day }));
     }
   };
 
-  const selectedDate = useMemo(() => dayjs(date).toDate(), [date]);
+  const selectedDate = dayjs(date).toDate();
 
   return {
     selectedDate,

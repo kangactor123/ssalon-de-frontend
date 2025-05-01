@@ -1,7 +1,7 @@
-import { useUserInfo } from "@/queries/auth";
-import useUserStore from "@/zustand/user";
 import { useEffect, useMemo } from "react";
 import { useStore } from "zustand";
+import useUserStore from "@/zustand/user";
+import { useUserInfo } from "@/queries/auth";
 
 type Result = {
   isLoading: boolean;

@@ -1,6 +1,7 @@
 import { Home, List, Settings, User } from "lucide-react";
-import type { Route } from "../types/route";
-import { PATH } from "./path";
+
+import { PATH } from "@/shared/constants/path";
+import type { Route } from "@/shared/types/route";
 
 export const routes: Route[] = [
   { path: PATH.DASHBOARD, icon: Home, label: "대시보드" },

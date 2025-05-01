@@ -1,8 +1,8 @@
 import { useCallback } from "react";
-import { removeTokens } from "../actions/cookie";
 import useUserStore, { initialUser } from "@/zustand/user";
 import { useOauthLogout } from "@/queries/auth";
-import { PATH } from "../constants/path";
+import { removeTokens } from "@/shared/actions/cookie";
+import { PATH } from "@/shared/constants/path";
 
 type LogoutReturnType = {
   isLogoutIdle: boolean;

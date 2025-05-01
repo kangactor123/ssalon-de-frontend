@@ -1,11 +1,13 @@
 "use client";
 
+import Image from "next/image";
+
 import { Scissors } from "lucide-react";
+import { useOAuthLogin } from "@/queries/auth";
 
 import kakaoIcon from "@/assets/images/icons/kakao.svg";
-import Image from "next/image";
+
 import Loading from "@/shared/ui/loading";
-import { useOAuthLogin } from "@/queries/auth";
 import { APP_OAUTH_PROVIDER } from "@/shared/constants/app";
 
 export default function Page() {

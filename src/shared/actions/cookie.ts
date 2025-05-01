@@ -1,9 +1,12 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { TOKEN } from "../constants/token";
-import { TokenType } from "../types/token";
-import { ACCESS_TOKEN_EXPIRE, REFRESH_TOKEN_EXPIRE } from "../constants/app";
+import { TOKEN } from "@/shared/constants/token";
+import { TokenType } from "@/shared/types/token";
+import {
+  ACCESS_TOKEN_EXPIRE,
+  REFRESH_TOKEN_EXPIRE,
+} from "@/shared/constants/app";
 
 export const getCookie = async (key: string): Promise<string | null> => {
   "use server";

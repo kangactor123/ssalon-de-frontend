@@ -1,4 +1,4 @@
-import { MutateType } from "../types/query";
+import { MutateType } from "@/shared/types/query";
 
 export const ACTION: Record<MutateType, MutateType> = {
   CREATE: "CREATE",

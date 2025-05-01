@@ -1,13 +1,15 @@
-import { reissue } from "@/queries/auth/api";
 import axios, { AxiosRequestConfig } from "axios";
+import { signOut } from "next-auth/react";
 
 import qs from "qs";
 
-import { BASE_URL } from "../constants/env";
-import { signOut } from "next-auth/react";
-import { getCookie, setTokenInCookie } from "../actions/cookie";
-import { TOKEN } from "../constants/token";
-import { PATH } from "../constants/path";
+import { reissue } from "@/queries/auth/api";
+
+import { getCookie, setTokenInCookie } from "@/shared/actions/cookie";
+import { BASE_URL } from "@/shared/constants/env";
+import { TOKEN } from "@/shared/constants/token";
+import { PATH } from "@/shared/constants/path";
+import { API_TIMEOUT } from "@/shared/constants/app";
 
 // 토큰 재발급 중 중복 요청을 방지하기 위한 변수
 let isRefreshing = false;
@@ -21,7 +23,7 @@ function paramsSerializer(params: unknown): string {
 function createApiInstance(bearerJwt = "", options: AxiosRequestConfig = {}) {
   const api = axios.create({
     baseURL: BASE_URL,
-    timeout: 7500,
+    timeout: API_TIMEOUT,
     withCredentials: true,
     paramsSerializer: {
       serialize: paramsSerializer,

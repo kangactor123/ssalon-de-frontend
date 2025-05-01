@@ -1,13 +1,15 @@
+import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/ui/tabs";
+
 import ServiceTypes from "./components/service-types";
 import PaymentTypes from "./components/payment-types";
 import Settings from "./components/settings";
-import React from "react";
 import VisitTypes from "./components/visit-types";
 
 type Content = "settings" | "service-types" | "payment-types" | "visit-types";
+type ContentMap = Record<Content, { label: string; content: React.ReactNode }>;
 
-const contents: Record<Content, { label: string; content: React.ReactNode }> = {
+const contents: ContentMap = {
   settings: {
     label: "설정",
     content: <Settings />,

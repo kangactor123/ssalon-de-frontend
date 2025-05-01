@@ -2,7 +2,7 @@
 
 import { Scissors } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { APP_NAME } from "../constants/app";
+import { APP_NAME } from "@/shared/constants/app";
 
 export function Logo() {
   const router = useRouter();

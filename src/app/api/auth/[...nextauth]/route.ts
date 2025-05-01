@@ -1,10 +1,11 @@
+import NextAuth from "next-auth";
+import KakaoProvider from "next-auth/providers/kakao";
+
 import { setTokenInCookie } from "@/shared/actions/cookie";
 import { getTokens } from "@/shared/actions/session";
 import { ACCESS_TOKEN_EXPIRE } from "@/shared/constants/app";
 import { PATH } from "@/shared/constants/path";
 import { TOKEN } from "@/shared/constants/token";
-import NextAuth from "next-auth";
-import KakaoProvider from "next-auth/providers/kakao";
 
 const handler = NextAuth({
   providers: [

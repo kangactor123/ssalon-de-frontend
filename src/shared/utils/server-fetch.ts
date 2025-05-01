@@ -2,9 +2,13 @@ import { redirect } from "next/navigation";
 
 import { BASE_URL } from "@/shared/constants/env";
 import { reissue } from "@/queries/auth/api";
-import { TOKEN } from "../constants/token";
-import { getCookie, removeTokens, setTokenInCookie } from "../actions/cookie";
-import { PATH } from "../constants/path";
+import { TOKEN } from "@/shared/constants/token";
+import {
+  getCookie,
+  removeTokens,
+  setTokenInCookie,
+} from "@/shared/actions/cookie";
+import { PATH } from "@/shared/constants/path";
 
 export async function serverFetch<T>(
   url: string,

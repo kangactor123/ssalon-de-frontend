@@ -1,3 +1,4 @@
+import { BADGE_TYPE } from "@/shared/constants/badge-type";
 import { COLOR_MAP } from "@/shared/constants/palette";
 import { ColorKey } from "@/shared/types/palette";
 import { RequiredLabel } from "@/shared/ui/required-label";
@@ -13,19 +14,19 @@ import { memo } from "react";
 
 const colorCustomSettings = [
   {
-    key: "paymentType",
+    key: BADGE_TYPE.paymentType,
     label: "결제 유형",
   },
   {
-    key: "visitType",
+    key: BADGE_TYPE.visitType,
     label: "방문 유형",
   },
   {
-    key: "serviceType",
+    key: BADGE_TYPE.serviceType,
     label: "서비스 유형",
   },
   {
-    key: "gender",
+    key: BADGE_TYPE.gender,
     label: "성별 유형",
   },
 ];

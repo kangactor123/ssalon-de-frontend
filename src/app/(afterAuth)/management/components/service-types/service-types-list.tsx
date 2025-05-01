@@ -1,5 +1,4 @@
 import { ServiceType } from "@/queries/settings/type";
-import ServiceItem from "./service-types-item";
 import {
   Table,
   TableBody,
@@ -7,8 +6,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/shared/ui/table";
-import EmptyTypes from "../empty-types";
 import { serverFetch } from "@/shared/utils/server-fetch";
+
+import ServiceItem from "./service-types-item";
+import EmptyTypes from "../empty-types";
 
 export default async function ServiceList() {
   const serviceTypes = await serverFetch<ServiceType[]>("/service-types");

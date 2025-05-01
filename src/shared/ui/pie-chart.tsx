@@ -7,7 +7,7 @@ import {
   Legend,
   PieProps,
 } from "recharts";
-import { CHART_COLORS } from "../constants/palette";
+import { CHART_COLORS } from "@/shared/constants/palette";
 
 type Props = {
   colors?: string[];

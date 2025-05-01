@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import MonthPicker from "./components/month-picker";
 import dynamic from "next/dynamic";
-import { useSuspense } from "@/shared/hooks/use-suspense";
+import withSuspense from "@/shared/hoc/with-suspense";
 
 const DashboardHeader = dynamic(() => import("./components/dashboard-header"));
 const CalendarWidget = dynamic(() => import("./components/calendar-widget"));
@@ -50,7 +50,7 @@ const TotalSalesCountWidget = dynamic(
 );
 
 export default function Dashboard() {
-  const withSuspense = useSuspense();
+  // const withSuspense = useSuspense();
 
   return (
     <div className="space-y-6">

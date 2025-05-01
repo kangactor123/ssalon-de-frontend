@@ -1,14 +1,15 @@
-import type { Metadata } from "next";
-import QueryProvider from "@/shared/providers/react-query";
-// import { Toaster } from "@/shared/ui/toaster";
-
-import localFont from "next/font/local";
-import "./globals.css";
-import { APP_DESCRIPTION, APP_NAME } from "@/shared/constants/app";
 import { Suspense } from "react";
-import GlobalLoading from "./loading";
-import SessionProvider from "@/shared/providers/session-provider";
+
+import type { Metadata } from "next";
 import dynamic from "next/dynamic";
+import localFont from "next/font/local";
+
+import QueryProvider from "@/shared/providers/react-query";
+import { APP_DESCRIPTION, APP_NAME } from "@/shared/constants/app";
+import SessionProvider from "@/shared/providers/session-provider";
+import Loading from "@/shared/ui/loading";
+
+import "./globals.css";
 
 const Toaster = dynamic(() =>
   import("@/shared/ui/toaster").then((mod) => mod.Toaster)
@@ -36,7 +37,7 @@ export default function RootLayout({
       <body className={`${pretandard.className} bg-gray-100`}>
         <SessionProvider>
           <Toaster />
-          <Suspense fallback={<GlobalLoading />}>
+          <Suspense fallback={<Loading />}>
             <QueryProvider>{children}</QueryProvider>
           </Suspense>
         </SessionProvider>

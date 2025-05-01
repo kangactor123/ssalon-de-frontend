@@ -1,9 +1,11 @@
+import { useEffect } from "react";
+
 import { useSettings } from "@/queries/settings";
 import useBadgeCustomStore from "@/zustand/badge-custom";
-import { useEffect } from "react";
-import { SETTING_MAP } from "../constants/setting";
-import { BadgeType } from "../types/badge-type";
-import { ColorKey } from "../types/palette";
+
+import { SETTING_MAP } from "@/shared/constants/setting";
+import { BadgeType } from "@/shared/types/badge-type";
+import { ColorKey } from "@/shared/types/palette";
 
 export const useInitCustomBadge = () => {
   const { data = [] } = useSettings();

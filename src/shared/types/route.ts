@@ -1,6 +1,6 @@
 import { LucideProps } from "lucide-react";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
-import { PATH } from "../constants/path";
+import { PATH } from "@/shared/constants/path";
 
 export type Route = {
   path: string;

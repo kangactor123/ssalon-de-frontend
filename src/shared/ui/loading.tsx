@@ -1,5 +1,5 @@
 import Spinner from "@/shared/ui/spinner";
-import { cn } from "../utils/tailwind";
+import { cn } from "@/shared/utils/tailwind";
 
 type Props = {
   className?: string;

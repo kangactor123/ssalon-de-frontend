@@ -1,7 +1,7 @@
 import dayjs, { Dayjs } from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-import { YEAR_MONTH_DAY } from "../constants/dayjs-format";
+import { YEAR_MONTH_DAY } from "@/shared/constants/dayjs-format";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -11,7 +11,7 @@ export const toUTC = (date: string | Dayjs) => {
 };
 
 type FormatDateProps = {
-  date?: string | Dayjs;
+  date?: string | Dayjs | Date;
   format?: string;
 };
 export const formatDate = ({

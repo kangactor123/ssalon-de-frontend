@@ -5,10 +5,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/shared/ui/table";
+import { serverFetch } from "@/shared/utils/server-fetch";
+
+import { PaymentType } from "@/queries/settings/type";
+
 import EmptyTypes from "../empty-types";
 import PaymentTypesItem from "./payment-types-item";
-import { PaymentType } from "@/queries/settings/type";
-import { serverFetch } from "@/shared/utils/server-fetch";
 
 export default async function PaymentTypeList() {
   const paymentTypes = await serverFetch<PaymentType[]>("/payment-types");

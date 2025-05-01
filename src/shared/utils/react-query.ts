@@ -3,7 +3,7 @@ import {
   defaultShouldDehydrateQuery,
   isServer,
 } from "@tanstack/react-query";
-import { RETRY_COUNT } from "../constants/app";
+import { RETRY_COUNT } from "@/shared/constants/app";
 
 function makeQueryClient() {
   return new QueryClient({

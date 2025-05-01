@@ -1,17 +1,20 @@
 "use client";
 
-import { memo, PropsWithChildren, useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
+import { memo, PropsWithChildren, useCallback, useState } from "react";
+
+import { useQueryClient } from "@tanstack/react-query";
+
 import { Pencil, Save, Trash2 } from "lucide-react";
 
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
 import { TableCell, TableRow } from "@/shared/ui/table";
+import { ConfirmDialog } from "@/shared/ui/alert-dialog";
+import { KEYS } from "@/shared/constants/query-keys";
+
 import { useDeletePaymentType, useUpdatePaymentType } from "@/queries/settings";
 import { PaymentType } from "@/queries/settings/type";
-import { ConfirmDialog } from "@/shared/ui/alert-dialog";
-import { useQueryClient } from "@tanstack/react-query";
-import { KEYS } from "@/shared/constants/query-keys";
 
 type Props = PropsWithChildren<{
   id: string;
