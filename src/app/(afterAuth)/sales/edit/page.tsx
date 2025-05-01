@@ -91,11 +91,6 @@ const SaleEditPage = () => {
     isError: isServiceTypesError,
   } = useServiceTypes();
 
-  // for debugging
-  console.log("paymentTypes", paymentTypes);
-  console.log("serviceTypes", serviceTypes);
-  console.log("visitTypes", visitTypes);
-
   const { register, handleSubmit, formState, reset, setValue, control } =
     useForm<SaleForm>({
       defaultValues,
