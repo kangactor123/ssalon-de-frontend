@@ -30,7 +30,12 @@ import {
   updateServiceType,
   updateVisitType,
 } from "./api";
-import { KEYS } from "@/shared/constants/query-keys";
+import {
+  KEYS,
+  PAYMENT_TYPES_KEY,
+  SERVICE_TYPES_KEY,
+  VISIT_TYPES_KEY,
+} from "@/shared/constants/query-keys";
 import { MutationOptions } from "@/shared/types/query";
 import { FILTER_STALE_TIME } from "@/shared/constants/app";
 
@@ -57,7 +62,7 @@ export const visitTypesQueryOptions = (options?: VisitTypesQueryOptions) =>
   queryOptions({
     ...options,
     staleTime: FILTER_STALE_TIME,
-    queryKey: [KEYS.filters, KEYS.visitTypes.list],
+    queryKey: VISIT_TYPES_KEY,
     queryFn: getVisitTypes,
   });
 
@@ -102,7 +107,7 @@ export const serviceTypesQueryOptions = (options?: ServiceTypesQueryOptions) =>
   queryOptions({
     ...options,
     staleTime: FILTER_STALE_TIME,
-    queryKey: [KEYS.filters, KEYS.serviceTypes.list],
+    queryKey: SERVICE_TYPES_KEY,
     queryFn: getServiceTypes,
   });
 export const useServiceTypes = (
@@ -148,7 +153,7 @@ export const paymentTypesQueryOptions = (options?: PaymentTypesQueryOptions) =>
   queryOptions({
     ...options,
     staleTime: FILTER_STALE_TIME,
-    queryKey: [KEYS.filters, KEYS.paymentTypes.list],
+    queryKey: PAYMENT_TYPES_KEY,
     queryFn: getPaymentTypes,
   });
 export const usePaymentTypes = (

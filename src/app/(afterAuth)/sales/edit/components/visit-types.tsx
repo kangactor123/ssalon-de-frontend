@@ -1,4 +1,4 @@
-import { KEYS } from "@/shared/constants/query-keys";
+import { VISIT_TYPES_KEY } from "@/shared/constants/query-keys";
 import { Button } from "@/shared/ui/button";
 import { Checkbox } from "@/shared/ui/checkbox";
 import { Label } from "@/shared/ui/label";
@@ -58,7 +58,7 @@ const VisitTypes: React.FC<Props> = (props) => {
   const onClickReload = (event: React.SyntheticEvent<HTMLButtonElement>) => {
     event.stopPropagation();
     queryClient.invalidateQueries({
-      queryKey: [KEYS.filters, KEYS.visitTypes.list],
+      queryKey: VISIT_TYPES_KEY,
     });
   };
 
@@ -126,4 +126,4 @@ const VisitTypes: React.FC<Props> = (props) => {
   );
 };
 
-export default React.memo(VisitTypes);
+export default VisitTypes;

@@ -1,5 +1,5 @@
 import type { ServiceType } from "@/queries/settings/type";
-import { KEYS } from "@/shared/constants/query-keys";
+import { SERVICE_TYPES_KEY } from "@/shared/constants/query-keys";
 import { Button } from "@/shared/ui/button";
 import { Checkbox } from "@/shared/ui/checkbox";
 import { Label } from "@/shared/ui/label";
@@ -63,7 +63,7 @@ const ServiceTypes: React.FC<Props> = (props) => {
   const onClickReload = (event: React.SyntheticEvent<HTMLButtonElement>) => {
     event.stopPropagation();
     queryClient.invalidateQueries({
-      queryKey: [KEYS.filters, KEYS.serviceTypes.list],
+      queryKey: SERVICE_TYPES_KEY,
     });
   };
 
@@ -131,4 +131,4 @@ const ServiceTypes: React.FC<Props> = (props) => {
   );
 };
 
-export default React.memo(ServiceTypes);
+export default ServiceTypes;

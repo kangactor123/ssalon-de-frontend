@@ -1,6 +1,6 @@
 import { Payment } from "@/queries/sales/type";
 import type { PaymentType } from "@/queries/settings/type";
-import { KEYS } from "@/shared/constants/query-keys";
+import { PAYMENT_TYPES_KEY } from "@/shared/constants/query-keys";
 import { useToast } from "@/shared/hooks/use-toast";
 import { Button } from "@/shared/ui/button";
 import { Checkbox } from "@/shared/ui/checkbox";
@@ -82,7 +82,7 @@ const PaymentTypes: React.FC<Props> = (props) => {
   const onClickReload = (event: React.SyntheticEvent<HTMLButtonElement>) => {
     event.stopPropagation();
     queryClient.invalidateQueries({
-      queryKey: [KEYS.filters, KEYS.paymentTypes.list],
+      queryKey: PAYMENT_TYPES_KEY,
     });
   };
 
@@ -164,4 +164,4 @@ const PaymentTypes: React.FC<Props> = (props) => {
   );
 };
 
-export default React.memo(PaymentTypes);
+export default PaymentTypes;

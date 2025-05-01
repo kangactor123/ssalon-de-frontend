@@ -33,3 +33,7 @@ export const KEYS = {
     },
   },
 };
+
+export const VISIT_TYPES_KEY = [KEYS.filters, KEYS.visitTypes.list];
+export const SERVICE_TYPES_KEY = [KEYS.filters, KEYS.serviceTypes.list];
+export const PAYMENT_TYPES_KEY = [KEYS.filters, KEYS.paymentTypes.list];
