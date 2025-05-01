@@ -117,14 +117,14 @@ const SalesItem: React.FC<Props> = ({
           <div className="flex items-center"></div>
           <div className="flex space-x-2">
             <Button onClick={() => onClickEdit(id)} size="sm" variant="outline">
-              <Edit2 className="w-4 h-4 mr-1" />
+              <Edit2 className="w-4 h-4" />
             </Button>
             <Button
               onClick={() => onClickDelete(id)}
               size="sm"
               variant="outline"
             >
-              <Trash2 className="w-4 h-4 mr-1" />
+              <Trash2 className="w-4 h-4" />
             </Button>
           </div>
         </div>

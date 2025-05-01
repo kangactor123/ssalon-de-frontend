@@ -47,7 +47,7 @@ const PaymentTypeItem: React.FC<Props> = ({ id, name }) => {
   const afterMutatePaymentType = useCallback(() => {
     router.refresh();
     client.invalidateQueries({
-      queryKey: [KEYS.paymentTypes.list],
+      queryKey: [KEYS.filters, KEYS.paymentTypes.list],
     });
   }, [client, router]);
 

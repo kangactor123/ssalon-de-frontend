@@ -1,4 +1,4 @@
-import { ServiceType, VisitType } from "../settings/type";
+import { ServiceType, VisitType } from "@/queries/settings/type";
 
 export type Gender = "M" | "F";
 export type GetSalesParams = {

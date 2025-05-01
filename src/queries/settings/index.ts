@@ -57,7 +57,7 @@ export const visitTypesQueryOptions = (options?: VisitTypesQueryOptions) =>
   queryOptions({
     ...options,
     staleTime: FILTER_STALE_TIME,
-    queryKey: [KEYS.settings.visitTypes],
+    queryKey: [KEYS.filters, KEYS.visitTypes.list],
     queryFn: getVisitTypes,
   });
 
@@ -102,7 +102,7 @@ export const serviceTypesQueryOptions = (options?: ServiceTypesQueryOptions) =>
   queryOptions({
     ...options,
     staleTime: FILTER_STALE_TIME,
-    queryKey: [KEYS.serviceTypes.list],
+    queryKey: [KEYS.filters, KEYS.serviceTypes.list],
     queryFn: getServiceTypes,
   });
 export const useServiceTypes = (
@@ -148,7 +148,7 @@ export const paymentTypesQueryOptions = (options?: PaymentTypesQueryOptions) =>
   queryOptions({
     ...options,
     staleTime: FILTER_STALE_TIME,
-    queryKey: [KEYS.paymentTypes.list],
+    queryKey: [KEYS.filters, KEYS.paymentTypes.list],
     queryFn: getPaymentTypes,
   });
 export const usePaymentTypes = (

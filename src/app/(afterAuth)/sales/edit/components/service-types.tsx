@@ -58,12 +58,36 @@ const ServiceTypes: React.FC<Props> = (props) => {
   const { serviceTypes, selectedServices, isLoading, isError, onChangeTypes } =
     props;
 
+  const isEmpty = serviceTypes.length === 0;
+
   const onClickReload = (event: React.SyntheticEvent<HTMLButtonElement>) => {
     event.stopPropagation();
     queryClient.invalidateQueries({
-      queryKey: [KEYS.serviceTypes.list],
+      queryKey: [KEYS.filters, KEYS.serviceTypes.list],
     });
   };
+
+  if (isEmpty) {
+    return (
+      <div className="flex flex-col items-center justify-center w-full h-full">
+        <p className="text-gray-500 text-xs text-center mb-2">
+          등록된 서비스가 존재하지 않습니다.
+        </p>
+        <p className="text-gray-500 text-xs text-center">
+          만약 서비스가 존재한다면 아래 새로고침 버튼을 클릭해주세요.
+        </p>
+        <Button
+          size="sm"
+          type="button"
+          className="mt-2"
+          variant="outline"
+          onClick={onClickReload}
+        >
+          <LucideRotateCw className="text-gray-500" />
+        </Button>
+      </div>
+    );
+  }
 
   if (isError) {
     return (

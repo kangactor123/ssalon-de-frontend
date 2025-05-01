@@ -82,7 +82,7 @@ const PaymentTypes: React.FC<Props> = (props) => {
   const onClickReload = (event: React.SyntheticEvent<HTMLButtonElement>) => {
     event.stopPropagation();
     queryClient.invalidateQueries({
-      queryKey: [KEYS.paymentTypes.list],
+      queryKey: [KEYS.filters, KEYS.paymentTypes.list],
     });
   };
 

@@ -53,12 +53,36 @@ const VisitTypes: React.FC<Props> = (props) => {
   const { isError, isLoading, visitTypes, selectedVisitTypes, onChangeTypes } =
     props;
 
+  const isEmpty = visitTypes.length === 0;
+
   const onClickReload = (event: React.SyntheticEvent<HTMLButtonElement>) => {
     event.stopPropagation();
     queryClient.invalidateQueries({
-      queryKey: [KEYS.settings.visitTypes],
+      queryKey: [KEYS.filters, KEYS.visitTypes.list],
     });
   };
+
+  if (isEmpty) {
+    return (
+      <div className="flex flex-col items-center justify-center w-full h-full">
+        <p className="text-gray-500 text-xs text-center mb-2">
+          등록하신 방문 유형이 존재하지 않습니다.
+        </p>
+        <p className="text-gray-500 text-xs text-center">
+          등록한 방문 유형이 존재한다면 아래 새로고침 버튼을 클릭해주세요.
+        </p>
+        <Button
+          size="sm"
+          type="button"
+          className="mt-2"
+          variant="outline"
+          onClick={onClickReload}
+        >
+          <LucideRotateCw className="text-gray-500" />
+        </Button>
+      </div>
+    );
+  }
 
   if (isLoading) {
     return (

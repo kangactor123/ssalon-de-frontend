@@ -51,7 +51,7 @@ const ServiceItem: React.FC<Props> = ({ id, name, price }) => {
   const afterMutateServiceType = useCallback(() => {
     router.refresh();
     client.invalidateQueries({
-      queryKey: [KEYS.serviceTypes.list],
+      queryKey: [KEYS.filters, KEYS.serviceTypes.list],
     });
   }, [client, router]);
 

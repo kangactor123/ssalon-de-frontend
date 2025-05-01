@@ -16,6 +16,7 @@ import { formatDate } from "@/shared/utils/dayjs";
 import { BADGE_TYPE } from "@/shared/constants/badge-type";
 import { ACTION } from "@/shared/constants/action";
 import SalesList from "./sales-list";
+import { PATH } from "@/shared/constants/path";
 
 const SalesContainer = () => {
   const client = useQueryClient();
@@ -110,15 +111,19 @@ const SalesContainer = () => {
   );
 
   const handleAction = useCallback(
-    (type: MutateType) => (id: string) => {
+    (type: MutateType) => async (id: string) => {
       setSelectedSale(id);
+
       if (type === ACTION.DELETE) {
         setOpenDeleteAlert(true);
       } else if (type === ACTION.UPDATE) {
-        router.push(`/sales/edit?saleId=${id}`);
+        client.invalidateQueries({
+          queryKey: [KEYS.filters],
+        });
+        router.push(`${PATH.SALES_EDIT}?saleId=${id}`);
       }
     },
-    [router]
+    [router, client]
   );
 
   const handleConfirmDelete = useCallback(() => {

@@ -1,22 +1,36 @@
+"use client";
+
 import { Plus } from "lucide-react";
 import { Button } from "@/shared/ui/button";
 import PageTitle from "@/shared/ui/page-title";
 
 import { TotalSales } from "./total-sales";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { PATH } from "@/shared/constants/path";
+import { useQueryClient } from "@tanstack/react-query";
+import { KEYS } from "@/shared/constants/query-keys";
 
 const SalesHeader = () => {
+  const router = useRouter();
+  const client = useQueryClient();
+  const handleClick = () => {
+    client.invalidateQueries({
+      queryKey: [KEYS.filters],
+    });
+    router.push(PATH.SALES_EDIT);
+  };
   return (
     <div className="relative flex flex-col items-baseline justify-between gap-6 md:items-center md:flex-row md:gap-0">
       <PageTitle title="매출 목록" />
       <div className="flex flex-wrap justify-between w-full gap-4 md:w-max md:justify-normal">
         <TotalSales />
-        <Link href="/sales/edit" className="absolute top-0 right-0 md:relative">
-          <Button>
-            <Plus className="w-4 h-4 mr-2" />
-            매출 등록
-          </Button>
-        </Link>
+        <Button
+          onClick={handleClick}
+          className="absolute top-0 right-0 md:relative"
+        >
+          <Plus className="w-4 h-4" />
+          매출 등록
+        </Button>
       </div>
     </div>
   );

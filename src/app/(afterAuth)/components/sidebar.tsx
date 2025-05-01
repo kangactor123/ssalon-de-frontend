@@ -1,20 +1,20 @@
 "use client";
 
+import { memo, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Scissors, LogOut } from "lucide-react";
-import { useLogout } from "@/shared/hooks/use-logout";
-import { useStore } from "@/shared/hooks/use-store";
 import useUserStore from "@/zustand/user";
 import { routes } from "@/shared/constants/routes";
 import { APP_NAME } from "@/shared/constants/app";
+import { useLogout } from "@/shared/hooks/use-logout";
+import { useStore } from "@/shared/hooks/use-store";
 import { useInitCustomBadge } from "@/shared/hooks/use-init-custom-badge";
 import Spinner from "@/shared/ui/spinner";
 import { useInitUserInfo } from "@/shared/hooks/use-init-user-info";
 import LoadingButton from "@/shared/ui/loading-button";
 import { Calendar } from "@/shared/ui/calendar";
 import { useCalendar } from "@/shared/hooks/use-calendar";
-import { memo } from "react";
 import usePrefetchFilters from "@/shared/hooks/use-prefetch-filters";
 
 function Sidebar() {
@@ -26,7 +26,12 @@ function Sidebar() {
 
   const { isLoading, enabledInitialize } = useInitUserInfo();
   useInitCustomBadge();
-  usePrefetchFilters();
+
+  const { prefetchFilters } = usePrefetchFilters();
+
+  useEffect(() => {
+    prefetchFilters();
+  }, [prefetchFilters]);
 
   return (
     <aside className="hidden w-64 h-screen border border-gray-200 shadow-lg md:flex md:flex-col bg-gray-50">

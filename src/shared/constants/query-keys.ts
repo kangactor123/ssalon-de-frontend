@@ -1,9 +1,16 @@
 export const KEYS = {
+  filters: "FILTERS",
   serviceTypes: {
     list: "SERVICE-TYPES",
   },
   paymentTypes: {
     list: "PAYMENT-TYPES",
+  },
+  visitTypes: {
+    list: "VISIT-TYPES",
+  },
+  settings: {
+    list: "SETTINGS",
   },
   sales: {
     list: "SALES",
@@ -24,9 +31,5 @@ export const KEYS = {
       averageCustomerSpending: "AVERAGE-CUSTOMER-SPENDING",
       totalCount: "TOTAL-COUNT",
     },
-  },
-  settings: {
-    visitTypes: "VISIT-TYPES",
-    list: "SETTINGS",
   },
 };

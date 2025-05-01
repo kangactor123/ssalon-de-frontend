@@ -1,8 +1,8 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { decode, getToken } from "next-auth/jwt";
-import { PATH } from "./shared/constants/path";
-import { PathValue } from "./shared/types/route";
+import { PATH } from "@/shared/constants/path";
+import { PathValue } from "@/shared/types/route";
 
 export async function middleware(req: NextRequest) {
   const BEFORE_AUTH_ROUTES: PathValue[] = [PATH.LOGIN];

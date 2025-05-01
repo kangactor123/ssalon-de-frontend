@@ -44,7 +44,7 @@ const VisitTypesItem: React.FC<Props> = ({ id, name }) => {
   const afterMutateVisitType = useCallback(() => {
     router.refresh();
     client.invalidateQueries({
-      queryKey: [KEYS.settings.visitTypes],
+      queryKey: [KEYS.filters, KEYS.visitTypes.list],
     });
   }, [router, client]);
 

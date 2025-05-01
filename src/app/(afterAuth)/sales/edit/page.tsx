@@ -31,6 +31,7 @@ import PaymentTypes from "./components/payment-types";
 import ServiceTypes from "./components/service-types";
 import VisitTypes from "./components/visit-types";
 import useFilterTypes from "@/shared/hooks/use-filter-types";
+import { PATH } from "@/shared/constants/path";
 
 type SaleForm = Omit<Sale, "services" | "payments" | "id" | "date"> & {
   date: string;
@@ -103,7 +104,7 @@ const SaleEditPage = () => {
 
   const onSuccessCallback = useCallback(() => {
     reset(defaultValues);
-    router.push("/sales");
+    router.push(PATH.SALES);
   }, [defaultValues, reset, router]);
 
   const { mutate: createSale } = useCreateSale({
