@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useEffect } from "react";
+import { memo } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Scissors, LogOut } from "lucide-react";
@@ -15,7 +15,6 @@ import { useInitUserInfo } from "@/shared/hooks/use-init-user-info";
 import LoadingButton from "@/shared/ui/loading-button";
 import { Calendar } from "@/shared/ui/calendar";
 import { useCalendar } from "@/shared/hooks/use-calendar";
-import usePrefetchFilters from "@/shared/hooks/use-prefetch-filters";
 
 function Sidebar() {
   const user = useStore(useUserStore, (state) => state.user);
@@ -26,12 +25,6 @@ function Sidebar() {
 
   const { isLoading, enabledInitialize } = useInitUserInfo();
   useInitCustomBadge();
-
-  const { prefetchFilters } = usePrefetchFilters();
-
-  useEffect(() => {
-    prefetchFilters();
-  }, [prefetchFilters]);
 
   return (
     <aside className="hidden w-64 h-screen border border-gray-200 shadow-lg md:flex md:flex-col bg-gray-50">
