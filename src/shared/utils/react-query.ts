@@ -3,13 +3,17 @@ import {
   defaultShouldDehydrateQuery,
   isServer,
 } from "@tanstack/react-query";
-import { RETRY_COUNT } from "@/shared/constants/app";
+import {
+  QUERY_DEFAULT_STALE_TIME,
+  QUERY_RETRY_COUNT,
+} from "@/shared/constants/app";
 
 function makeQueryClient() {
   return new QueryClient({
     defaultOptions: {
       queries: {
-        retry: RETRY_COUNT,
+        retry: QUERY_RETRY_COUNT,
+        staleTime: QUERY_DEFAULT_STALE_TIME,
       },
       dehydrate: {
         shouldDehydrateQuery: (query) =>
