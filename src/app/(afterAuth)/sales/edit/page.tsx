@@ -36,6 +36,8 @@ import {
   useServiceTypes,
   useVisitTypes,
 } from "@/queries/settings";
+import { useQueryClient } from "@tanstack/react-query";
+import { KEYS } from "@/shared/constants/query-keys";
 
 type SaleForm = Omit<Sale, "services" | "payments" | "id" | "date"> & {
   date: string;
@@ -54,6 +56,7 @@ const genderItems = [
 const SaleEditPage = () => {
   const router = useRouter();
   const isTouchTime = useRef(false);
+  const client = useQueryClient();
   const searchParams = useSearchParams();
   const { toast } = useToast();
   const { date } = useDateStore();
@@ -112,8 +115,11 @@ const SaleEditPage = () => {
 
   const onSuccessCallback = useCallback(() => {
     reset(defaultValues);
+    client.invalidateQueries({
+      queryKey: [KEYS.sales.list, date],
+    });
     router.push(PATH.SALES);
-  }, [defaultValues, reset, router]);
+  }, [date, client, defaultValues, reset, router]);
 
   const { mutate: createSale } = useCreateSale({
     onSuccess: onSuccessCallback,
@@ -130,19 +136,15 @@ const SaleEditPage = () => {
     if (+data.amount === 0) {
       validate.message = "결제 유형을 통해 금액을 입력해주세요.";
       validate.flag = false;
-      // return validate;
     } else if (data.payments.length === 0) {
       validate.message = "결제 유형을 선택해주세요.";
       validate.flag = false;
-      // return validate;
     } else if (!!data.time || !!data.date) {
       if (!data.time) {
         validate.message = "날짜를 입력한 경우 시간을 필수로 선택해주세요.";
-        validate.flag = false;
         // return validate;
       } else if (!data.date) {
         validate.message = "시간을 선택한 경우 날짜를 필수로 입력해주세요.";
-        // validate.flag = false;
       }
     }
     return validate;
