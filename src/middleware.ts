@@ -6,12 +6,12 @@ import { PathValue } from "@/shared/types/route";
 
 export async function middleware(req: NextRequest) {
   const BEFORE_AUTH_ROUTES: PathValue[] = [PATH.LOGIN];
+
   const url = req.nextUrl.clone();
+  const urlPathName = url.pathname as PathValue;
 
   const redirectTo = (destination: string) =>
     NextResponse.redirect(new URL(destination, url));
-
-  const urlPathname = url.pathname as PathValue;
 
   const token = await getToken({
     req,
@@ -20,14 +20,14 @@ export async function middleware(req: NextRequest) {
   });
 
   try {
-    const isBeforeAuthRoute = BEFORE_AUTH_ROUTES.includes(urlPathname);
+    const isBeforeAuthRoute = BEFORE_AUTH_ROUTES.includes(urlPathName);
     const decoded = await decode({
       token,
       secret: process.env.NEXTAUTH_SECRET!,
     });
 
     if (decoded) {
-      if (isBeforeAuthRoute || urlPathname === PATH.ROOT) {
+      if (isBeforeAuthRoute || urlPathName === PATH.ROOT) {
         return redirectTo(PATH.DASHBOARD);
       } else {
         return NextResponse.next();

@@ -1,3 +1,4 @@
+import { useVisitTypes } from "@/queries/settings";
 import { VISIT_TYPES_KEY } from "@/shared/constants/query-keys";
 import { Button } from "@/shared/ui/button";
 import { Checkbox } from "@/shared/ui/checkbox";
@@ -37,9 +38,6 @@ const VisitType: React.FC<VisitTypeProps> = (props) => {
 const MemoizedVisitType = React.memo(VisitType);
 
 type Props = {
-  isLoading: boolean;
-  isError: boolean;
-  visitTypes: { id: string; name: string }[];
   selectedVisitTypes: string[];
   onChangeTypes: (
     type: "visitTypes" | "services",
@@ -49,9 +47,10 @@ type Props = {
 };
 
 const VisitTypes: React.FC<Props> = (props) => {
+  const { data: visitTypes = [], isFetching, isError } = useVisitTypes();
+
   const queryClient = useQueryClient();
-  const { isError, isLoading, visitTypes, selectedVisitTypes, onChangeTypes } =
-    props;
+  const { selectedVisitTypes, onChangeTypes } = props;
 
   const isEmpty = visitTypes.length === 0;
 
@@ -84,7 +83,7 @@ const VisitTypes: React.FC<Props> = (props) => {
     );
   }
 
-  if (isLoading) {
+  if (isFetching) {
     return (
       <div className="flex items-center justify-center w-full h-full">
         <Spinner />

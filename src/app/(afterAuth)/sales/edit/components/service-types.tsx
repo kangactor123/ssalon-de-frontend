@@ -1,3 +1,4 @@
+import { useServiceTypes } from "@/queries/settings";
 import type { ServiceType } from "@/queries/settings/type";
 import { SERVICE_TYPES_KEY } from "@/shared/constants/query-keys";
 import { Button } from "@/shared/ui/button";
@@ -42,10 +43,7 @@ const ServiceType: React.FC<ServiceTypeProps> = (props) => {
 const MemoizedServiceType = React.memo(ServiceType);
 
 type Props = {
-  isLoading: boolean;
-  serviceTypes: ServiceType[];
   selectedServices: string[];
-  isError: boolean;
   onChangeTypes: (
     type: "visitTypes" | "services",
     id: string,
@@ -54,9 +52,10 @@ type Props = {
 };
 
 const ServiceTypes: React.FC<Props> = (props) => {
+  const { selectedServices, onChangeTypes } = props;
   const queryClient = useQueryClient();
-  const { serviceTypes, selectedServices, isLoading, isError, onChangeTypes } =
-    props;
+
+  const { data: serviceTypes = [], isFetching, isError } = useServiceTypes();
 
   const isEmpty = serviceTypes.length === 0;
 
@@ -106,7 +105,7 @@ const ServiceTypes: React.FC<Props> = (props) => {
     );
   }
 
-  if (isLoading) {
+  if (isFetching) {
     return (
       <div className="flex items-center justify-center w-full h-full">
         <Spinner />
