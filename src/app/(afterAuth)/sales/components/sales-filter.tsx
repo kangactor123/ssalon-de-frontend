@@ -1,54 +1,21 @@
+import useSelectedFiltersStore from "@/zustand/selected-filter";
+
+import useFilterTypes from "@/shared/hooks/use-filter-types";
 import { Badge } from "@/shared/ui/badge";
 import { cn } from "@/shared/utils/tailwind";
-import useFilterTypes from "@/shared/hooks/use-filter-types";
-import { useMemo } from "react";
-import { BADGE_TYPE } from "@/shared/constants/badge-type";
 import { Skeleton } from "@/shared/ui/skeleton";
-import useSelectedFiltersStore from "@/zustand/selected-filter";
-import { Filter } from "@/zustand/selected-filter/type";
 
 export function SalesFilter() {
   const { isLoading, visitTypes, paymentTypes, serviceTypes, genders } =
     useFilterTypes();
 
+  const filters = [...genders, ...visitTypes, ...serviceTypes, ...paymentTypes];
   const selectedFilters = useSelectedFiltersStore(
     (state) => state.selectedFilters
   );
   const handleToggleFilter = useSelectedFiltersStore(
     (state) => state.toggleFilter
   );
-
-  const visitTypeFilters = useMemo(() => {
-    return visitTypes.map((visitType) => ({
-      ...visitType,
-      type: BADGE_TYPE.visitType,
-    }));
-  }, [visitTypes]);
-
-  const serviceTypeFilters = useMemo(() => {
-    return serviceTypes.map((serviceType) => ({
-      ...serviceType,
-      type: BADGE_TYPE.serviceType,
-    }));
-  }, [serviceTypes]);
-
-  const paymentTypeFilters = useMemo(() => {
-    return paymentTypes.map((paymentType) => ({
-      ...paymentType,
-      type: BADGE_TYPE.paymentType,
-    }));
-  }, [paymentTypes]);
-
-  const genderFilters = useMemo(() => {
-    return genders.map((gender) => ({ ...gender, type: BADGE_TYPE.gender }));
-  }, [genders]);
-
-  const filterList = [
-    ...visitTypeFilters,
-    ...serviceTypeFilters,
-    ...paymentTypeFilters,
-    ...genderFilters,
-  ] as Filter[];
 
   if (isLoading) {
     const mockFilters = Array.from({ length: 5 }, (_, index) => index + 1);
@@ -63,7 +30,7 @@ export function SalesFilter() {
 
   return (
     <div className="flex md:flex-wrap md:mt-[24px] h-auto py-[6px] gap-1 box-border overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-hidden">
-      {filterList.map(({ id, name, type }) => {
+      {filters.map(({ id, name, type }) => {
         const isSelected = selectedFilters.some((filter) => filter.id === id);
         return (
           <Badge
