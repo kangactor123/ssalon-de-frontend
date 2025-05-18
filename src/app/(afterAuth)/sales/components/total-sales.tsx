@@ -1,33 +1,40 @@
 "use client";
 
-import { useSales, useTotalAmount } from "@/queries/sales";
+import { useSales } from "@/queries/sales";
 import useDateStore from "@/zustand/date";
 import { useMemo } from "react";
 import { formatDate } from "@/shared/utils/dayjs";
-import { YEAR_MONTH_DAY_TIME } from "@/shared/constants/dayjs-format";
 import { Button } from "@/shared/ui/button";
 import { LucideRotateCw } from "lucide-react";
 import TotalSalesSkeleton from "./total-sales-skeleton";
+import useSelectedFiltersStore from "@/zustand/selected-filter";
 
 export function TotalSales() {
-  const { date } = useDateStore();
-  const { data = [] } = useSales(
-    { date: formatDate({ date }) },
-    { enabled: !!date }
+  const selectedFilter = useSelectedFiltersStore(
+    (state) => state.selectedFilters
   );
-
+  const getFilteredSales = useSelectedFiltersStore(
+    (state) => state.getFilteredSales
+  );
+  const { date } = useDateStore();
   const {
-    data: amount = 0,
+    data: sales = [],
     isLoading,
     isFetching,
     isError,
     refetch,
-  } = useTotalAmount(formatDate({ date, format: YEAR_MONTH_DAY_TIME }), {
-    retry: 3,
-  });
+  } = useSales({ date: formatDate({ date }) }, { enabled: !!date });
+
+  const filteredSales = useMemo(
+    () => getFilteredSales(sales),
+    [sales, selectedFilter, getFilteredSales]
+  );
 
   const loading = isLoading || isFetching;
-  const totalCount = useMemo(() => data.length, [data]);
+  const totalCount = filteredSales.length;
+  const totalAmount = filteredSales.reduce((acc, { amount }) => {
+    return acc + +amount;
+  }, 0);
 
   if (loading) {
     return <TotalSalesSkeleton />;
@@ -53,7 +60,7 @@ export function TotalSales() {
     <div className="flex flex-col gap-4 md:flex-row md:gap-0">
       <div className="flex items-center gap-2 tracking-wider">
         <span className="text-sm font-medium text-gray-600">총 매출</span>
-        <p className="text-2xl font-bold">{amount.toLocaleString()}원</p>
+        <p className="text-2xl font-bold">{totalAmount.toLocaleString()}원</p>
       </div>
       <div className="hidden md:block border border-[bg-gray-200] m-2 mx-4" />
       <div className="flex items-center gap-2 tracking-wider">

@@ -1,19 +1,22 @@
 import { Badge } from "@/shared/ui/badge";
-import { Filter } from "@/shared/types/filter";
 import { cn } from "@/shared/utils/tailwind";
 import useFilterTypes from "@/shared/hooks/use-filter-types";
 import { useMemo } from "react";
 import { BADGE_TYPE } from "@/shared/constants/badge-type";
 import { Skeleton } from "@/shared/ui/skeleton";
+import useSelectedFiltersStore from "@/zustand/selected-filter";
+import { Filter } from "@/zustand/selected-filter/type";
 
-type SalesFilterProps = {
-  selectedFilters: Filter[];
-  onToggle: (filter: Filter) => void;
-};
-
-export function SalesFilter({ selectedFilters, onToggle }: SalesFilterProps) {
+export function SalesFilter() {
   const { isLoading, visitTypes, paymentTypes, serviceTypes, genders } =
     useFilterTypes();
+
+  const selectedFilters = useSelectedFiltersStore(
+    (state) => state.selectedFilters
+  );
+  const handleToggleFilter = useSelectedFiltersStore(
+    (state) => state.toggleFilter
+  );
 
   const visitTypeFilters = useMemo(() => {
     return visitTypes.map((visitType) => ({
@@ -65,7 +68,7 @@ export function SalesFilter({ selectedFilters, onToggle }: SalesFilterProps) {
         return (
           <Badge
             key={id}
-            onClick={() => onToggle({ id, type, name })}
+            onClick={() => handleToggleFilter({ id, type, name })}
             variant={isSelected ? "default" : "outline"}
             className={cn("cursor-pointer select-none")}
           >
