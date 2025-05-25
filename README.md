@@ -1,4 +1,9 @@
-![ssalon-de-demo](https://github.com/user-attachments/assets/a35f6784-e08c-4197-a017-c756f3bd7ba2)
+
+<div align="center">
+  
+  ![ssalon-de-demo](https://github.com/user-attachments/assets/a35f6784-e08c-4197-a017-c756f3bd7ba2)  
+
+</div>
 
 # Ssalon De Frontend
 
