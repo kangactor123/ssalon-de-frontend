@@ -1,3 +1,5 @@
+![ssalon-de-demo](https://github.com/user-attachments/assets/a35f6784-e08c-4197-a017-c756f3bd7ba2)
+
 # Ssalon De Frontend
 
 Ssalon De Frontend는 미용실의 매출 관리를 위한 웹 애플리케이션입니다. Next.js와 TypeScript를 기반으로 개발되었으며, 사용자가 직관적으로 예약 및 매출을 관리할 수 있도록 설계되었습니다.
