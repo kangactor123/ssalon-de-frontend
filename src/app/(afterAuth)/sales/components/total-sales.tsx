@@ -6,7 +6,6 @@ import { useMemo } from "react";
 import { formatDate } from "@/shared/utils/dayjs";
 import { Button } from "@/shared/ui/button";
 import { LucideRotateCw } from "lucide-react";
-import TotalSalesSkeleton from "./total-sales-skeleton";
 import useSelectedFiltersStore from "@/zustand/selected-filter";
 
 export function TotalSales() {
@@ -19,8 +18,6 @@ export function TotalSales() {
   const { date } = useDateStore();
   const {
     data: sales = [],
-    isLoading,
-    isFetching,
     isError,
     refetch,
   } = useSales({ date: formatDate({ date }) }, { enabled: !!date });
@@ -30,15 +27,10 @@ export function TotalSales() {
     [sales, selectedFilter, getFilteredSales]
   );
 
-  const loading = isLoading || isFetching;
   const totalCount = filteredSales.length;
   const totalAmount = filteredSales.reduce((acc, { amount }) => {
     return acc + +amount;
   }, 0);
-
-  if (loading) {
-    return <TotalSalesSkeleton />;
-  }
 
   if (isError) {
     return (

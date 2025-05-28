@@ -100,13 +100,13 @@ const SaleEditPage = () => {
     enabled: isEdit,
   });
 
-  const onSuccessCallback = useCallback(() => {
+  const onSuccessCallback = () => {
     reset(defaultValues);
     client.invalidateQueries({
       queryKey: [KEYS.sales.list, date],
     });
     router.push(PATH.SALES);
-  }, [date, client, defaultValues, reset, router]);
+  };
 
   const { mutate: createSale } = useCreateSale({
     onSuccess: onSuccessCallback,
@@ -238,13 +238,16 @@ const SaleEditPage = () => {
     [selectedServices, selectedVisitTypes, setValue, setAmountToEmptyPayment]
   );
 
-  const handleSelectTime = (time: string) => {
-    const isSameTime = selectedTime === time;
+  const handleSelectTime = useCallback(
+    (time: string) => {
+      const isSameTime = selectedTime === time;
 
-    isTouchTime.current = true;
-    setValue("time", isSameTime ? "" : time);
-    setTimeAccordion("");
-  };
+      isTouchTime.current = true;
+      setValue("time", isSameTime ? "" : time);
+      setTimeAccordion("");
+    },
+    [selectedTime, setValue]
+  );
 
   const isSubmitButtonDisabled = useMemo(() => {
     const hasError = Object.keys(formState.errors).length > 0;

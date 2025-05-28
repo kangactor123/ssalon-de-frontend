@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Payment } from "@/queries/sales/type";
 import { usePaymentTypes } from "@/queries/settings";
 import type { PaymentType } from "@/queries/settings/type";
@@ -72,12 +72,15 @@ const PaymentTypes: React.FC<Props> = (props) => {
 
   const isEmptyPaymentTypes = paymentTypes.length === 0;
 
-  const onClickReload = (event: React.SyntheticEvent<HTMLButtonElement>) => {
-    event.stopPropagation();
-    queryClient.invalidateQueries({
-      queryKey: PAYMENT_TYPES_KEY,
-    });
-  };
+  const onClickReload = useCallback(
+    (event: React.SyntheticEvent<HTMLButtonElement>) => {
+      event.stopPropagation();
+      queryClient.invalidateQueries({
+        queryKey: PAYMENT_TYPES_KEY,
+      });
+    },
+    [queryClient]
+  );
 
   const handleCheckedChange = (checked: boolean, id: string) => {
     const paymentType = paymentTypes.find((type) => type.id === id);
@@ -94,19 +97,19 @@ const PaymentTypes: React.FC<Props> = (props) => {
     }
   };
 
-  const handlePaymentTypeAmountChange = (
-    amount: string,
-    targetIndex: number
-  ) => {
-    if (!isNaN(Number(amount))) {
-      setValue(`payments.${targetIndex}.amount`, amount);
-    } else {
-      toast({
-        description: "숫자만 입력해주세요.",
-        variant: "destructive",
-      });
-    }
-  };
+  const handlePaymentTypeAmountChange = useCallback(
+    (amount: string, targetIndex: number) => {
+      if (!isNaN(Number(amount))) {
+        setValue(`payments.${targetIndex}.amount`, amount);
+      } else {
+        toast({
+          description: "숫자만 입력해주세요.",
+          variant: "destructive",
+        });
+      }
+    },
+    [setValue, toast]
+  );
 
   if (isFetching) {
     return (

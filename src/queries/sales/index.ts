@@ -1,4 +1,9 @@
-import { useMutation, useQuery, UseQueryOptions } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQuery,
+  UseQueryOptions,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
 import { CreateSaleDto, GetSalesParams, Sale, UpdateSaleDto } from "./type";
 import { KEYS } from "@/shared/constants/query-keys";
 import {
@@ -15,7 +20,7 @@ export const useSales = (
   params: GetSalesParams,
   options?: Omit<UseQueryOptions<Sale[]>, "queryKey" | "queryFn">
 ) => {
-  return useQuery<Sale[]>({
+  return useSuspenseQuery<Sale[]>({
     ...options,
     queryKey: [KEYS.sales.list, params.date],
     queryFn: () => getSales(params),

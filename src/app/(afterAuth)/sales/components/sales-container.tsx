@@ -8,7 +8,6 @@ import { MutateType } from "@/shared/types/query";
 import useDateStore from "@/zustand/date";
 import { useQueryClient } from "@tanstack/react-query";
 import { KEYS } from "@/shared/constants/query-keys";
-import { SalesFilter } from "./sales-filter";
 import { useRouter } from "next/navigation";
 import { ConfirmDialog } from "@/shared/ui/alert-dialog";
 import { formatDate } from "@/shared/utils/dayjs";
@@ -93,7 +92,6 @@ const SalesContainer = () => {
 
   return (
     <>
-      <SalesFilter />
       <div className="space-y-4">
         <SalesList
           isEmpty={sales.length === 0}

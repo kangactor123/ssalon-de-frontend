@@ -6,7 +6,7 @@ import { Label } from "@/shared/ui/label";
 import Spinner from "@/shared/ui/spinner";
 import { useQueryClient } from "@tanstack/react-query";
 import { LucideRotateCw } from "lucide-react";
-import React from "react";
+import React, { useCallback } from "react";
 
 type VisitTypeProps = {
   id: string;
@@ -54,12 +54,15 @@ const VisitTypes: React.FC<Props> = (props) => {
 
   const isEmpty = visitTypes.length === 0;
 
-  const onClickReload = (event: React.SyntheticEvent<HTMLButtonElement>) => {
-    event.stopPropagation();
-    queryClient.invalidateQueries({
-      queryKey: VISIT_TYPES_KEY,
-    });
-  };
+  const onClickReload = useCallback(
+    (event: React.SyntheticEvent<HTMLButtonElement>) => {
+      event.stopPropagation();
+      queryClient.invalidateQueries({
+        queryKey: VISIT_TYPES_KEY,
+      });
+    },
+    [queryClient]
+  );
 
   if (isEmpty) {
     return (
