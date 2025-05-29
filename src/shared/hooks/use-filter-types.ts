@@ -4,7 +4,7 @@ import {
   visitTypesQueryOptions,
 } from "@/queries/settings";
 import { Filter } from "@/zustand/selected-filter/type";
-import { useSuspenseQueries } from "@tanstack/react-query";
+import { useQueries } from "@tanstack/react-query";
 import { BadgeType } from "@/shared/types/badge-type";
 import { BADGE_TYPE } from "@/shared/constants/badge-type";
 
@@ -13,6 +13,8 @@ type ReturnType = {
   paymentTypes: Filter[];
   serviceTypes: Filter[];
   genders: Filter[];
+  isLoading: boolean;
+  isError: boolean;
   isVisitTypesFetching: boolean;
   isVisitTypesError: boolean;
   isPaymentTypesFetching: boolean;
@@ -37,7 +39,7 @@ const useFilterTypes = (): ReturnType => {
   const paymentTypesQuery = paymentTypesQueryOptions();
   const serviceTypesQuery = serviceTypesQueryOptions();
 
-  const queriesResult = useSuspenseQueries({
+  const queriesResult = useQueries({
     queries: [visitTypesQuery, paymentTypesQuery, serviceTypesQuery],
   });
 
@@ -49,11 +51,23 @@ const useFilterTypes = (): ReturnType => {
     { id: "F", name: "여성" },
   ];
 
+  const isLoading =
+    visitTypesResult.isLoading &&
+    paymentTypesResult.isLoading &&
+    serviceTypesResult.isLoading;
+
+  const isError =
+    visitTypesResult.isError ||
+    paymentTypesResult.isError ||
+    serviceTypesResult.isError;
+
   return {
     visitTypes: makeFilter(visitTypesResult.data, BADGE_TYPE.visitType),
     paymentTypes: makeFilter(paymentTypesResult.data, BADGE_TYPE.paymentType),
     serviceTypes: makeFilter(serviceTypesResult.data, BADGE_TYPE.serviceType),
     genders: makeFilter(genders, BADGE_TYPE.gender),
+    isLoading,
+    isError,
     isVisitTypesFetching: visitTypesResult.isFetching,
     isPaymentTypesFetching: paymentTypesResult.isFetching,
     isServiceTypesFetching: serviceTypesResult.isFetching,

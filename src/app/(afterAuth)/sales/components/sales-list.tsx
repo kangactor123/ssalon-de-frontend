@@ -2,6 +2,7 @@ import { Sale } from "@/queries/sales/type";
 import SalesItem from "./sales-item";
 import EmptySales from "./empty-sales";
 import { useRouter } from "next/navigation";
+import SalesItemSkeleton from "./sales-item-skeleton";
 
 type Props = {
   isLoading: boolean;
@@ -19,6 +20,10 @@ const SalesList: React.FC<Props> = ({
   onClickSaleDelete,
 }) => {
   const router = useRouter();
+
+  if (isLoading) {
+    return <SalesItemSkeleton />;
+  }
 
   if (isEmpty) {
     return (

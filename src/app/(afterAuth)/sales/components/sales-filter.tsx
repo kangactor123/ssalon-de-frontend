@@ -1,13 +1,13 @@
-"use client";
-
 import useSelectedFiltersStore from "@/zustand/selected-filter";
 
 import useFilterTypes from "@/shared/hooks/use-filter-types";
 import { Badge } from "@/shared/ui/badge";
 import { cn } from "@/shared/utils/tailwind";
+import { Skeleton } from "@/shared/ui/skeleton";
 
 export function SalesFilter() {
-  const { visitTypes, paymentTypes, serviceTypes, genders } = useFilterTypes();
+  const { isLoading, visitTypes, paymentTypes, serviceTypes, genders } =
+    useFilterTypes();
 
   const filters = [...genders, ...visitTypes, ...serviceTypes, ...paymentTypes];
   const selectedFilters = useSelectedFiltersStore(
@@ -16,6 +16,17 @@ export function SalesFilter() {
   const handleToggleFilter = useSelectedFiltersStore(
     (state) => state.toggleFilter
   );
+
+  if (isLoading) {
+    const mockFilters = Array.from({ length: 5 }, (_, index) => index + 1);
+    return (
+      <div className="flex gap-1">
+        {mockFilters.map((value) => (
+          <BadgeSkeleton key={`badge${value}`} />
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div className="flex md:flex-wrap md:mt-[24px] h-auto py-[6px] gap-1 box-border overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-hidden">
@@ -35,3 +46,7 @@ export function SalesFilter() {
     </div>
   );
 }
+
+const BadgeSkeleton = () => {
+  return <Skeleton className="w-[80px] h-[22px]" />;
+};
