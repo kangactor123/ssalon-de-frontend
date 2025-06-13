@@ -5,7 +5,6 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/popover";
 import { Calendar as CalendarIcon } from "lucide-react";
 
 import { Calendar } from "@/shared/ui/calendar";
-import { memo } from "react";
 import { useCalendar } from "@/shared/hooks/use-calendar";
 
 const MonthPicker = () => {
@@ -34,4 +33,4 @@ const MonthPicker = () => {
   );
 };
 
-export default memo(MonthPicker);
+export default MonthPicker;

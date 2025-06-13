@@ -3,7 +3,7 @@
 import { useGenderRatio } from "@/queries/dashboard";
 import { GenderRatio } from "@/queries/dashboard/type";
 import { useRouter } from "next/navigation";
-import { memo, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import EmptyWidget from "./empty-widget";
 import PieChart from "@/shared/ui/pie-chart";
 import { renderActiveShape } from "./pie-chart-active-shape";
@@ -57,4 +57,4 @@ function GenderRatioWidget() {
   );
 }
 
-export default memo(GenderRatioWidget);
+export default GenderRatioWidget;

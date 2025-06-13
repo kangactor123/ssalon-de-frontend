@@ -11,7 +11,6 @@ import { formatDate } from "@/shared/utils/dayjs";
 import { YEAR_MONTH } from "@/shared/constants/dayjs-format";
 import dayjs from "dayjs";
 import useDateStore from "@/zustand/date";
-import { memo } from "react";
 
 const chartConfig = {
   count: {
@@ -48,4 +47,4 @@ function DailySalesLineChart() {
   );
 }
 
-export default memo(DailySalesLineChart);
+export default DailySalesLineChart;

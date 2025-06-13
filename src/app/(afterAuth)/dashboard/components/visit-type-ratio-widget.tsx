@@ -2,7 +2,7 @@
 
 import { useVisitTypesRatio } from "@/queries/dashboard";
 import { useRouter } from "next/navigation";
-import { memo, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import EmptyWidget from "./empty-widget";
 import PieChart from "@/shared/ui/pie-chart";
 import { renderActiveShape } from "./pie-chart-active-shape";
@@ -54,4 +54,4 @@ function VisitTypesRatioWidget() {
   );
 }
 
-export default memo(VisitTypesRatioWidget);
+export default VisitTypesRatioWidget;

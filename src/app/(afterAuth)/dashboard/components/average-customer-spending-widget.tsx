@@ -12,7 +12,7 @@ import { formatDate } from "@/shared/utils/dayjs";
 import useDateStore from "@/zustand/date";
 import dayjs from "dayjs";
 import { TrendingUp, TrendingDown, TriangleAlertIcon } from "lucide-react";
-import { memo } from "react";
+import AverageCustomerSpendingWidgetSkeleton from "./average-customer-spending-widget-skeleton";
 
 const initialData = {
   currentMonth: 0,
@@ -24,7 +24,7 @@ function AverageCustomerSpendingWidget() {
 
   const getMonth = useDateStore((state) => state.getMonth);
   const selectedMonth = getMonth(date);
-  const { data = initialData } = useAverageCustomerSpending(
+  const { data = initialData, isFetching } = useAverageCustomerSpending(
     formatDate({ date: dayjs(date), format: YEAR_MONTH })
   );
 
@@ -36,6 +36,10 @@ function AverageCustomerSpendingWidget() {
 
   const isPercentageValid =
     percentageChange !== Infinity && !isNaN(percentageChange);
+
+  if (isFetching) {
+    return <AverageCustomerSpendingWidgetSkeleton />;
+  }
 
   return (
     <div className="space-y-4">
@@ -91,4 +95,4 @@ function AverageCustomerSpendingWidget() {
   );
 }
 
-export default memo(AverageCustomerSpendingWidget);
+export default AverageCustomerSpendingWidget;

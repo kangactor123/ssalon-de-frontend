@@ -5,11 +5,12 @@ import { cn } from "@/shared/utils/tailwind";
 import dayjs from "dayjs";
 import { ArrowUpCircle, Calendar, Flag } from "lucide-react";
 import { useRouter } from "next/navigation";
-import EmptyWidget from "./empty-widget";
 import { formatDate } from "@/shared/utils/dayjs";
 import { YEAR_MONTH } from "@/shared/constants/dayjs-format";
 import useDateStore from "@/zustand/date";
-import { memo } from "react";
+
+import EmptyWidget from "./empty-widget";
+import DailyTargetWidgetSkeleton from "./daily-target-widget-skeleton";
 
 const initialData = {
   targetSales: 0,
@@ -19,9 +20,8 @@ const initialData = {
 function DailyTargetWidget() {
   const router = useRouter();
   const date = useDateStore((state) => state.date);
-  const { data: targetTotalSales = initialData } = useTargetTotalSales(
-    formatDate({ date: dayjs(date), format: YEAR_MONTH })
-  );
+  const { data: targetTotalSales = initialData, isFetching } =
+    useTargetTotalSales(formatDate({ date: dayjs(date), format: YEAR_MONTH }));
 
   const daysInMonth = dayjs(date).daysInMonth();
   const selectedDate = dayjs(date).date();
@@ -37,6 +37,10 @@ function DailyTargetWidget() {
   const handleClickRoute = () => {
     router.push("/management");
   };
+
+  if (isFetching) {
+    return <DailyTargetWidgetSkeleton />;
+  }
 
   if (isNotSettingTarget) {
     return (
@@ -96,4 +100,4 @@ function DailyTargetWidget() {
   );
 }
 
-export default memo(DailyTargetWidget);
+export default DailyTargetWidget;

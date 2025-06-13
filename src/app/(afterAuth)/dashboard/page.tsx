@@ -14,6 +14,9 @@ import {
 import MonthPicker from "./components/month-picker";
 import dynamic from "next/dynamic";
 import withSuspense from "@/shared/hoc/with-suspense";
+import TotalSalesWidgetSkeleton from "./components/total-sales-widget-skeleton";
+import DailyTargetWidgetSkeleton from "./components/daily-target-widget-skeleton";
+import AverageCustomerSpendingWidgetSkeleton from "./components/average-customer-spending-widget-skeleton";
 
 const DashboardHeader = dynamic(() => import("./components/dashboard-header"));
 const CalendarWidget = dynamic(() => import("./components/calendar-widget"));
@@ -50,8 +53,6 @@ const TotalSalesCountWidget = dynamic(
 );
 
 export default function Dashboard() {
-  // const withSuspense = useSuspense();
-
   return (
     <div className="space-y-6">
       {withSuspense(
@@ -68,7 +69,7 @@ export default function Dashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent className="overflow-auto">
-            {withSuspense(<TotalSalesWidget />)}
+            {withSuspense(<TotalSalesWidget />, TotalSalesWidgetSkeleton)}
           </CardContent>
         </Card>
         <Card>
@@ -78,7 +79,9 @@ export default function Dashboard() {
               <Target className="w-5 h-5 text-purple-500" />
             </CardTitle>
           </CardHeader>
-          <CardContent>{withSuspense(<DailyTargetWidget />)}</CardContent>
+          <CardContent>
+            {withSuspense(<DailyTargetWidget />, DailyTargetWidgetSkeleton)}
+          </CardContent>
         </Card>
         <Card>
           <CardHeader>
@@ -88,7 +91,10 @@ export default function Dashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            {withSuspense(<AverageCustomerSpendingWidget />)}
+            {withSuspense(
+              <AverageCustomerSpendingWidget />,
+              AverageCustomerSpendingWidgetSkeleton
+            )}
           </CardContent>
         </Card>
         <Card className="col-span-full md:col-span-2">

@@ -7,7 +7,6 @@ import { formatDate } from "@/shared/utils/dayjs";
 import { YEAR_MONTH } from "@/shared/constants/dayjs-format";
 import dayjs from "dayjs";
 import useDateStore from "@/zustand/date";
-import { memo } from "react";
 
 const initialData: TargetTotalSales = {
   targetSales: 0,
@@ -56,4 +55,4 @@ function TargetTotalSalesWidget() {
   );
 }
 
-export default memo(TargetTotalSalesWidget);
+export default TargetTotalSalesWidget;

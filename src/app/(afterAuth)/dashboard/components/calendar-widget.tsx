@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useState } from "react";
+import { useState } from "react";
 import dayjs from "dayjs";
 import localeData from "dayjs/plugin/localeData";
 import updateLocale from "dayjs/plugin/updateLocale";
@@ -105,4 +105,4 @@ function CalendarWidget() {
   );
 }
 
-export default memo(CalendarWidget);
+export default CalendarWidget;

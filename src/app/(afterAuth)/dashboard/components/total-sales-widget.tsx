@@ -1,12 +1,11 @@
 "use client";
 
-import Spinner from "@/shared/ui/spinner";
 import { useMonthlyTotalSales } from "@/queries/dashboard";
 import { formatDate } from "@/shared/utils/dayjs";
 import { YEAR_MONTH } from "@/shared/constants/dayjs-format";
 import dayjs from "dayjs";
 import useDateStore from "@/zustand/date";
-import { memo } from "react";
+import TotalSalesWidgetSkeleton from "./total-sales-widget-skeleton";
 
 function TotalSalesWidget() {
   const date = useDateStore((state) => state.date);
@@ -15,11 +14,7 @@ function TotalSalesWidget() {
   );
 
   if (isFetching) {
-    return (
-      <div className="flex items-center justify-center">
-        <Spinner />
-      </div>
-    );
+    return <TotalSalesWidgetSkeleton />;
   }
 
   return (
@@ -39,4 +34,4 @@ function TotalSalesWidget() {
   );
 }
 
-export default memo(TotalSalesWidget);
+export default TotalSalesWidget;
