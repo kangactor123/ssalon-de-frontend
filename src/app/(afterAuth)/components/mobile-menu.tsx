@@ -14,11 +14,11 @@ import useUserStore from "@/zustand/user";
 import { MobileHeader } from "./mobile-header";
 import { APP_NAME } from "@/shared/constants/app";
 import { useInitCustomBadge } from "@/shared/hooks/use-init-custom-badge";
-import Spinner from "@/shared/ui/spinner";
 import { useInitUserInfo } from "@/shared/hooks/use-init-user-info";
 import LoadingButton from "@/shared/ui/loading-button";
 import { Calendar } from "@/shared/ui/calendar";
 import { useCalendar } from "@/shared/hooks/use-calendar";
+import UserProfile from "./user-profile";
 
 function MobileMenu() {
   const pathname = usePathname();
@@ -56,17 +56,12 @@ function MobileMenu() {
                 </span>
               </Link>
             </div>
-            <div className="flex items-center px-6 py-4 space-x-4 border-b">
-              {enabledInitialize || isLoading ? (
-                <div className="flex items-center justify-center w-full h-full">
-                  <Spinner />
-                </div>
-              ) : (
-                <div>
-                  <p className="font-medium text-gray-700">{user?.name}</p>
-                  <p className="text-sm text-gray-500">{user?.email}</p>
-                </div>
-              )}
+            <div className="flex items-center px-2 py-4 space-x-4 border-b">
+              <UserProfile
+                name={user?.name}
+                email={user?.email}
+                isLoading={enabledInitialize || isLoading}
+              />
             </div>
             <nav className="flex-grow py-6 scrollbar-hidden">
               <ul className="space-y-2">

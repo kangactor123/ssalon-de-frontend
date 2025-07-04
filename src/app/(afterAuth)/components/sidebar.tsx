@@ -10,11 +10,11 @@ import { APP_NAME } from "@/shared/constants/app";
 import { useLogout } from "@/shared/hooks/use-logout";
 import { useStore } from "@/shared/hooks/use-store";
 import { useInitCustomBadge } from "@/shared/hooks/use-init-custom-badge";
-import Spinner from "@/shared/ui/spinner";
 import { useInitUserInfo } from "@/shared/hooks/use-init-user-info";
 import LoadingButton from "@/shared/ui/loading-button";
 import { Calendar } from "@/shared/ui/calendar";
 import { useCalendar } from "@/shared/hooks/use-calendar";
+import UserProfile from "./user-profile";
 
 function Sidebar() {
   const user = useStore(useUserStore, (state) => state.user);
@@ -35,18 +35,11 @@ function Sidebar() {
         </Link>
       </div>
       <div className="flex-none p-4 border-b border-gray-200 min-h-[77px]">
-        {enabledInitialize || isLoading ? (
-          <div className="flex items-center justify-center w-full h-full">
-            <Spinner />
-          </div>
-        ) : (
-          <div className="flex items-center space-x-3">
-            <div>
-              <p className="font-medium text-gray-700">{user?.name}</p>
-              <p className="text-sm text-gray-500">{user?.email}</p>
-            </div>
-          </div>
-        )}
+        <UserProfile
+          name={user?.name}
+          email={user?.email}
+          isLoading={enabledInitialize || isLoading}
+        />
       </div>
       <nav className="flex-grow p-4 overflow-auto scrollbar-hidden">
         <ul className="space-y-2">
