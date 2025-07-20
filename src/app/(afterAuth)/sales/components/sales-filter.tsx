@@ -29,7 +29,7 @@ export function SalesFilter() {
   }
 
   return (
-    <div className="flex md:flex-wrap md:mt-[24px] h-auto py-[6px] gap-1 box-border overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-hidden">
+    <div className="flex md:flex-wrap  h-auto py-[6px] gap-1 box-border overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-hidden">
       {filters.map(({ id, name, type }) => {
         const isSelected = selectedFilters.some((filter) => filter.id === id);
         return (
