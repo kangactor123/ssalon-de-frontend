@@ -77,7 +77,7 @@ export default function EditProfilePage() {
 
   return (
     <div className="container">
-      <PageTitle title="개인정보 수정" className="mb-4" />
+      <PageTitle className="mb-4">개인정보 수정</PageTitle>
       <Card>
         <CardHeader>
           <CardDescription>

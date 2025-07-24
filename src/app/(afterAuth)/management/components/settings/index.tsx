@@ -136,7 +136,7 @@ const Settings = () => {
       onSubmit={handleSubmit(handleSave)}
     >
       <div className="flex justify-between">
-        <PageTitle title="설정" />
+        <PageTitle>설정</PageTitle>
         <Button
           type="submit"
           size="icon"

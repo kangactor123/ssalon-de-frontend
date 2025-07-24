@@ -37,7 +37,7 @@ const DatePicker = () => {
       <div className="sm:gap-4 flex items-center justify-center gap-1">
         {thisWeekDays.map((day) => (
           <Button
-            size="icon"
+            size="roundedIcon"
             key={day.format(YEAR_MONTH_DAY)}
             variant={day.isSame(date, "day") ? "default" : "ghost"}
             onClick={() => setDate(day.format(YEAR_MONTH_DAY))}

@@ -1,7 +1,14 @@
 import { useMutation, useQuery, UseQueryOptions } from "@tanstack/react-query";
-import { CreateSaleDto, GetSalesParams, Sale, UpdateSaleDto } from "./type";
+import {
+  CreateBulkSaleDTO,
+  CreateSaleDto,
+  GetSalesParams,
+  Sale,
+  UpdateSaleDto,
+} from "./type";
 import { KEYS } from "@/shared/constants/query-keys";
 import {
+  createBulkSale,
   createSale,
   deleteSale,
   getSale,
@@ -48,6 +55,15 @@ export const useCreateSale = (options?: MutationOptions<CreateSaleDto>) => {
   return useMutation({
     ...options,
     mutationFn: createSale,
+  });
+};
+
+export const useCreateBulkSale = (
+  options?: MutationOptions<CreateBulkSaleDTO>
+) => {
+  return useMutation({
+    ...options,
+    mutationFn: createBulkSale,
   });
 };
 

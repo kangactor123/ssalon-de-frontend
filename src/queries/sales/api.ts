@@ -1,6 +1,12 @@
 import api from "@/shared/lib/axios";
 
-import { CreateSaleDto, GetSalesParams, Sale, UpdateSaleDto } from "./type";
+import {
+  CreateBulkSaleDTO,
+  CreateSaleDto,
+  GetSalesParams,
+  Sale,
+  UpdateSaleDto,
+} from "./type";
 
 export async function getSales(params: GetSalesParams) {
   const { data } = await api({
@@ -36,6 +42,17 @@ export const createSale = async (dto: CreateSaleDto): Promise<unknown> => {
   const { data } = await api({
     method: "POST",
     url: "/sales",
+    data: dto,
+  });
+  return data;
+};
+
+export const createBulkSale = async (
+  dto: CreateBulkSaleDTO
+): Promise<unknown> => {
+  const { data } = await api({
+    method: "POST",
+    url: "/sales/bulk",
     data: dto,
   });
   return data;

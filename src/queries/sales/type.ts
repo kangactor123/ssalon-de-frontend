@@ -32,3 +32,12 @@ export type CreateSaleDto = Omit<
   payments: Payment[];
 };
 export type UpdateSaleDto = CreateSaleDto & { id: string };
+
+export type BulkSale = {
+  amount: number;
+};
+
+export type CreateBulkSaleDTO = {
+  date: string;
+  bulkSales: number[];
+};

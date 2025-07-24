@@ -1,11 +1,17 @@
+import { PropsWithChildren } from "react";
+
 type Props = {
-  title: string;
   className?: string;
 };
 
-const PageTitle: React.FC<Props> = ({ title, className }) => {
+const PageTitle: React.FC<PropsWithChildren<Props>> = ({
+  children,
+  className,
+}) => {
   return (
-    <h2 className={`text-3xl font-bold text-gray-800 ${className}`}>{title}</h2>
+    <h2 className={`text-3xl font-bold text-gray-800 ${className}`}>
+      {children}
+    </h2>
   );
 };
 

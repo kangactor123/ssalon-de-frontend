@@ -56,7 +56,7 @@ const SaleEditPage = () => {
   const { toast } = useToast();
   const { date } = useDateStore();
 
-  const id = searchParams.get("saleId") ?? "";
+  const id = searchParams?.get("saleId") ?? "";
   const isEdit = !!id;
   const title = isEdit ? "매출 수정" : "매출 등록";
 
@@ -95,6 +95,8 @@ const SaleEditPage = () => {
   const selectedVisitTypes = useWatch({ control, name: "visitTypes" });
   const payments = useWatch({ control, name: "payments" });
   const selectedTime = useWatch({ control, name: "time" });
+
+  console.log(amount);
 
   const { data: sale } = useSale(id, {
     enabled: isEdit,
@@ -258,6 +260,7 @@ const SaleEditPage = () => {
     function setPreviousSales() {
       if (isEdit && sale) {
         isTouchTime.current = true;
+
         reset({
           id: sale.id,
           amount: sale.amount,
@@ -276,6 +279,7 @@ const SaleEditPage = () => {
 
   useEffect(
     function setTotalAmount() {
+      console.log("here 이 로직때문에 amount가 적용이 안됨");
       const totalAmount = payments.reduce(
         (prev, { amount }) => prev + +amount,
         0

@@ -26,7 +26,7 @@ export default async function ProfilePage() {
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div className="container">
-        <PageTitle title="개인정보 확인" className="mb-4" />
+        <PageTitle className="mb-4">개인정보 확인</PageTitle>
         <Card>
           <CardHeader>
             <CardDescription>귀하의 개인정보를 확인하세요.</CardDescription>

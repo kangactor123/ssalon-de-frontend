@@ -19,7 +19,7 @@ const PaymentTypesHeader = () => {
 
   return (
     <div className="flex items-center justify-between">
-      <PageTitle title="결제 유형" />
+      <PageTitle>결제 유형</PageTitle>
       <Button onClick={() => setOpenDialog(true)}>
         <Plus className="w-4 h-4 mr-2" />
         생성
