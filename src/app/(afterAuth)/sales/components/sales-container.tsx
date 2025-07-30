@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, Suspense, useCallback, useMemo, useState } from "react";
+import { memo, Suspense, useCallback, useState } from "react";
 
 import { useDeleteSale, useSales } from "@/queries/sales";
 import { MutateType } from "@/shared/types/query";
@@ -49,11 +49,7 @@ const SalesContainer = () => {
   });
 
   const loading = isLoading || isFetching;
-
-  const filteredSales = useMemo(
-    () => getFilteredSales(sales),
-    [sales, getFilteredSales]
-  );
+  const filteredSales = getFilteredSales(sales);
 
   const onAfterMutate = useCallback(
     (type: MutateType) => {
