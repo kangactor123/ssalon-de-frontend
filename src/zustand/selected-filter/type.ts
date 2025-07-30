@@ -8,7 +8,7 @@ export interface States {
 
 export interface Actions {
   toggleFilter: (filter: Filter) => void;
-  getFilteredSales: (sales: Sale[]) => Sale[];
+  getFilteredSales: (sales: Sale[], selectedFilters: Filter[]) => Sale[];
 }
 
 export interface Store extends States, Actions {}

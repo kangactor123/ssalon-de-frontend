@@ -16,9 +16,7 @@ const useSelectedFiltersStore = create<Store>((set, get) => ({
 
     set({ selectedFilters: newFilters });
   },
-  getFilteredSales: (sales) => {
-    const selectedFilters = get().selectedFilters;
-
+  getFilteredSales: (sales, selectedFilters) => {
     const filteredSales = sales.filter((sale) => {
       const selectedVisitTypes = selectedFilters
         .filter((filter) => filter.type === BADGE_TYPE.visitType)

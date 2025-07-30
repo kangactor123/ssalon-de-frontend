@@ -26,7 +26,7 @@ export function TotalSales() {
   } = useSales({ date: formatDate({ date }) }, { enabled: !!date });
 
   const filteredSales = useMemo(
-    () => getFilteredSales(sales),
+    () => getFilteredSales(sales, selectedFilter),
     [sales, selectedFilter, getFilteredSales]
   );
 

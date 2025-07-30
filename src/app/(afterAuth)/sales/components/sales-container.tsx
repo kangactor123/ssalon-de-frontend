@@ -26,6 +26,9 @@ const SalesContainer = () => {
   const router = useRouter();
   const [openDeleteAlert, setOpenDeleteAlert] = useState(false);
   const [selectedSale, setSelectedSale] = useState<string>();
+  const selectedFilters = useSelectedFiltersStore(
+    (state) => state.selectedFilters
+  );
   const getFilteredSales = useSelectedFiltersStore(
     (state) => state.getFilteredSales
   );
@@ -49,7 +52,7 @@ const SalesContainer = () => {
   });
 
   const loading = isLoading || isFetching;
-  const filteredSales = getFilteredSales(sales);
+  const filteredSales = getFilteredSales(sales, selectedFilters);
 
   const onAfterMutate = useCallback(
     (type: MutateType) => {
