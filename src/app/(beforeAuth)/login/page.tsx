@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 
-import { Scissors } from "lucide-react";
 import { useOAuthLogin } from "@/queries/auth";
 
 import kakaoIcon from "@/assets/images/icons/kakao.svg";
@@ -27,10 +26,6 @@ export default function Page() {
     <div className="min-w-[320px] w-[520px] h-full m-auto bg-white shadow-xl pt-12 md:pt-[20vh] overflow-hidden">
       <div className="flex flex-col gap-8">
         <div className="flex items-center justify-center mb-6">
-          {/* <Scissors className="w-12 h-12 text-blue-600" />
-          <span className="ml-2 text-2xl font-bold text-gray-800">
-            ssalon de
-          </span> */}
           <Image src={forma_logo} alt="forma_logo" width="200" height="30" />
         </div>
         <h2 className="text-2xl font-bold text-center">로그인</h2>
