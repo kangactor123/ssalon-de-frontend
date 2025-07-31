@@ -1,15 +1,15 @@
 "use client";
 
-import { Scissors } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { APP_NAME } from "@/shared/constants/app";
+import Image from "next/image";
+
+import forma_logo from "@/assets/images/logo/forma.png";
 
 export function Logo() {
   const router = useRouter();
   return (
     <div className="flex items-center" onClick={() => router.push("/")}>
-      <Scissors className="w-8 h-8 text-blue-600" />
-      <span className="ml-2 text-xl font-bold text-gray-800">{APP_NAME}</span>
+      <Image src={forma_logo} alt="forma_logo" width="120" height="30" />
     </div>
   );
 }

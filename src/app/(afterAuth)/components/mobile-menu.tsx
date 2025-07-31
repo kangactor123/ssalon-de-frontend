@@ -3,7 +3,7 @@
 import { memo, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LogOut, Scissors } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { Sheet, SheetContent } from "@/shared/ui/sheet";
 import { DialogTitle } from "@radix-ui/react-dialog";
 
@@ -19,6 +19,7 @@ import LoadingButton from "@/shared/ui/loading-button";
 import { Calendar } from "@/shared/ui/calendar";
 import { useCalendar } from "@/shared/hooks/use-calendar";
 import UserProfile from "./user-profile";
+import { Logo } from "@/shared/ui/logo";
 
 function MobileMenu() {
   const pathname = usePathname();
@@ -45,16 +46,7 @@ function MobileMenu() {
           </VisuallyHidden.Root>
           <div className="flex flex-col h-full">
             <div className="flex items-center justify-between py-4 border-b">
-              <Link
-                href="/"
-                className="flex items-center space-x-2"
-                onClick={() => setIsOpen(false)}
-              >
-                <Scissors className="w-8 h-8 text-blue-600" />
-                <span className="text-xl font-bold text-gray-800">
-                  {APP_NAME}
-                </span>
-              </Link>
+              <Logo />
             </div>
             <div className="flex items-center px-2 py-4 space-x-4 border-b">
               <UserProfile

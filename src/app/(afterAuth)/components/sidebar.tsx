@@ -3,10 +3,9 @@
 import { memo } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Scissors, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
 import useUserStore from "@/zustand/user";
 import { routes } from "@/shared/constants/routes";
-import { APP_NAME } from "@/shared/constants/app";
 import { useLogout } from "@/shared/hooks/use-logout";
 import { useStore } from "@/shared/hooks/use-store";
 import { useInitCustomBadge } from "@/shared/hooks/use-init-custom-badge";
@@ -15,6 +14,7 @@ import LoadingButton from "@/shared/ui/loading-button";
 import { Calendar } from "@/shared/ui/calendar";
 import { useCalendar } from "@/shared/hooks/use-calendar";
 import UserProfile from "./user-profile";
+import { Logo } from "@/shared/ui/logo";
 
 function Sidebar() {
   const user = useStore(useUserStore, (state) => state.user);
@@ -28,11 +28,8 @@ function Sidebar() {
 
   return (
     <aside className="hidden w-64 h-screen border border-gray-200 shadow-lg md:flex md:flex-col bg-gray-50">
-      <div className="flex-none p-6 border-b border-gray-200">
-        <Link href="/" className="flex items-center space-x-2">
-          <Scissors className="w-8 h-8 text-blue-600" />
-          <span className="text-xl font-bold text-gray-800">{APP_NAME}</span>
-        </Link>
+      <div className="flex-none p-4 border-b border-gray-200">
+        <Logo />
       </div>
       <div className="flex-none p-4 border-b border-gray-200 min-h-[77px]">
         <UserProfile

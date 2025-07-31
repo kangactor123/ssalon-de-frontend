@@ -1,6 +1,3 @@
-// "use client";
-
-// import usePrefetchFilters from "@/shared/hooks/use-prefetch-filters";
 import { Button } from "@/shared/ui/button";
 import { Logo } from "@/shared/ui/logo";
 import { Menu } from "lucide-react";
