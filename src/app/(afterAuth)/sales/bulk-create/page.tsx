@@ -132,9 +132,11 @@ const BulkPage = () => {
       const amount = sale.payments.reduce((prev, cur) => {
         return cur.checked ? prev + (+cur.amount || 0) : prev;
       }, 0);
-      const filterdEmptyPayments = sale.payments.filter(({ checked }) => {
-        return checked;
-      });
+      const filterdEmptyPayments = sale.payments.filter(
+        ({ checked, amount }) => {
+          return checked && amount.length > 0 && amount !== "0";
+        }
+      );
       return {
         amount,
         payments: filterdEmptyPayments.map(({ typeId, amount, name }) => ({
@@ -226,14 +228,17 @@ const BulkPage = () => {
                           type="number"
                           placeholder="금액"
                           className="w-[120px] ml-2"
-                          disabled={!payment.checked}
                           value={payment.amount}
                           onChange={(event) => {
                             const amount = event.target.value;
                             if (NUMBER_REGEX.test(amount)) {
                               setValue(
-                                `bulkSales.${index}.payments.${paymentIndex}.amount`,
-                                amount
+                                `bulkSales.${index}.payments.${paymentIndex}`,
+                                {
+                                  ...payment,
+                                  amount,
+                                  checked: true,
+                                }
                               );
                             } else {
                               toast({
