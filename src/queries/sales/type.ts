@@ -34,10 +34,10 @@ export type CreateSaleDto = Omit<
 export type UpdateSaleDto = CreateSaleDto & { id: string };
 
 export type BulkSale = {
-  amount: number;
+  payments: Payment[];
 };
 
 export type CreateBulkSaleDTO = {
   date: string;
-  bulkSales: number[];
+  bulkSales: BulkSale[];
 };

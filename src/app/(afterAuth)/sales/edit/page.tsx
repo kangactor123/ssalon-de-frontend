@@ -96,8 +96,6 @@ const SaleEditPage = () => {
   const payments = useWatch({ control, name: "payments" });
   const selectedTime = useWatch({ control, name: "time" });
 
-  console.log(amount);
-
   const { data: sale } = useSale(id, {
     enabled: isEdit,
   });
@@ -279,7 +277,6 @@ const SaleEditPage = () => {
 
   useEffect(
     function setTotalAmount() {
-      console.log("here 이 로직때문에 amount가 적용이 안됨");
       const totalAmount = payments.reduce(
         (prev, { amount }) => prev + +amount,
         0
