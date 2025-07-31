@@ -1,7 +1,7 @@
 "use client";
 
 import { useCreateBulkSale } from "@/queries/sales";
-import { Payment } from "@/queries/sales/type";
+import type { Payment } from "@/queries/sales/type";
 import { usePaymentTypes } from "@/queries/settings";
 import { PaymentType } from "@/queries/settings/type";
 import { ERROR_MESSAGE } from "@/shared/constants/error-message";
@@ -11,8 +11,6 @@ import { NUMBER_REGEX } from "@/shared/constants/regex";
 import { useToast } from "@/shared/hooks/use-toast";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent, CardFooter } from "@/shared/ui/card";
-import { Checkbox } from "@/shared/ui/checkbox";
-import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
 import PageTitle from "@/shared/ui/page-title";
 import useDateStore from "@/zustand/date";
@@ -20,7 +18,9 @@ import { useQueryClient } from "@tanstack/react-query";
 import { PlusIcon, TrashIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { useFieldArray, useForm, useWatch } from "react-hook-form";
+import { FieldPath, useFieldArray, useForm, useWatch } from "react-hook-form";
+import PaymentArea from "./_components/payment";
+import PaymentSection from "./_components/payment-section";
 
 interface PaymentTypeWithChecked extends Payment {
   checked: boolean;
@@ -80,8 +80,8 @@ const BulkPage = () => {
 
   const {
     data: paymentTypes = [],
-    // isFetching,
-    // isError,
+    isFetching,
+    isError,
     isSuccess,
   } = usePaymentTypes();
 
@@ -177,7 +177,7 @@ const BulkPage = () => {
       onSubmit={handleSubmit(handleClickSave)}
     >
       <PageTitle className="flex justify-between">
-        매출 다중 입력
+        다중 매출 입력
         <Button type="submit">저장</Button>
       </PageTitle>
       <div className="grid md:grid-cols-2 gap-4">
@@ -189,69 +189,49 @@ const BulkPage = () => {
             <Card key={field.id}>
               <CardContent className="pt-6">
                 <div className="flex items-center gap-2">
-                  <Label
-                    className="text-gray-700"
-                    htmlFor={`bulkSales.${index}.amount`}
-                  >
-                    매출
-                  </Label>
+                  <Label className="text-gray-700">매출</Label>
                   <span className="text-lg tracking-wide">
                     {Number(amount).toLocaleString()}원
                   </span>
                 </div>
-                <div className="flex flex-col gap-6 mt-4">
+                <PaymentSection isLoading={isFetching} isError={isError}>
                   {field.payments.map((payment, paymentIndex) => {
-                    const onChangeCheckbox = (checked: boolean) => {
-                      setValue(`bulkSales.${index}.payments.${paymentIndex}`, {
+                    const id: FieldPath<Form> = `bulkSales.${index}.payments.${paymentIndex}`;
+                    const handleChangeAmount = (
+                      event: React.ChangeEvent<HTMLInputElement>
+                    ) => {
+                      const amount = event.target.value;
+                      if (NUMBER_REGEX.test(amount)) {
+                        setValue(id, {
+                          ...payment,
+                          amount,
+                          checked: true,
+                        });
+                      } else {
+                        toast({
+                          description: ERROR_MESSAGE.INPUT_ONLY_NUMBER,
+                          variant: "destructive",
+                        });
+                      }
+                    };
+                    const handleCheckedChange = (checked: boolean) => {
+                      setValue(id, {
                         ...payment,
                         checked,
                         amount: checked ? payment.amount : "",
                       });
                     };
-
                     return (
-                      <div
+                      <PaymentArea
                         key={`${index}${payment.typeId}`}
-                        className="h-6 flex items-center gap-2"
-                      >
-                        <Checkbox
-                          id={`bulkSales.${index}.payments.${paymentIndex}`}
-                          checked={payment.checked}
-                          onCheckedChange={onChangeCheckbox}
-                        />
-                        <Label
-                          htmlFor={`bulkSales.${index}.payments.${paymentIndex}`}
-                        >
-                          {payment.name}
-                        </Label>
-                        <Input
-                          type="number"
-                          placeholder="금액"
-                          className="w-[120px] ml-2"
-                          value={payment.amount}
-                          onChange={(event) => {
-                            const amount = event.target.value;
-                            if (NUMBER_REGEX.test(amount)) {
-                              setValue(
-                                `bulkSales.${index}.payments.${paymentIndex}`,
-                                {
-                                  ...payment,
-                                  amount,
-                                  checked: true,
-                                }
-                              );
-                            } else {
-                              toast({
-                                description: ERROR_MESSAGE.INPUT_ONLY_NUMBER,
-                                variant: "destructive",
-                              });
-                            }
-                          }}
-                        />
-                      </div>
+                        id={id}
+                        onCheckedChange={handleCheckedChange}
+                        onChangeAmount={handleChangeAmount}
+                        {...payment}
+                      />
                     );
                   })}
-                </div>
+                </PaymentSection>
               </CardContent>
               <CardFooter className="flex justify-end gap-1">
                 {isLastIndex(index) ? (
