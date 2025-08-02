@@ -57,8 +57,13 @@ export const useEditSettings = (options?: MutationOptions<Setting[]>) => {
 };
 
 /** visit-types */
-type VisitTypesQueryOptions = Omit<UseQueryOptions<VisitType[]>, "queryKey">;
-export const visitTypesQueryOptions = (options?: VisitTypesQueryOptions) =>
+type VisitTypesQueryOptions<T = VisitType> = Omit<
+  UseQueryOptions<T[]>,
+  "queryKey"
+>;
+export const visitTypesQueryOptions = <T = VisitType>(
+  options?: VisitTypesQueryOptions<T>
+) =>
   queryOptions({
     ...options,
     staleTime: FILTER_STALE_TIME,
@@ -66,11 +71,11 @@ export const visitTypesQueryOptions = (options?: VisitTypesQueryOptions) =>
     queryFn: getVisitTypes,
   });
 
-export const useVisitTypes = (
-  options?: Omit<UseQueryOptions<VisitType[]>, "queryKey" | "queryFn">
+export const useVisitTypes = <T = VisitType>(
+  options?: Omit<UseQueryOptions<T[]>, "queryKey" | "queryFn">
 ) => {
-  const queryOptions = visitTypesQueryOptions(options);
-  return useQuery<VisitType[]>({
+  const queryOptions = visitTypesQueryOptions<T>(options);
+  return useQuery<T[]>({
     ...queryOptions,
   });
 };
@@ -99,22 +104,24 @@ export const useDeleteVisitType = (options?: MutationOptions<string>) => {
 };
 
 /** service-types */
-type ServiceTypesQueryOptions = Omit<
-  UseQueryOptions<ServiceType[]>,
+type ServiceTypesQueryOptions<T = ServiceType> = Omit<
+  UseQueryOptions<T[]>,
   "queryKey"
 >;
-export const serviceTypesQueryOptions = (options?: ServiceTypesQueryOptions) =>
+export const serviceTypesQueryOptions = <T = ServiceType>(
+  options?: ServiceTypesQueryOptions<T>
+) =>
   queryOptions({
     ...options,
     staleTime: FILTER_STALE_TIME,
     queryKey: SERVICE_TYPES_KEY,
     queryFn: getServiceTypes,
   });
-export const useServiceTypes = (
-  options?: Omit<UseQueryOptions<ServiceType[]>, "queryKey" | "queryFn">
+export const useServiceTypes = <T = ServiceType>(
+  options?: Omit<UseQueryOptions<T[]>, "queryKey" | "queryFn">
 ) => {
   const queryOptions = serviceTypesQueryOptions(options);
-  return useQuery<ServiceType[]>({
+  return useQuery<T[]>({
     ...queryOptions,
   });
 };

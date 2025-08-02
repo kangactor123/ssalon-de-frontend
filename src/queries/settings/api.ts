@@ -28,12 +28,12 @@ export const editSettings = async (dto: Setting[]) => {
 };
 
 /** visit-types */
-export const getVisitTypes = async (): Promise<VisitType[]> => {
+export const getVisitTypes = async <T = VisitType>(): Promise<T[]> => {
   const { data } = await api({
     method: "GET",
     url: "/settings/visit-types",
   });
-  return data as VisitType[];
+  return data as T[];
 };
 
 export const createVisitType = async (name: string): Promise<VisitType> => {
@@ -69,13 +69,13 @@ export const deleteVisitType = async (id: string): Promise<VisitType> => {
 };
 
 /** service-types */
-export const getServiceTypes = async (): Promise<ServiceType[]> => {
+export const getServiceTypes = async <T = ServiceType>(): Promise<T[]> => {
   const { data } = await api({
     method: "GET",
     url: "/service-types",
   });
 
-  return data as ServiceType[];
+  return data as T[];
 };
 
 export const createServiceType = async (

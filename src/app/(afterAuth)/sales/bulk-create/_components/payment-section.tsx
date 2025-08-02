@@ -1,5 +1,6 @@
 import { PropsWithChildren } from "react";
 import PaymentSkeleton from "./payment-skeleton";
+import { RequiredLabel } from "@/shared/ui/required-label";
 
 type Props = PropsWithChildren<{
   isLoading: boolean;
@@ -11,7 +12,7 @@ const MOCK_LOADING = Array.from({ length: 4 }, (_, index) => index);
 const PaymentSection: React.FC<Props> = ({ isLoading, isError, children }) => {
   if (isLoading) {
     return (
-      <div className="flex flex-col gap-6 mt-4">
+      <div className="grid md:grid-cols-2 gap-4">
         {MOCK_LOADING.map((index) => (
           <PaymentSkeleton key={index} />
         ))}
@@ -29,7 +30,12 @@ const PaymentSection: React.FC<Props> = ({ isLoading, isError, children }) => {
     );
   }
 
-  return <div className="flex flex-col gap-6 mt-4">{children}</div>;
+  return (
+    <div className="flex flex-col gap-8 mt-4">
+      <RequiredLabel required>결제 유형</RequiredLabel>
+      <div className="grid md:grid-cols-2 gap-4">{children}</div>
+    </div>
+  );
 };
 
 export default PaymentSection;

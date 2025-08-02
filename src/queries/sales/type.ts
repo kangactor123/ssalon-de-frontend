@@ -35,6 +35,8 @@ export type UpdateSaleDto = CreateSaleDto & { id: string };
 
 export type BulkSale = {
   payments: Payment[];
+  visitTypes: string[];
+  services: string[];
 };
 
 export type CreateBulkSaleDTO = {

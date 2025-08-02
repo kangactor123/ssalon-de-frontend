@@ -14,11 +14,11 @@ type Props = {
 const Payment: React.FC<Props> = (props) => {
   const { id, checked, name, amount, onCheckedChange, onChangeAmount } = props;
   return (
-    <div className="h-6 flex items-center gap-2">
+    <div className="flex items-center space-x-3 min-h-[36px]">
       <Checkbox id={id} checked={checked} onCheckedChange={onCheckedChange} />
       <Label htmlFor={id}>{name}</Label>
       <Input
-        type="number"
+        // type="number"
         placeholder="금액"
         className="w-[120px] ml-2"
         value={amount}
