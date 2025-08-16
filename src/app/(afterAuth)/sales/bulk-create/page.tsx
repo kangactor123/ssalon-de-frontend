@@ -14,7 +14,7 @@ import { KEYS } from "@/shared/constants/query-keys";
 import { NUMBER_REGEX } from "@/shared/constants/regex";
 import { useToast } from "@/shared/hooks/use-toast";
 import { Button } from "@/shared/ui/button";
-import { Card, CardContent, CardFooter } from "@/shared/ui/card";
+import { Card, CardContent } from "@/shared/ui/card";
 import { Label } from "@/shared/ui/label";
 import PageTitle from "@/shared/ui/page-title";
 import useDateStore from "@/zustand/date";
@@ -255,7 +255,29 @@ const BulkPage = () => {
 
           return (
             <Card key={field.id}>
-              <CardContent className="pt-6">
+              <CardContent className="pt-6 relative">
+                <div className="absolute top-4 right-4 flex items-center gap-1">
+                  {isLastIndex(index) ? (
+                    <Button
+                      size="icon"
+                      variant="outline"
+                      onClick={appendField}
+                      className="rounded-icon"
+                    >
+                      <PlusIcon className="w-4 h-4" />
+                    </Button>
+                  ) : null}
+                  <Button
+                    size="icon"
+                    variant="outline"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      removeField(index);
+                    }}
+                  >
+                    <TrashIcon className="w-4 h-4" />
+                  </Button>
+                </div>
                 <div className="flex items-center gap-2">
                   <Label className="text-gray-700">매출</Label>
                   <span className="text-lg tracking-wide">
@@ -359,28 +381,6 @@ const BulkPage = () => {
                   </AccordionItem>
                 </Accordion>
               </CardContent>
-              <CardFooter className="flex justify-end gap-1">
-                {isLastIndex(index) ? (
-                  <Button
-                    size="icon"
-                    variant="outline"
-                    onClick={appendField}
-                    className="rounded-icon"
-                  >
-                    <PlusIcon className="w-4 h-4" />
-                  </Button>
-                ) : null}
-                <Button
-                  size="icon"
-                  variant="outline"
-                  onClick={(event) => {
-                    event.preventDefault();
-                    removeField(index);
-                  }}
-                >
-                  <TrashIcon className="w-4 h-4" />
-                </Button>
-              </CardFooter>
             </Card>
           );
         })}

@@ -7,8 +7,14 @@ import { Calendar as CalendarIcon } from "lucide-react";
 import { Calendar } from "@/shared/ui/calendar";
 import { useCalendar } from "@/shared/hooks/use-calendar";
 
-const MonthPicker = () => {
+type MonthPickerProps = {
+  label?: string;
+};
+
+const MonthPicker: React.FC<MonthPickerProps> = (props) => {
   const { selectedDate, onChangeDate, today } = useCalendar();
+
+  const label = props?.label ?? "선택한 날짜의 데이터를 확인할 수 있어요.";
 
   return (
     <Popover>
@@ -19,7 +25,7 @@ const MonthPicker = () => {
       </PopoverTrigger>
       <PopoverContent>
         <div className="text-[12px] text-center text-gray-500 mb-2">
-          선택한 날짜의 월 데이터를 확인할 수 있습니다.
+          {label}
         </div>
         <Calendar
           mode="single"

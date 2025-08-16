@@ -12,12 +12,12 @@ import {
   Target,
   Users,
 } from "lucide-react";
-import MonthPicker from "./_components/month-picker";
 import dynamic from "next/dynamic";
 import withSuspense from "@/shared/hoc/with-suspense";
 import TotalSalesWidgetSkeleton from "./_components/total-sales-widget-skeleton";
 import DailyTargetWidgetSkeleton from "./_components/daily-target-widget-skeleton";
 import AverageCustomerSpendingWidgetSkeleton from "./_components/average-customer-spending-widget-skeleton";
+import MonthPicker from "@/shared/ui/month-picker";
 
 const DashboardHeader = dynamic(() => import("./_components/dashboard-header"));
 const CalendarWidget = dynamic(() => import("./_components/calendar-widget"));

@@ -16,8 +16,6 @@ import { APP_NAME } from "@/shared/constants/app";
 import { useInitCustomBadge } from "@/shared/hooks/use-init-custom-badge";
 import { useInitUserInfo } from "@/shared/hooks/use-init-user-info";
 import LoadingButton from "@/shared/ui/loading-button";
-import { Calendar } from "@/shared/ui/calendar";
-import { useCalendar } from "@/shared/hooks/use-calendar";
 import UserProfile from "./user-profile";
 import { Logo } from "@/shared/ui/logo";
 
@@ -26,7 +24,6 @@ function MobileMenu() {
   const { user } = useUserStore();
   const [isOpen, setIsOpen] = useState(false);
   const { onLogout, isLogoutIdle } = useLogout();
-  const { selectedDate, onChangeDate, today } = useCalendar();
 
   const isActive = (path: string) => pathname === path;
 
@@ -39,24 +36,24 @@ function MobileMenu() {
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetContent
           side="left"
-          className="w-[300px] sm:w-[400px] overflow-y-auto"
+          className="w-[300px] sm:w-[400px] overflow-y-auto p-0"
         >
           <VisuallyHidden.Root>
             <DialogTitle>{APP_NAME}</DialogTitle>
           </VisuallyHidden.Root>
           <div className="flex flex-col h-full">
-            <div className="flex items-center justify-between py-4 border-b">
+            <div className="flex items-center justify-between p-4 border-b">
               <Logo />
             </div>
-            <div className="flex items-center px-2 py-4 space-x-4 border-b">
+            <div className="flex items-center p-4 space-x-4 border-b">
               <UserProfile
                 name={user?.name}
                 email={user?.email}
                 isLoading={enabledInitialize || isLoading}
               />
             </div>
-            <nav className="flex-grow py-6 scrollbar-hidden">
-              <ul className="space-y-2">
+            <nav className="flex-grow py-2 scrollbar-hidden">
+              <ul>
                 {routes.map((item) => (
                   <li key={item.path}>
                     <Link
@@ -67,22 +64,14 @@ function MobileMenu() {
                       onClick={() => setIsOpen(false)}
                     >
                       {item?.icon && <item.icon size={20} />}
-                      <span>{item.label}</span>
+                      <span className="text-sm text-gray-500">
+                        {item.label}
+                      </span>
                     </Link>
                   </li>
                 ))}
               </ul>
             </nav>
-            <div className="border-t min-h-[330px]">
-              <Calendar
-                className="border-gray-200 bg-white"
-                mode="single"
-                selected={selectedDate}
-                onSelect={onChangeDate}
-                defaultMonth={selectedDate}
-                disabled={{ after: today }}
-              />
-            </div>
             <div className="px-6 py-4 border-t">
               <LoadingButton
                 isLoading={!isLogoutIdle}

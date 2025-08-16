@@ -21,14 +21,14 @@ const EmptySales: React.FC<Props> = (props) => {
   return (
     <div className="text-center py-8">
       <div className="text-gray-900 font-bold text-lg">{displayDate}</div>
-      <p className="text-lg text-gray-500 mb-4">등록된 매출이 없습니다.</p>
+      <p className="text-lg text-gray-500 mb-4">매출을 등록해주세요.</p>
       <Button onClick={onClickButton} disabled={isLoading}>
         {isLoading ? (
           <Spinner className="mr-2" />
         ) : (
           <Plus className="mr-2 h-4 w-4" />
         )}
-        등록하기
+        추가
       </Button>
     </div>
   );

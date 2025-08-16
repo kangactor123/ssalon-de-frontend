@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { PATH } from "@/shared/constants/path";
 import { useQueryClient } from "@tanstack/react-query";
 import { KEYS } from "@/shared/constants/query-keys";
+import MonthPicker from "@/shared/ui/month-picker";
 
 const SalesHeader = () => {
   const router = useRouter();
@@ -29,6 +30,7 @@ const SalesHeader = () => {
       <div className="flex flex-wrap justify-between w-full gap-4 md:w-max md:justify-normal">
         <TotalSales />
         <div className="flex gap-2">
+          <MonthPicker />
           <Button size="icon" variant="outline" onClick={handleClickBulkCreate}>
             <ArrowUpFromLineIcon className="w-4 h-4" />
           </Button>
