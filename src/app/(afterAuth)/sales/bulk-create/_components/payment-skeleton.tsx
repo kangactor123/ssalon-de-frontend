@@ -2,7 +2,7 @@ import { Skeleton } from "@/shared/ui/skeleton";
 
 const PaymentSkeleton = () => {
   return (
-    <div className="h-6 flex items-center gap-2">
+    <div className="h-6 flex pt-8 items-center gap-2">
       <Skeleton className="w-6 h-6" />
       <Skeleton className="w-20 h-6" />
       <Skeleton className="w-[120px] h-8" />

@@ -31,7 +31,7 @@ const PaymentSection: React.FC<Props> = ({ isLoading, isError, children }) => {
   }
 
   return (
-    <div className="flex flex-col gap-8 mt-4">
+    <div className="flex flex-col gap-4 mt-4">
       <RequiredLabel required>결제 유형</RequiredLabel>
       <div className="grid md:grid-cols-2 gap-4">{children}</div>
     </div>
