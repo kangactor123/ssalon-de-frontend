@@ -8,7 +8,7 @@ import {
 } from "@/shared/ui/card";
 import PageTitle from "@/shared/ui/page-title";
 import Link from "next/link";
-import Profile from "./components/profile";
+import Profile from "./_components/profile";
 import { getQueryClient } from "@/shared/utils/react-query";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { serverFetch } from "@/shared/utils/server-fetch";

@@ -25,9 +25,9 @@ import { RequiredLabel } from "@/shared/ui/required-label";
 import dayjs from "dayjs";
 import useDateStore from "@/zustand/date";
 import { formatDate } from "@/shared/utils/dayjs";
-import PaymentTypes from "./components/payment-types";
-import ServiceTypes from "./components/service-types";
-import VisitTypes from "./components/visit-types";
+import PaymentTypes from "./_components/payment-types";
+import ServiceTypes from "./_components/service-types";
+import VisitTypes from "./_components/visit-types";
 import { PATH } from "@/shared/constants/path";
 import {
   usePaymentTypes,
@@ -36,8 +36,8 @@ import {
 } from "@/queries/settings";
 import { useQueryClient } from "@tanstack/react-query";
 import { KEYS } from "@/shared/constants/query-keys";
-import TimeSelectField from "./components/time-select-field";
-import GenderSelectField from "./components/gender-select-field";
+import TimeSelectField from "./_components/time-select-field";
+import GenderSelectField from "./_components/gender-select-field";
 
 type SaleForm = Omit<Sale, "services" | "payments" | "id" | "date"> & {
   date: string;

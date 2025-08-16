@@ -1,5 +1,5 @@
-import SalesHeader from "./components/sales-header";
-import SalesContainer from "./components/sales-container";
+import SalesHeader from "./_components/sales-header";
+import SalesContainer from "./_components/sales-container";
 
 export default function SalesPage() {
   return (

@@ -1,10 +1,10 @@
 import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/ui/tabs";
 
-import ServiceTypes from "./components/service-types";
-import PaymentTypes from "./components/payment-types";
-import Settings from "./components/settings";
-import VisitTypes from "./components/visit-types";
+import ServiceTypes from "./_components/service-types";
+import PaymentTypes from "./_components/payment-types";
+import Settings from "./_components/settings";
+import VisitTypes from "./_components/visit-types";
 
 type Content = "settings" | "service-types" | "payment-types" | "visit-types";
 type ContentMap = Record<Content, { label: string; content: React.ReactNode }>;

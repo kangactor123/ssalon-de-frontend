@@ -12,49 +12,49 @@ import {
   Target,
   Users,
 } from "lucide-react";
-import MonthPicker from "./components/month-picker";
+import MonthPicker from "./_components/month-picker";
 import dynamic from "next/dynamic";
 import withSuspense from "@/shared/hoc/with-suspense";
-import TotalSalesWidgetSkeleton from "./components/total-sales-widget-skeleton";
-import DailyTargetWidgetSkeleton from "./components/daily-target-widget-skeleton";
-import AverageCustomerSpendingWidgetSkeleton from "./components/average-customer-spending-widget-skeleton";
+import TotalSalesWidgetSkeleton from "./_components/total-sales-widget-skeleton";
+import DailyTargetWidgetSkeleton from "./_components/daily-target-widget-skeleton";
+import AverageCustomerSpendingWidgetSkeleton from "./_components/average-customer-spending-widget-skeleton";
 
-const DashboardHeader = dynamic(() => import("./components/dashboard-header"));
-const CalendarWidget = dynamic(() => import("./components/calendar-widget"));
+const DashboardHeader = dynamic(() => import("./_components/dashboard-header"));
+const CalendarWidget = dynamic(() => import("./_components/calendar-widget"));
 const GenderRatioWidget = dynamic(
-  () => import("./components/gender-ratio-widget")
+  () => import("./_components/gender-ratio-widget")
 );
 
 const DailySalesLineChart = dynamic(
-  () => import("./components/daily-sales-line-chart")
+  () => import("./_components/daily-sales-line-chart")
 );
 
 const TotalSalesWidget = dynamic(
-  () => import("./components/total-sales-widget")
+  () => import("./_components/total-sales-widget")
 );
 
 const TargetTotalSalesWidget = dynamic(
-  () => import("./components/target-total-sales-widget")
+  () => import("./_components/target-total-sales-widget")
 );
 
 const VisitTypesRatioWidget = dynamic(
-  () => import("./components/visit-type-ratio-widget")
+  () => import("./_components/visit-type-ratio-widget")
 );
 
 const ServiceTypesRatioWidget = dynamic(
-  () => import("./components/service-type-ratio-widget")
+  () => import("./_components/service-type-ratio-widget")
 );
 
 const DailyTargetWidget = dynamic(
-  () => import("./components/daily-target-widget")
+  () => import("./_components/daily-target-widget")
 );
 
 const AverageCustomerSpendingWidget = dynamic(
-  () => import("./components/average-customer-spending-widget")
+  () => import("./_components/average-customer-spending-widget")
 );
 
 const TotalSalesCountWidget = dynamic(
-  () => import("./components/total-sales-count-widget")
+  () => import("./_components/total-sales-count-widget")
 );
 
 export default function Dashboard() {

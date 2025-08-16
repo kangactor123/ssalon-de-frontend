@@ -2,8 +2,8 @@ import Loading from "@/shared/ui/loading";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
 
-const MobileMenu = dynamic(() => import("./components/mobile-menu"));
-const Sidebar = dynamic(() => import("./components/sidebar"));
+const MobileMenu = dynamic(() => import("./_components/mobile-menu"));
+const Sidebar = dynamic(() => import("./_components/sidebar"));
 
 export default function BeforeAuthLayout({
   children,
