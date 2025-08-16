@@ -5,6 +5,7 @@ import {
   DailySaleAmountCount,
   GenderRatio,
   MonthlyTotalSales,
+  ServiceTypesRatio,
   TargetTotalSales,
   TotalCount,
   VisitTypesRatio,
@@ -16,6 +17,7 @@ import {
   getMonthlySales,
   getMonthlyTotalSales,
   getMonthTotalCount,
+  getServiceTypesRatio,
   getTargetTotalSales,
   getVisitTypesRatio,
 } from "./api";
@@ -94,6 +96,18 @@ export const useVisitTypesRatio = (
     staleTime: DASHBOARD_STALE_TIME,
     queryKey: [KEYS.dashboard.widget.visitTypesRatio, targetMonth],
     queryFn: () => getVisitTypesRatio(targetMonth),
+  });
+};
+
+export const useServiceTypesRatio = (
+  targetMonth: string,
+  options?: Omit<UseQueryOptions<ServiceTypesRatio>, "queryKey" | "queryFn">
+) => {
+  return useQuery<ServiceTypesRatio>({
+    ...options,
+    staleTime: DASHBOARD_STALE_TIME,
+    queryKey: [KEYS.dashboard.widget.serviceTypesRatio, targetMonth],
+    queryFn: () => getServiceTypesRatio(targetMonth),
   });
 };
 

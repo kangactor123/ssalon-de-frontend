@@ -24,6 +24,7 @@ export type DailySaleAmountCount = DailySale & {
 };
 
 export type VisitTypesRatio = Record<string, number>;
+export type ServiceTypesRatio = Record<string, number>;
 
 export type AverageCustomerSpending = {
   currentMonth: number;

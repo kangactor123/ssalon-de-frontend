@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 
 import {
+  Blocks,
   Calendar,
   ChartLine,
   Contact,
@@ -38,6 +39,10 @@ const TargetTotalSalesWidget = dynamic(
 
 const VisitTypesRatioWidget = dynamic(
   () => import("./components/visit-type-ratio-widget")
+);
+
+const ServiceTypesRatioWidget = dynamic(
+  () => import("./components/service-type-ratio-widget")
 );
 
 const DailyTargetWidget = dynamic(
@@ -146,6 +151,17 @@ export default function Dashboard() {
           </CardHeader>
           <CardContent className="flex-1 p-0">
             {withSuspense(<VisitTypesRatioWidget />)}
+          </CardContent>
+        </Card>
+        <Card className="flex flex-col min-h-[300px]">
+          <CardHeader>
+            <CardTitle className="flex items-center justify-between">
+              서비스 유형 비율
+              <Blocks className="w-5 h-5 text-blue-500" />
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="flex-1 p-0">
+            {withSuspense(<ServiceTypesRatioWidget />)}
           </CardContent>
         </Card>
         <Card className="hidden col-span-2 md:block">

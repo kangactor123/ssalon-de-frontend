@@ -5,6 +5,7 @@ import {
   DailySaleAmountCount,
   GenderRatio,
   MonthlyTotalSales,
+  ServiceTypesRatio,
   TargetTotalSales,
   TotalCount,
   VisitTypesRatio,
@@ -61,6 +62,14 @@ export async function getVisitTypesRatio(targetMonth: string) {
   });
 
   return data as VisitTypesRatio;
+}
+export async function getServiceTypesRatio(targetMonth: string) {
+  const { data } = await api({
+    method: "GET",
+    url: `/dashboard/service-types-ratio?targetMonth=${targetMonth}`,
+  });
+
+  return data as ServiceTypesRatio;
 }
 
 export async function getMonthlyAverageSales(targetMonth: string) {

@@ -30,6 +30,7 @@ export const KEYS = {
       visitTypesRatio: "VISIT-TYPES-RATIO",
       averageCustomerSpending: "AVERAGE-CUSTOMER-SPENDING",
       totalCount: "TOTAL-COUNT",
+      serviceTypesRatio: "SERVICE-TYPES-RATIO",
     },
   },
 };
